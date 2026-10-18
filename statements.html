@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Statements | Goldman Sachs American Bank — Unofficial</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --plum: #5B1647;
+    --plum-dark: #35102B;
+    --plum-light: #7A2A60;
+    --pink: #FF1493;
+    --pink-dark: #D60072;
+    --pink-soft: #FFF0F7;
+    --pink-light: #FFE1EF;
+    --black: #0B0B0D;
+    --white: #FFFFFF;
+    --bg: #F8F4F7;
+    --text: #211A20;
+    --muted: #756A73;
+    --border: #E9DFE6;
+    --green: #197A4B;
+    --green-soft: #EAF7F0;
+    --red: #C84444;
+    --red-soft: #FDEEEE;
+    --orange: #C86B19;
+    --orange-soft: #FFF3E6;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 255px;
+    height: 100vh;
+    background: var(--plum-dark);
+    color: white;
+    padding: 26px 18px;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 28px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.brand-logo {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
+.brand-text {
+    min-width: 0;
+}
+
+.brand-name {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: white;
+}
+
+.brand-sub {
+    margin-top: 5px;
+    font-size: 10px;
+    color: #e5cddd;
+    letter-spacing: .4px;
+}
+
+.nav {
+    margin-top: 24px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #eadfe7;
+    text-decoration: none;
+    padding: 13px 14px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    transition: .2s ease;
+}
+
+.nav a:hover {
+    background: rgba(255,255,255,.08);
+    color: white;
+}
+
+.nav a.active {
+    background: var(--pink);
+    color: white;
+    font-weight: 700;
+}
+
+.nav-icon {
+    width: 19px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.security-box {
+    margin-top: 28px;
+    padding: 15px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+}
+
+.security-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.security-text {
+    color: #d7c8d2;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* MAIN */
+.main {
+    margin-left: 255px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    width: 330px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 13px;
+}
+
+.search-box span {
+    color: var(--muted);
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.notification-btn {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: white;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--pink-soft);
+    color: var(--plum);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.profile-info span {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.profile-info small {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* CONTENT */
+.content {
+    padding: 34px;
+    max-width: 1450px;
+    margin: auto;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.page-heading h1 {
+    font-size: 29px;
+    color: var(--plum-dark);
+}
+
+.page-heading p {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.heading-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    padding: 11px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background: var(--pink);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--pink-dark);
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--plum);
+}
+
+/* ERROR */
+.error-box {
+    display: none;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--red-soft);
+    color: var(--red);
+    border: 1px solid #f4cccc;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+/* SUMMARY */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.summary-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.summary-label {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.summary-value {
+    color: var(--plum-dark);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.summary-value.in {
+    color: var(--green);
+}
+
+.summary-value.out {
+    color: var(--red);
+}
+
+/* FILTERS */
+.filters {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 7px;
+    font-weight: 700;
+}
+
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: white;
+    outline: none;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    border-color: var(--pink);
+}
+
+/* TABLE */
+.table-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-header h2 {
+    font-size: 16px;
+    color: var(--plum-dark);
+}
+
+.table-header span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+thead th {
+    background: #fcf8fa;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 13px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+tbody td {
+    padding: 15px 16px;
+    border-bottom: 1px solid #f0e8ed;
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #fffafd;
+}
+
+.amount-in {
+    color: var(--green);
+    font-weight: 800;
+}
+
+.amount-out {
+    color: var(--red);
+    font-weight: 800;
+}
+
+.status {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.status.completed {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+.status.pending {
+    background: var(--orange-soft);
+    color: var(--orange);
+}
+
+.status.failed {
+    background: var(--red-soft);
+    color: var(--red);
+}
+
+.action-btn {
+    background: var(--pink-soft);
+    color: var(--plum);
+    border: none;
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: var(--pink-light);
+}
+
+.loading,
+.empty-state {
+    padding: 45px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.empty-state strong {
+    display: block;
+    color: var(--plum-dark);
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+/* FOOTER */
+.footer {
+    padding: 25px 34px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* MOBILE NAV */
+.mobile-nav {
+    display: none;
+}
+
+/* PRINT */
+@media print {
+    .sidebar,
+    .topbar,
+    .filters,
+    .heading-actions,
+    .mobile-nav,
+    .footer,
+    .action-column {
+        display: none !important;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .content {
+        padding: 0;
+    }
+
+    body {
+        background: white;
+    }
+
+    .table-card,
+    .summary-card {
+        border: 1px solid #ddd;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+    .sidebar {
+        width: 220px;
+    }
+
+    .main {
+        margin-left: 220px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        width: 240px;
+    }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding-bottom: 65px;
+    }
+
+    .topbar {
+        height: 66px;
+        padding: 0 15px;
+    }
+
+    .search-box {
+        display: none;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .content {
+        padding: 22px 15px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .page-heading h1 {
+        font-size: 24px;
+    }
+
+    .heading-actions {
+        width: 100%;
+    }
+
+    .heading-actions .btn {
+        flex: 1;
+    }
+
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 62px;
+        background: var(--plum-dark);
+        z-index: 200;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .mobile-nav a {
+        text-decoration: none;
+        color: #d9cbd4;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .mobile-nav a.active {
+        color: var(--pink);
+    }
+
+    .mobile-nav span {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 2px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <svg class="brand-logo" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <rect width="50" height="50" rx="12" fill="#FF1493"/>
+            <path d="M12 15h26v5H12zM12 23h26v5H12zM12 31h18v5H12z"
+                  fill="#FFFFFF"/>
+        </svg>
+
+        <div class="brand-text">
+            <div class="brand-name">Goldman Sachs American Bank</div>
+        </div>
+
+    </div>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            <span class="nav-icon">⌂</span>
+            Overview
+        </a>
+
+        <a href="transactions.html">
+            <span class="nav-icon">↔</span>
+            Transactions
+        </a>
+
+        <a href="transfer.html">
+            <span class="nav-icon">⇄</span>
+            Payments & Transfers
+        </a>
+
+        <a href="cards.html">
+            <span class="nav-icon">▣</span>
+            Cards
+        </a>
+
+        <a href="statements.html" class="active">
+            <span class="nav-icon">▤</span>
+            Statements
+        </a>
+
+        <a href="settings.html">
+            <span class="nav-icon">⚙</span>
+            Settings
+        </a>
+
+    </nav>
+
+    <div class="security-box">
+        <div class="security-title">Secure session</div>
+        <div class="security-text">
+            Your account connection uses encrypted communication technology.
+        </div>
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="search-box">
+            <span>⌕</span>
+
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search transactions..."
+            >
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="notification-btn"
+                type="button"
+                onclick="showNotice('Notifications')"
+                aria-label="Notifications"
+            >
+                ♢
+            </button>
+
+            <div class="profile-mini">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    GS
+                </div>
+
+                <div class="profile-info">
+                    <span>Goldman Sachs American Bank</span>
+                    <small id="profileAccount">Account</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <div class="page-heading">
+
+            <div>
+                <h1>Account Statements</h1>
+                <p>Review your account activity and transaction history.</p>
+            </div>
+
+            <div class="heading-actions">
+
+                <button
+                    class="btn btn-outline"
+                    type="button"
+                    onclick="printStatement()"
+                >
+                    Print Statement
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="downloadStatement()"
+                >
+                    Download
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div id="errorBox" class="error-box"></div>
+
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Current Balance
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="currentBalance"
+                >
+                    $0.00
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Money In
+                </div>
+
+                <div
+                    class="summary-value in"
+                    id="totalMoneyIn"
+                >
+                    $0.00
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-label">
+                    Money Out
+                </div>
+
+                <div
+                    class="summary-value out"
+                    id="totalMoneyOut"
+                >
+                    $0.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="filters">
+
+            <div class="filter-group">
+
+                <label for="statementSearch">
+                    Search
+                </label>
+
+                <input
+                    type="text"
+                    id="statementSearch"
+                    placeholder="Search description or reference..."
+                >
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label for="accountFilter">
+                    Account
+                </label>
+
+                <select id="accountFilter">
+
+                    <option value="all">
+                        All activity
+                    </option>
+
+                    <option value="current">
+                        Current Account
+                    </option>
+
+                    <option value="savings">
+                        Savings Account
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label for="periodFilter">
+                    Period
+                </label>
+
+                <select id="periodFilter">
+
+                    <option value="all">
+                        All periods
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Statement Activity</h2>
+
+                <span id="transactionCount">
+                    0 transactions
+                </span>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Description</th>
+
+                            <th>Reference</th>
+
+                            <th>Account</th>
+
+                            <th>Amount</th>
+
+                            <th>Status</th>
+
+                            <th class="action-column">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="statementBody">
+
+                        <tr>
+
+                            <td colspan="7">
+
+                                <div class="loading">
+                                    Loading statement...
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+        Goldman Sachs American Bank · Unofficial account statement interface
+    </footer>
+
+</main>
+
+
+<nav class="mobile-nav">
+
+    <a href="dashboard.html">
+        <span>⌂</span>
+        Overview
+    </a>
+
+    <a href="transactions.html">
+        <span>↔</span>
+        Transactions
+    </a>
+
+    <a href="transfer.html">
+        <span>⇄</span>
+        Transfer
+    </a>
+
+    <a href="cards.html">
+        <span>▣</span>
+        Cards
+    </a>
+
+    <a href="statements.html" class="active">
+        <span>▤</span>
+        Statements
+    </a>
+
+</nav>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =========================================================
+   SUPABASE CONNECTION
+   ========================================================= */
+
+const SUPABASE_URL =
+    "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let allTransactions = [];
+let currentCustomer = null;
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+const currencyFormatter =
+    new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+
+
+function formatMoney(amount) {
+
+    return currencyFormatter.format(
+        Number(amount) || 0
+    );
+
+}
+
+
+/* =========================================================
+   INITIALS
+   ========================================================= */
+
+function getInitials(name) {
+
+    if (!name) {
+        return "GS";
+    }
+
+    const parts =
+        name.trim().split(/\s+/);
+
+    if (parts.length === 1) {
+
+        return parts[0]
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
+
+}
+
+
+/* =========================================================
+   LAST FOUR
+   ========================================================= */
+
+function getLastFour(value) {
+
+    if (!value) {
+        return "----";
+    }
+
+    const clean =
+        String(value).replace(/\D/g, "");
+
+    return clean.slice(-4) || "----";
+
+}
+
+
+/* =========================================================
+   TRANSACTION DIRECTION
+   ========================================================= */
+
+function isIncome(transaction) {
+
+    const type =
+        String(
+            transaction.transaction_type || ""
+        ).toLowerCase();
+
+    const description =
+        String(
+            transaction.description || ""
+        ).toLowerCase();
+
+
+    if (
+        [
+            "credit",
+            "deposit",
+            "income",
+            "money received",
+            "opening balance"
+        ].includes(type)
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        [
+            "debit",
+            "withdrawal",
+            "payment",
+            "transfer",
+            "money sent"
+        ].includes(type)
+    ) {
+
+        return false;
+
+    }
+
+
+    if (description.includes("opening")) {
+
+        return true;
+
+    }
+
+
+    return Number(transaction.amount) >= 0;
+
+}
+
+
+/* =========================================================
+   ABSOLUTE AMOUNT
+   ========================================================= */
+
+function getAbsoluteAmount(transaction) {
+
+    return Math.abs(
+        Number(transaction.amount) || 0
+    );
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "—";
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MONTH KEY
+   ========================================================= */
+
+function getMonthKey(value) {
+
+    if (!value) {
+        return "";
+    }
+
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    return `${date.getFullYear()}-${String(
+        date.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+}
+
+
+/* =========================================================
+   MONTH LABEL
+   ========================================================= */
+
+function getMonthLabel(key) {
+
+    const parts =
+        key.split("-");
+
+    if (parts.length !== 2) {
+        return key;
+    }
+
+    const date =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            1
+        );
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   STATUS CLASS
+   ========================================================= */
+
+function getStatusClass(status) {
+
+    const value =
+        String(
+            status || "completed"
+        ).toLowerCase();
+
+    if (value === "pending") {
+        return "pending";
+    }
+
+    if (
+        value === "failed" ||
+        value === "cancelled" ||
+        value === "canceled"
+    ) {
+        return "failed";
+    }
+
+    return "completed";
+
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function showError(message) {
+
+    const box =
+        document.getElementById("errorBox");
+
+    box.textContent = message;
+    box.style.display = "block";
+
+}
+
+
+/* =========================================================
+   LOAD CUSTOMER + TRANSACTIONS
+   ========================================================= */
+
+async function loadStatementData() {
+
+    try {
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+
+        if (sessionError) {
+            throw sessionError;
+        }
+
+
+        const session =
+            sessionData.session;
+
+
+        /*
+         * User must be logged in.
+         */
+
+        if (!session) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        const userId =
+            session.user.id;
+
+
+        /*
+         * Load the customer account belonging
+         * to the currently authenticated user.
+         */
+
+        const {
+            data: customer,
+            error: customerError
+        } = await supabaseClient
+            .from("customers")
+            .select("*")
+            .eq("user_id", userId)
+            .single();
+
+
+        if (customerError) {
+            throw customerError;
+        }
+
+
+        if (!customer) {
+
+            throw new Error(
+                "Customer account was not found."
+            );
+
+        }
+
+
+        currentCustomer =
+            customer;
+
+
+        /*
+         * Load ONLY this user's transactions.
+         *
+         * Your RLS policy also restricts this
+         * query to auth.uid() = user_id.
+         */
+
+        const {
+            data: transactions,
+            error: transactionsError
+        } = await supabaseClient
+            .from("transactions")
+            .select("*")
+            .eq("user_id", userId)
+            .order(
+                "transaction_date",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (transactionsError) {
+            throw transactionsError;
+        }
+
+
+        allTransactions =
+            transactions || [];
+
+
+        updateCustomerDisplay();
+        updateSummary();
+        populatePeriods();
+        renderStatements();
+
+
+    } catch (error) {
+
+        console.error(
+            "Statement loading error:",
+            error
+        );
+
+
+        showError(
+            "Unable to load your account statement at this time."
+        );
+
+
+        allTransactions = [];
+
+        updateCustomerDisplay();
+        updateSummary();
+        populatePeriods();
+        renderStatements();
+
+    }
+
+}
+
+
+/* =========================================================
+   CUSTOMER DISPLAY
+   ========================================================= */
+
+function updateCustomerDisplay() {
+
+    const name =
+        currentCustomer?.full_name ||
+        currentCustomer?.name ||
+        "Customer";
+
+
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+        getInitials(name);
+
+
+    document.querySelector(
+        ".profile-info span"
+    ).textContent =
+        name;
+
+
+    const accountNumber =
+        currentCustomer?.account_number ||
+        "";
+
+
+    document.getElementById(
+        "profileAccount"
+    ).textContent =
+        accountNumber
+            ? `Account •••• ${getLastFour(accountNumber)}`
+            : "Account";
+
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+function updateSummary() {
+
+    const balance =
+        Number(
+            currentCustomer?.current_balance
+        ) || 0;
+
+
+    let moneyIn = 0;
+    let moneyOut = 0;
+
+
+    allTransactions.forEach(
+        transaction => {
+
+            const amount =
+                getAbsoluteAmount(transaction);
+
+
+            if (isIncome(transaction)) {
+
+                moneyIn += amount;
+
+            } else {
+
+                moneyOut += amount;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "currentBalance"
+    ).textContent =
+        formatMoney(balance);
+
+
+    document.getElementById(
+        "totalMoneyIn"
+    ).textContent =
+        formatMoney(moneyIn);
+
+
+    document.getElementById(
+        "totalMoneyOut"
+    ).textContent =
+        formatMoney(moneyOut);
+
+}
+
+
+/* =========================================================
+   PERIODS
+   ========================================================= */
+
+function populatePeriods() {
+
+    const select =
+        document.getElementById(
+            "periodFilter"
+        );
+
+
+    const existing =
+        new Set();
+
+
+    allTransactions.forEach(
+        transaction => {
+
+            const key =
+                getMonthKey(
+                    transaction.transaction_date
+                );
+
+
+            if (key) {
+                existing.add(key);
+            }
+
+        }
+    );
+
+
+    const sorted =
+        Array.from(existing)
+            .sort()
+            .reverse();
+
+
+    select.innerHTML = `
+        <option value="all">
+            All periods
+        </option>
+    `;
+
+
+    sorted.forEach(key => {
+
+        const option =
+            document.createElement("option");
+
+
+        option.value = key;
+
+        option.textContent =
+            getMonthLabel(key);
+
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDER STATEMENTS
+   ========================================================= */
+
+function renderStatements() {
+
+    const body =
+        document.getElementById(
+            "statementBody"
+        );
+
+
+    const search =
+        document.getElementById(
+            "statementSearch"
+        ).value
+            .trim()
+            .toLowerCase();
+
+
+    const account =
+        document.getElementById(
+            "accountFilter"
+        ).value;
+
+
+    const period =
+        document.getElementById(
+            "periodFilter"
+        ).value;
+
+
+    const filtered =
+        allTransactions.filter(
+            transaction => {
+
+                const description =
+                    String(
+                        transaction.description || ""
+                    ).toLowerCase();
+
+
+                const reference =
+                    String(
+                        transaction.reference || ""
+                    ).toLowerCase();
+
+
+                if (
+                    search &&
+                    !description.includes(search) &&
+                    !reference.includes(search)
+                ) {
+
+                    return false;
+
+                }
+
+
+                /*
+                 * Transactions in the current
+                 * database structure belong to
+                 * the connected current account.
+                 */
+
+                if (account === "savings") {
+
+                    return false;
+
+                }
+
+
+                if (
+                    period !== "all" &&
+                    getMonthKey(
+                        transaction.transaction_date
+                    ) !== period
+                ) {
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    document.getElementById(
+        "transactionCount"
+    ).textContent =
+        `${filtered.length} transaction${
+            filtered.length === 1
+                ? ""
+                : "s"
+        }`;
+
+
+    body.innerHTML = "";
+
+
+    if (!filtered.length) {
+
+        const row =
+            document.createElement("tr");
+
+
+        const cell =
+            document.createElement("td");
+
+
+        cell.colSpan = 7;
+
+
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "empty-state";
+
+
+        const strong =
+            document.createElement("strong");
+
+        strong.textContent =
+            "No statement activity found";
+
+
+        const text =
+            document.createElement("div");
+
+        text.textContent =
+            "There are no transactions matching your selected filters.";
+
+
+        empty.appendChild(strong);
+        empty.appendChild(text);
+
+        cell.appendChild(empty);
+        row.appendChild(cell);
+        body.appendChild(row);
+
+        return;
+
+    }
+
+
+    filtered.forEach(
+        transaction => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const dateCell =
+                document.createElement("td");
+
+            dateCell.textContent =
+                formatDate(
+                    transaction.transaction_date
+                );
+
+
+            const descriptionCell =
+                document.createElement("td");
+
+            descriptionCell.textContent =
+                transaction.description ||
+                "Account activity";
+
+
+            const referenceCell =
+                document.createElement("td");
+
+            referenceCell.textContent =
+                transaction.reference ||
+                "—";
+
+
+            const accountCell =
+                document.createElement("td");
+
+            accountCell.textContent =
+                "Current Account";
+
+
+            const amountCell =
+                document.createElement("td");
+
+
+            const income =
+                isIncome(transaction);
+
+
+            amountCell.textContent =
+                `${income ? "+" : "-"}${formatMoney(
+                    getAbsoluteAmount(transaction)
+                )}`;
+
+
+            amountCell.className =
+                income
+                    ? "amount-in"
+                    : "amount-out";
+
+
+            const statusCell =
+                document.createElement("td");
+
+
+            const status =
+                document.createElement("span");
+
+
+            const statusValue =
+                transaction.status ||
+                "Completed";
+
+
+            status.className =
+                `status ${getStatusClass(
+                    statusValue
+                )}`;
+
+
+            status.textContent =
+                String(statusValue)
+                    .charAt(0)
+                    .toUpperCase() +
+                String(statusValue)
+                    .slice(1);
+
+
+            statusCell.appendChild(status);
+
+
+            const actionCell =
+                document.createElement("td");
+
+            actionCell.className =
+                "action-column";
+
+
+            const actionButton =
+                document.createElement("button");
+
+
+            actionButton.className =
+                "action-btn";
+
+            actionButton.textContent =
+                "View";
+
+            actionButton.type =
+                "button";
+
+
+            actionButton.addEventListener(
+                "click",
+                () => {
+                    showReceipt(transaction);
+                }
+            );
+
+
+            actionCell.appendChild(
+                actionButton
+            );
+
+
+            row.appendChild(dateCell);
+            row.appendChild(descriptionCell);
+            row.appendChild(referenceCell);
+            row.appendChild(accountCell);
+            row.appendChild(amountCell);
+            row.appendChild(statusCell);
+            row.appendChild(actionCell);
+
+
+            body.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RECEIPT
+   ========================================================= */
+
+function showReceipt(transaction) {
+
+    const amount =
+        formatMoney(
+            getAbsoluteAmount(transaction)
+        );
+
+
+    const type =
+        isIncome(transaction)
+            ? "Money received"
+            : "Money sent";
+
+
+    alert(
+        `${type}\n\n` +
+        `Description: ${
+            transaction.description ||
+            "Account activity"
+        }\n` +
+        `Amount: ${amount}\n` +
+        `Reference: ${
+            transaction.reference ||
+            "—"
+        }\n` +
+        `Date: ${
+            formatDate(
+                transaction.transaction_date
+            )
+        }\n` +
+        `Status: ${
+            transaction.status ||
+            "Completed"
+        }`
+    );
+
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+function printStatement() {
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   DOWNLOAD CSV
+   ========================================================= */
+
+function downloadStatement() {
+
+    if (!allTransactions.length) {
+
+        alert(
+            "There is no statement activity available to download."
+        );
+
+        return;
+
+    }
+
+
+    const rows = [
+
+        [
+            "Date",
+            "Description",
+            "Reference",
+            "Account",
+            "Amount",
+            "Type",
+            "Status"
+        ]
+
+    ];
+
+
+    allTransactions.forEach(
+        transaction => {
+
+            const income =
+                isIncome(transaction);
+
+
+            rows.push([
+
+                formatDate(
+                    transaction.transaction_date
+                ),
+
+                transaction.description ||
+                    "Account activity",
+
+                transaction.reference ||
+                    "",
+
+                "Current Account",
+
+                getAbsoluteAmount(
+                    transaction
+                ),
+
+                income
+                    ? "Money received"
+                    : "Money sent",
+
+                transaction.status ||
+                    "Completed"
+
+            ]);
+
+        }
+    );
+
+
+    const csv =
+        rows
+            .map(row =>
+
+                row
+                    .map(value => {
+
+                        const text =
+                            String(
+                                value ?? ""
+                            );
+
+                        return `"${text.replace(
+                            /"/g,
+                            '""'
+                        )}"`;
+
+                    })
+                    .join(",")
+
+            )
+            .join("\n");
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "account-statement.csv";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+function showNotice(feature) {
+
+    alert(
+        `${feature} is not connected yet.`
+    );
+
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+   ========================================================= */
+
+document.getElementById(
+    "statementSearch"
+).addEventListener(
+    "input",
+    renderStatements
+);
+
+
+document.getElementById(
+    "accountFilter"
+).addEventListener(
+    "change",
+    renderStatements
+);
+
+
+document.getElementById(
+    "periodFilter"
+).addEventListener(
+    "change",
+    renderStatements
+);
+
+
+/* =========================================================
+   GLOBAL SEARCH
+   ========================================================= */
+
+document.getElementById(
+    "globalSearch"
+).addEventListener(
+    "input",
+    event => {
+
+        document.getElementById(
+            "statementSearch"
+        ).value =
+            event.target.value;
+
+
+        renderStatements();
+
+    }
+);
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadStatementData();
+
+</script>
+
+</body>
+</html>

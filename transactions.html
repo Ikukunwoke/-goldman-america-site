@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transfer | Goldman Sachs American Bank</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --plum: #5B1647;
+            --plum-dark: #35102B;
+            --plum-light: #7A2A60;
+
+            --pink: #FF1493;
+            --pink-dark: #D60072;
+            --pink-soft: #FFF0F7;
+            --pink-light: #FFE1EF;
+
+            --black: #0B0B0D;
+            --white: #FFFFFF;
+
+            --background: #F8F4F7;
+            --text: #211A20;
+            --muted: #756A73;
+            --border: #E9DFE6;
+
+            --green: #197A4B;
+            --green-soft: #EAF7F0;
+
+            --red: #C84444;
+            --red-soft: #FFF0F0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .topbar {
+            min-height: 76px;
+            background: var(--plum-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.14);
+        }
+
+        .brand {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            color: var(--pink);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-btn {
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .top-btn:hover {
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .page {
+            width: min(1100px, 92%);
+            margin: 42px auto 60px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.35fr 0.8fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 29px;
+            box-shadow: 0 12px 35px rgba(53, 16, 43, 0.08);
+        }
+
+        .card h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 23px;
+            margin-bottom: 24px;
+        }
+
+        .balance-box {
+            background: var(--plum-dark);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .balance-label {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-bottom: 7px;
+        }
+
+        .balance-value {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 29px;
+            font-weight: bold;
+        }
+
+        .balance-loading {
+            opacity: 0.7;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 49px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 13px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            color: var(--text);
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+
+        input::placeholder {
+            color: #9b9198;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .amount-box {
+            position: relative;
+        }
+
+        .currency {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 700;
+            color: var(--pink-dark);
+            z-index: 2;
+        }
+
+        .amount-box input {
+            padding-left: 36px;
+        }
+
+        .available-note {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .form-message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 13px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-message.show {
+            display: block;
+        }
+
+        .form-message.error {
+            background: var(--red-soft);
+            border: 1px solid #efcccc;
+            color: var(--red);
+        }
+
+        .form-message.success {
+            background: var(--green-soft);
+            border: 1px solid #cbe9d9;
+            color: var(--green);
+        }
+
+        .transfer-button {
+            width: 100%;
+            height: 51px;
+            border: none;
+            border-radius: 8px;
+            background: var(--pink);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: 0.2s ease;
+        }
+
+        .transfer-button:hover {
+            background: var(--pink-dark);
+        }
+
+        .transfer-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .summary-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: var(--pink-dark);
+            margin-bottom: 17px;
+        }
+
+        .summary {
+            background: #fcfafb;
+            border: 1px solid var(--border);
+            padding: 19px;
+            border-radius: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row span:first-child {
+            color: var(--muted);
+        }
+
+        .summary-row span:last-child {
+            font-weight: 700;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .notice {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--pink-soft);
+            border-left: 3px solid var(--pink);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .processing-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(27, 20, 31, 0.66);
+            backdrop-filter: blur(6px);
+        }
+
+        .processing-box {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-radius: 15px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.22);
+        }
+
+        .processing-box h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .processing-box p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .progress-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--pink-dark);
+            margin-bottom: 12px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: #ece8eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 1%;
+            height: 100%;
+            background: var(--pink);
+            border-radius: 20px;
+            transition: width 0.08s linear;
+        }
+
+        .result-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(27, 20, 31, 0.66);
+            backdrop-filter: blur(6px);
+        }
+
+        .result-box {
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            border-radius: 15px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.22);
+        }
+
+        .result-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 17px;
+            border-radius: 50%;
+            background: var(--pink-soft);
+            color: var(--pink-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .result-box h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .result-box p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .result-details {
+            background: #fcfafb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .result-detail {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .result-detail:last-child {
+            border-bottom: none;
+        }
+
+        .result-detail span:first-child {
+            color: var(--muted);
+        }
+
+        .result-detail span:last-child {
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .result-close {
+            width: 100%;
+            height: 47px;
+            border: none;
+            border-radius: 8px;
+            background: var(--plum);
+            color: white;
+            font-weight: 700;
+        }
+
+        .result-close:hover {
+            background: var(--plum-dark);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        @media (max-width: 750px) {
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .page {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .heading h1 {
+                font-size: 31px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                display: block;
+            }
+
+            .brand {
+                font-size: 20px;
+            }
+
+            .top-btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 420px) {
+
+            .topbar {
+                min-height: 65px;
+            }
+
+            .page {
+                margin-top: 25px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            .processing-box,
+            .result-box {
+                padding: 26px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        Goldman Sachs American Bank
+    </div>
+
+    <div class="top-actions">
+
+        <a href="dashboard.html" class="top-btn">
+            Dashboard
+        </a>
+
+        <a href="settings.html" class="top-btn">
+            Settings
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="heading">
+
+        <h1>
+            Make a transfer
+        </h1>
+
+        <p>
+            Enter the recipient details and the amount you wish to transfer.
+        </p>
+
+    </div>
+
+
+    <div class="layout">
+
+        <section class="card">
+
+            <div class="balance-box">
+
+                <div class="balance-label">
+                    Available balance
+                </div>
+
+                <div
+                    class="balance-value"
+                    id="availableBalance"
+                >
+                    <span class="balance-loading">
+                        Loading...
+                    </span>
+                </div>
+
+            </div>
+
+
+            <h2>
+                Transfer details
+            </h2>
+
+
+            <div
+                class="form-message"
+                id="formMessage"
+            ></div>
+
+
+            <form id="transferForm">
+
+                <div class="form-group">
+
+                    <label for="recipient">
+                        Recipient name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recipient"
+                        placeholder="Enter recipient name"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="account">
+                        Recipient account number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="account"
+                        placeholder="Enter account number"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reference">
+                        Payment reference
+                    </label>
+
+                    <input
+                        type="text"
+                        id="reference"
+                        placeholder="Optional"
+                        autocomplete="off"
+                        maxlength="100"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount
+                    </label>
+
+                    <div class="amount-box">
+
+                        <span class="currency">
+                            $
+                        </span>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            placeholder="0.00"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+                    <div
+                        class="available-note"
+                        id="availableNote"
+                    >
+                        Available balance: checking...
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="transferType">
+                        Transfer type
+                    </label>
+
+                    <select
+                        id="transferType"
+                        required
+                    >
+
+                        <option value="">
+                            Select transfer type
+                        </option>
+
+                        <option value="bank">
+                            Bank transfer
+                        </option>
+
+                        <option value="international">
+                            International transfer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="transfer-button"
+                    id="transferButton"
+                >
+                    Continue
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <aside class="card">
+
+            <div class="summary-title">
+                Transfer summary
+            </div>
+
+
+            <div class="summary">
+
+                <div class="summary-row">
+
+                    <span>
+                        Recipient
+                    </span>
+
+                    <span id="summaryRecipient">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Account
+                    </span>
+
+                    <span id="summaryAccount">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Amount
+                    </span>
+
+                    <span id="summaryAmount">
+                        $0.00
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Type
+                    </span>
+
+                    <span id="summaryType">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Reference
+                    </span>
+
+                    <span id="summaryReference">
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="notice">
+
+                Check the recipient details carefully before
+                continuing. This page is a banking interface
+                and does not move real funds.
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+    Goldman Sachs American Bank · Secure account management
+</footer>
+
+
+<div
+    class="processing-overlay"
+    id="processingOverlay"
+>
+
+    <div class="processing-box">
+
+        <h2>
+            Preparing transfer
+        </h2>
+
+        <p>
+            Please wait while the transfer information is being checked.
+        </p>
+
+        <div
+            class="progress-number"
+            id="progressNumber"
+        >
+            1%
+        </div>
+
+        <div class="progress-track">
+
+            <div
+                class="progress-bar"
+                id="progressBar"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="result-overlay"
+    id="resultOverlay"
+>
+
+    <div class="result-box">
+
+        <div class="result-icon">
+            ✓
+        </div>
+
+        <h2>
+            Transfer ready
+        </h2>
+
+        <p>
+            The transfer details passed the available-balance
+            check. This page does not send real funds.
+        </p>
+
+
+        <div class="result-details">
+
+            <div class="result-detail">
+
+                <span>
+                    Recipient
+                </span>
+
+                <span id="resultRecipient">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="result-detail">
+
+                <span>
+                    Account
+                </span>
+
+                <span id="resultAccount">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="result-detail">
+
+                <span>
+                    Amount
+                </span>
+
+                <span id="resultAmount">
+                    $0.00
+                </span>
+
+            </div>
+
+
+            <div class="result-detail">
+
+                <span>
+                    Remaining balance
+                </span>
+
+                <span id="resultBalance">
+                    $0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="result-close"
+            onclick="closeResult()"
+        >
+            Done
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+const form =
+    document.getElementById(
+        "transferForm"
+    );
+
+
+const recipient =
+    document.getElementById(
+        "recipient"
+    );
+
+
+const account =
+    document.getElementById(
+        "account"
+    );
+
+
+const amount =
+    document.getElementById(
+        "amount"
+    );
+
+
+const reference =
+    document.getElementById(
+        "reference"
+    );
+
+
+const transferType =
+    document.getElementById(
+        "transferType"
+    );
+
+
+const transferButton =
+    document.getElementById(
+        "transferButton"
+    );
+
+
+let availableBalance = 0;
+
+let currentUser = null;
+
+
+/* =====================================================
+   FORMAT USD
+===================================================== */
+
+function formatUSD(value) {
+
+    const number =
+        Number(value) || 0;
+
+
+    return "$" +
+        number.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+}
+
+
+/* =====================================================
+   FORM MESSAGE
+===================================================== */
+
+function showMessage(
+    message,
+    type = "error"
+) {
+
+    const box =
+        document.getElementById(
+            "formMessage"
+        );
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        "form-message show " +
+        type;
+
+}
+
+
+function clearMessage() {
+
+    const box =
+        document.getElementById(
+            "formMessage"
+        );
+
+
+    box.textContent = "";
+
+    box.className =
+        "form-message";
+
+}
+
+
+/* =====================================================
+   LOAD CUSTOMER BALANCE FROM SUPABASE
+===================================================== */
+
+async function loadCustomerBalance() {
+
+    transferButton.disabled = true;
+
+
+    try {
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (
+            sessionError ||
+            !sessionData ||
+            !sessionData.session
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        currentUser =
+            sessionData.session.user;
+
+
+        const {
+            data: customer,
+            error: customerError
+        } =
+            await supabaseClient
+                .from("customers")
+                .select("current_balance, account_status")
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
+                .single();
+
+
+        if (
+            customerError ||
+            !customer
+        ) {
+
+            console.error(
+                "Customer balance error:",
+                customerError
+            );
+
+
+            document.getElementById(
+                "availableBalance"
+            ).textContent =
+                "Unavailable";
+
+
+            document.getElementById(
+                "availableNote"
+            ).textContent =
+                "Unable to verify your balance.";
+
+
+            return;
+
+        }
+
+
+        /* =============================================
+           CHECK ACCOUNT STATUS
+        ============================================= */
+
+        if (
+            customer.account_status &&
+            customer.account_status !== "Active"
+        ) {
+
+            document.getElementById(
+                "availableBalance"
+            ).textContent =
+                "Unavailable";
+
+
+            document.getElementById(
+                "availableNote"
+            ).textContent =
+                "Your account is currently " +
+                customer.account_status.toLowerCase() +
+                ".";
+
+
+            transferButton.disabled = true;
+
+
+            return;
+
+        }
+
+
+        /* =============================================
+           LOAD BALANCE
+        ============================================= */
+
+        availableBalance =
+            Number(
+                customer.current_balance || 0
+            );
+
+
+        document.getElementById(
+            "availableBalance"
+        ).textContent =
+            formatUSD(
+                availableBalance
+            );
+
+
+        document.getElementById(
+            "availableNote"
+        ).textContent =
+            "Available balance: " +
+            formatUSD(
+                availableBalance
+            );
+
+
+        transferButton.disabled =
+            false;
+
+    }
+    catch (error) {
+
+        console.error(
+            "Balance loading error:",
+            error
+        );
+
+
+        document.getElementById(
+            "availableBalance"
+        ).textContent =
+            "Unavailable";
+
+
+        document.getElementById(
+            "availableNote"
+        ).textContent =
+            "Unable to connect to your account.";
+
+
+        transferButton.disabled =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE SUMMARY
+===================================================== */
+
+recipient.addEventListener(
+    "input",
+    function () {
+
+        document.getElementById(
+            "summaryRecipient"
+        ).textContent =
+            recipient.value.trim() ||
+            "—";
+
+    }
+);
+
+
+account.addEventListener(
+    "input",
+    function () {
+
+        document.getElementById(
+            "summaryAccount"
+        ).textContent =
+            account.value.trim() ||
+            "—";
+
+    }
+);
+
+
+amount.addEventListener(
+    "input",
+    function () {
+
+        const value =
+            Number(amount.value);
+
+
+        document.getElementById(
+            "summaryAmount"
+        ).textContent =
+            value > 0
+                ? formatUSD(value)
+                : "$0.00";
+
+
+        clearMessage();
+
+    }
+);
+
+
+reference.addEventListener(
+    "input",
+    function () {
+
+        document.getElementById(
+            "summaryReference"
+        ).textContent =
+            reference.value.trim() ||
+            "—";
+
+    }
+);
+
+
+transferType.addEventListener(
+    "change",
+    function () {
+
+        const selected =
+            transferType.options[
+                transferType.selectedIndex
+            ];
+
+
+        document.getElementById(
+            "summaryType"
+        ).textContent =
+            selected.value
+                ? selected.text
+                : "—";
+
+    }
+);
+
+
+/* =====================================================
+   SUBMIT TRANSFER
+===================================================== */
+
+form.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const transferAmount =
+            Number(amount.value);
+
+
+        /* =============================================
+           BASIC VALIDATION
+        ============================================= */
+
+        if (
+            !Number.isFinite(
+                transferAmount
+            ) ||
+            transferAmount <= 0
+        ) {
+
+            showMessage(
+                "Please enter a valid transfer amount."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !recipient.value.trim()
+        ) {
+
+            showMessage(
+                "Please enter the recipient name."
+            );
+
+            recipient.focus();
+
+            return;
+
+        }
+
+
+        if (
+            !account.value.trim()
+        ) {
+
+            showMessage(
+                "Please enter the recipient account number."
+            );
+
+            account.focus();
+
+            return;
+
+        }
+
+
+        if (
+            !transferType.value
+        ) {
+
+            showMessage(
+                "Please select a transfer type."
+            );
+
+            transferType.focus();
+
+            return;
+
+        }
+
+
+        transferButton.disabled =
+            true;
+
+        transferButton.textContent =
+            "Checking balance...";
+
+
+        try {
+
+            /* =========================================
+               GET CURRENT SESSION
+            ========================================= */
+
+            const {
+                data: sessionData,
+                error: sessionError
+            } =
+                await supabaseClient.auth.getSession();
+
+
+            if (
+                sessionError ||
+                !sessionData ||
+                !sessionData.session
+            ) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            const user =
+                sessionData.session.user;
+
+
+            /* =========================================
+               GET CURRENT CUSTOMER BALANCE
+            ========================================= */
+
+            const {
+                data: customer,
+                error: customerError
+            } =
+                await supabaseClient
+                    .from("customers")
+                    .select(
+                        "current_balance, account_status"
+                    )
+                    .eq(
+                        "user_id",
+                        user.id
+                    )
+                    .single();
+
+
+            if (
+                customerError ||
+                !customer
+            ) {
+
+                console.error(
+                    "Customer error:",
+                    customerError
+                );
+
+
+                showMessage(
+                    "Unable to verify your available balance. Please try again."
+                );
+
+
+                transferButton.disabled =
+                    false;
+
+                transferButton.textContent =
+                    "Continue";
+
+
+                return;
+
+            }
+
+
+            /* =========================================
+               ACCOUNT STATUS CHECK
+            ========================================= */
+
+            if (
+                customer.account_status &&
+                customer.account_status !== "Active"
+            ) {
+
+                showMessage(
+                    "Transfers are unavailable because your account is currently " +
+                    customer.account_status.toLowerCase() +
+                    "."
+                );
+
+
+                transferButton.disabled =
+                    false;
+
+                transferButton.textContent =
+                    "Continue";
+
+
+                return;
+
+            }
+
+
+            availableBalance =
+                Number(
+                    customer.current_balance || 0
+                );
+
+
+            /* =========================================
+               INSUFFICIENT BALANCE
+            ========================================= */
+
+            if (
+                transferAmount >
+                availableBalance
+            ) {
+
+                showMessage(
+                    "Insufficient balance. Your available balance is " +
+                    formatUSD(
+                        availableBalance
+                    ) +
+                    "."
+                );
+
+
+                transferButton.disabled =
+                    false;
+
+                transferButton.textContent =
+                    "Continue";
+
+
+                return;
+
+            }
+
+
+            /* =========================================
+               ZERO BALANCE
+            ========================================= */
+
+            if (
+                availableBalance <= 0
+            ) {
+
+                showMessage(
+                    "Insufficient balance. Your available balance is $0.00."
+                );
+
+
+                transferButton.disabled =
+                    false;
+
+                transferButton.textContent =
+                    "Continue";
+
+
+                return;
+
+            }
+
+
+            /* =========================================
+               START PROCESS
+            ========================================= */
+
+            transferButton.textContent =
+                "Processing...";
+
+
+            startProcessing(
+                transferAmount
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Transfer error:",
+                error
+            );
+
+
+            showMessage(
+                "Unable to verify your balance. Please try again."
+            );
+
+
+            transferButton.disabled =
+                false;
+
+            transferButton.textContent =
+                "Continue";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   PROCESSING
+===================================================== */
+
+function startProcessing(
+    transferAmount
+) {
+
+    const overlay =
+        document.getElementById(
+            "processingOverlay"
+        );
+
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    const progressNumber =
+        document.getElementById(
+            "progressNumber"
+        );
+
+
+    overlay.style.display =
+        "flex";
+
+
+    let progress = 1;
+
+
+    progressBar.style.width =
+        "1%";
+
+
+    progressNumber.textContent =
+        "1%";
+
+
+    const interval =
+        setInterval(
+            function () {
+
+                progress++;
+
+
+                progressBar.style.width =
+                    progress + "%";
+
+
+                progressNumber.textContent =
+                    progress + "%";
+
+
+                if (
+                    progress >= 100
+                ) {
+
+                    clearInterval(
+                        interval
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            overlay.style.display =
+                                "none";
+
+
+                            showTransferResult(
+                                transferAmount
+                            );
+
+                        },
+                        400
+                    );
+
+                }
+
+            },
+            20
+        );
+
+}
+
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+function showTransferResult(
+    transferAmount
+) {
+
+    const remaining =
+        availableBalance -
+        transferAmount;
+
+
+    document.getElementById(
+        "resultRecipient"
+    ).textContent =
+        recipient.value.trim();
+
+
+    document.getElementById(
+        "resultAccount"
+    ).textContent =
+        account.value.trim();
+
+
+    document.getElementById(
+        "resultAmount"
+    ).textContent =
+        formatUSD(
+            transferAmount
+        );
+
+
+    document.getElementById(
+        "resultBalance"
+    ).textContent =
+        formatUSD(
+            remaining
+        );
+
+
+    document.getElementById(
+        "resultOverlay"
+    ).style.display =
+        "flex";
+
+
+    transferButton.disabled =
+        false;
+
+
+    transferButton.textContent =
+        "Continue";
+
+}
+
+
+/* =====================================================
+   CLOSE RESULT
+===================================================== */
+
+function closeResult() {
+
+    document.getElementById(
+        "resultOverlay"
+    ).style.display =
+        "none";
+
+
+    form.reset();
+
+
+    document.getElementById(
+        "summaryRecipient"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "summaryAccount"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "summaryAmount"
+    ).textContent =
+        "$0.00";
+
+
+    document.getElementById(
+        "summaryType"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "summaryReference"
+    ).textContent =
+        "—";
+
+
+    clearMessage();
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+loadCustomerBalance();
+
+</script>
+
+</body>
+</html>

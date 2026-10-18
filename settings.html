@@ -1,0 +1,3427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | Goldman Sachs</title>
+
+    <style>
+        :root {
+            --plum: #5B1647;
+            --plum-dark: #35102B;
+            --plum-light: #7A2A60;
+
+            --pink: #FF1493;
+            --pink-dark: #D60072;
+            --pink-soft: #FFF0F7;
+            --pink-light: #FFE1EF;
+
+            --black: #0B0B0D;
+            --white: #FFFFFF;
+
+            --bg: #F8F4F7;
+            --text: #211A20;
+            --muted: #756A73;
+            --border: #E9DFE6;
+
+            --green: #197A4B;
+            --green-soft: #EAF7F0;
+
+            --red: #C84444;
+            --red-soft: #FFF0F0;
+
+            --shadow: 0 12px 35px rgba(53, 16, 43, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        select,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            min-height: 76px;
+            background: var(--plum-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.14);
+        }
+
+        .brand {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .brand span {
+            color: var(--pink);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-btn {
+            border: 1px solid rgba(255,255,255,0.24);
+            background: transparent;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: 0.2s ease;
+        }
+
+        .top-btn:hover {
+            background: rgba(255,255,255,0.10);
+        }
+
+        .logout-btn:hover {
+            border-color: #ff75bd;
+            color: #ff9dce;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(1100px, 92%);
+            margin: 42px auto 70px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 37px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* =========================
+           SETTINGS ROW
+        ========================= */
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .setting-row:first-child {
+            padding-top: 0;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           SELECT
+        ========================= */
+
+        select {
+            width: 270px;
+            padding: 12px 13px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+
+        /* =========================
+           TOGGLE
+        ========================= */
+
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cfd1d6;
+            border-radius: 30px;
+            transition: 0.25s;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.25s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .toggle input:checked + .slider {
+            background: var(--pink);
+        }
+
+        .toggle input:checked + .slider::before {
+            transform: translateX(22px);
+        }
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .security-item h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .security-item p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .small-btn {
+            border: 1px solid var(--plum);
+            color: var(--plum);
+            background: white;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+
+        .small-btn:hover {
+            background: var(--pink-soft);
+            border-color: var(--pink);
+            color: var(--pink-dark);
+        }
+
+        /* =========================
+           PROTECTED INFORMATION
+        ========================= */
+
+        .protected-box {
+            background: var(--pink-soft);
+            border: 1px solid var(--pink-light);
+            border-radius: 11px;
+            padding: 17px;
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .protected-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--plum);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .protected-box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--plum-dark);
+        }
+
+        .protected-box p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           ACCOUNT DETAILS
+        ========================= */
+
+        .account-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .detail-box {
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 15px;
+            background: #fcfafb;
+        }
+
+        .detail-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .status.blocked {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        /* =========================
+           SUPPORT
+        ========================= */
+
+        .support-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 17px;
+        }
+
+        .support-box h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .support-box p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .support-email {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: var(--plum);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .support-email:hover {
+            background: var(--pink-dark);
+        }
+
+        /* =========================
+           ACCOUNT CLOSURE
+        ========================= */
+
+        .danger-zone {
+            border: 1px solid #eccaca;
+        }
+
+        .danger-zone .card-header h2 {
+            color: var(--red);
+        }
+
+        .danger-btn {
+            border: none;
+            background: var(--red);
+            color: white;
+            padding: 11px 17px;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .danger-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================
+           GENERAL MODAL
+        ========================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 10, 25, 0.60);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal {
+            width: min(500px, 100%);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 55px rgba(0,0,0,0.25);
+            padding: 26px;
+        }
+
+        .modal h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .cancel-btn {
+            background: #eeeef1;
+            color: var(--text);
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+        }
+
+        .confirm-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           PASSWORD MODAL
+        ========================= */
+
+        .password-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 10, 25, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .password-modal-overlay.active {
+            display: flex;
+        }
+
+        .password-modal {
+            width: min(500px, 100%);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+
+        .password-modal-header {
+            background: var(--plum-dark);
+            color: white;
+            padding: 21px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .password-modal-header h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 21px;
+        }
+
+        .password-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .password-modal-body {
+            padding: 25px;
+        }
+
+        .password-description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .password-label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .password-input {
+            width: 100%;
+            height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0 13px;
+            outline: none;
+            margin-bottom: 17px;
+        }
+
+        .password-input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+
+        .password-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 7px;
+        }
+
+        .password-cancel {
+            background: #eeeef1;
+            color: var(--text);
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+        }
+
+        .password-submit {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .password-submit:hover {
+            background: var(--pink-dark);
+        }
+
+        .password-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .password-message {
+            display: none;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding: 11px 13px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .password-message.show {
+            display: block;
+        }
+
+        .password-message.error {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .password-message.success {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        /* =========================
+           VERIFICATION CODE
+        ========================= */
+
+        #passwordVerificationEmail {
+            font-weight: 600;
+        }
+
+        #passwordVerificationCode {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 6px;
+        }
+
+        #resendPasswordCodeButton:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            transform: translate(-50%, 20px);
+            background: var(--black);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .topbar {
+                min-height: 70px;
+                padding: 13px 4%;
+                gap: 12px;
+            }
+
+            .brand {
+                font-size: 20px;
+            }
+
+            .top-actions {
+                gap: 6px;
+            }
+
+            .top-btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .page {
+                width: 94%;
+                margin-top: 28px;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .account-details {
+                grid-template-columns: 1fr;
+            }
+
+            .security-item,
+            .support-box {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .support-email {
+                width: 100%;
+            }
+
+            .danger-btn {
+                width: 100%;
+            }
+
+            .password-modal-body {
+                padding: 20px;
+            }
+
+            .password-modal-actions {
+                flex-direction: column-reverse;
+            }
+
+            .password-modal-actions button {
+                width: 100%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        Banking <span>usbank</span>
+    </div>
+
+    <div class="top-actions">
+
+        <a href="dashboard.html" class="top-btn">
+            Dashboard
+        </a>
+
+        <button class="top-btn logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-header">
+
+        <h1>Settings</h1>
+
+        <p>
+            Manage your preferences, notifications and account security.
+        </p>
+
+    </div>
+
+
+    <div class="settings-grid">
+
+
+        <!-- =========================
+             PREFERENCES
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Preferences</h2>
+
+                <p>
+                    Customize how your banking experience is displayed.
+                </p>
+
+            </div>
+
+            <div class="card-body">
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Language</h3>
+
+                        <p>
+                            Select your preferred language for the interface.
+                        </p>
+
+                    </div>
+
+
+                    <select id="language">
+
+                        <option value="English">
+                            English
+                        </option>
+
+                        <option value="French">
+                            Français — French
+                        </option>
+
+                        <option value="Spanish">
+                            Español — Spanish
+                        </option>
+
+                        <option value="German">
+                            Deutsch — German
+                        </option>
+
+                        <option value="Italian">
+                            Italiano — Italian
+                        </option>
+
+                        <option value="Portuguese">
+                            Português — Portuguese
+                        </option>
+
+                        <option value="Arabic">
+                            العربية — Arabic
+                        </option>
+
+                        <option value="Hindi">
+                            हिन्दी — Hindi
+                        </option>
+
+                        <option value="Chinese Simplified">
+                            简体中文 — Chinese Simplified
+                        </option>
+
+                        <option value="Chinese Traditional">
+                            繁體中文 — Chinese Traditional
+                        </option>
+
+                        <option value="Japanese">
+                            日本語 — Japanese
+                        </option>
+
+                        <option value="Korean">
+                            한국어 — Korean
+                        </option>
+
+                        <option value="Swahili">
+                            Kiswahili — Swahili
+                        </option>
+
+                        <option value="Hausa">
+                            Hausa
+                        </option>
+
+                        <option value="Yoruba">
+                            Yorùbá — Yoruba
+                        </option>
+
+                        <option value="Igbo">
+                            Igbo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Remember this device</h3>
+
+                        <p>
+                            Keep this device recognized for future secure sign-ins.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="rememberDevice"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Dashboard summary</h3>
+
+                        <p>
+                            Show account summaries and recent activity on your dashboard.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="dashboardSummary"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             SECURITY
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Security</h2>
+
+                <p>
+                    Review your account security preferences.
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="security-list">
+
+
+                    <div class="security-item">
+
+                        <div>
+
+                            <h3>Password</h3>
+
+                            <p>
+                                Change your account password securely through authentication.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="small-btn"
+                            onclick="openPasswordModal()"
+                        >
+                            Manage
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="security-item">
+
+                        <div>
+
+                            <h3>Two-step verification</h3>
+
+                            <p>
+                                Add an additional verification step when signing in.
+                            </p>
+
+                        </div>
+
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="twoStep"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="security-item">
+
+                        <div>
+
+                            <h3>Login notifications</h3>
+
+                            <p>
+                                Receive notifications when a new sign-in is detected.
+                            </p>
+
+                        </div>
+
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                id="loginNotifications"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="security-item">
+
+                        <div>
+
+                            <h3>Active sessions</h3>
+
+                            <p>
+                                Review your current authenticated session.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="small-btn"
+                            onclick="showSecurityMessage()"
+                        >
+                            View
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             NOTIFICATIONS
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Notifications</h2>
+
+                <p>
+                    Choose which account notifications you want to receive.
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Transaction notifications</h3>
+
+                        <p>
+                            Receive notifications about account transactions.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="transactionNotifications"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Security alerts</h3>
+
+                        <p>
+                            Receive important security and account protection alerts.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="securityAlerts"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>Service updates</h3>
+
+                        <p>
+                            Receive important updates about available services.
+                        </p>
+
+                    </div>
+
+
+                    <label class="toggle">
+
+                        <input
+                            type="checkbox"
+                            id="serviceUpdates"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ACCOUNT INFORMATION
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Account Information</h2>
+
+                <p>
+                    Your registered account information is protected.
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+
+                <div class="protected-box">
+
+                    <div class="protected-icon">
+                        !
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Protected information
+                        </strong>
+
+                        <p>
+                            Personal account information is managed through
+                            your authenticated account. Contact customer care
+                            through email if an account-information correction
+                            is required.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="account-details">
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Account Number
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="accountNumber"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Account Type
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="accountType"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Account Status
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="accountStatus"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+                            Customer ID
+                        </div>
+
+                        <div
+                            class="detail-value"
+                            id="customerId"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PROFILE
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Profile</h2>
+
+                <p>
+                    Manage your profile information and profile photo.
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="security-item">
+
+                    <div>
+
+                        <h3>
+                            Profile information
+                        </h3>
+
+                        <p>
+                            Open your profile page to view your registered
+                            information and manage your profile photo.
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="profile.html"
+                        class="small-btn"
+                    >
+                        Open Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             CUSTOMER CARE
+        ========================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>Customer Care</h2>
+
+                <p>
+                    Need assistance with your account?
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="support-box">
+
+                    <div>
+
+                        <h3>
+                            Email Customer Care
+                        </h3>
+
+                        <p>
+                            Contact customer care by email for account-related
+                            questions or assistance.
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="mailto:customer-care@yourdomain.com"
+                        class="support-email"
+                    >
+                        Email Customer Care
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ACCOUNT
+        ========================== -->
+
+        <section class="card danger-zone">
+
+            <div class="card-header">
+
+                <h2>Account</h2>
+
+                <p>
+                    Manage important account actions.
+                </p>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="setting-row">
+
+                    <div class="setting-info">
+
+                        <h3>
+                            Request account closure
+                        </h3>
+
+                        <p>
+                            Account closure is a controlled process and
+                            requires account verification.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="danger-btn"
+                        onclick="openCloseModal()"
+                    >
+                        Request Closure
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <div class="footer-note">
+        Goldman Sachs — Secure account management — Unofficial fictional interface
+    </div>
+
+</main>
+
+
+
+<!-- =========================
+     ACCOUNT CLOSURE MODAL
+========================== -->
+
+<div
+    class="modal-overlay"
+    id="closeModal"
+>
+
+    <div class="modal">
+
+        <h2>
+            Request Account Closure
+        </h2>
+
+        <p>
+            Your request will be submitted for review. Your account
+            will not be closed immediately from this page.
+        </p>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closeCloseModal()"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                class="confirm-btn"
+                onclick="submitClosureRequest()"
+            >
+                Submit Request
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     PASSWORD MODAL
+========================== -->
+
+<div
+    class="password-modal-overlay"
+    id="passwordModal"
+>
+
+    <div class="password-modal">
+
+
+        <div class="password-modal-header">
+
+            <h2>
+                Manage Password
+            </h2>
+
+
+            <button
+                type="button"
+                class="password-close"
+                onclick="closePasswordModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <div class="password-modal-body">
+
+
+            <!-- =========================
+                 STEP 1 — PASSWORD DETAILS
+            ========================== -->
+
+            <div id="passwordFormStep">
+
+                <p class="password-description">
+
+                    Enter your current password and choose a new password
+                    for your authenticated account.
+
+                </p>
+
+
+                <label class="password-label">
+                    Current Password
+                </label>
+
+                <input
+                    type="password"
+                    class="password-input"
+                    id="settingsOldPassword"
+                    placeholder="Enter your current password"
+                    autocomplete="current-password"
+                >
+
+
+                <label class="password-label">
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    class="password-input"
+                    id="settingsNewPassword"
+                    placeholder="Enter your new password"
+                    autocomplete="new-password"
+                >
+
+
+                <label class="password-label">
+                    Confirm New Password
+                </label>
+
+                <input
+                    type="password"
+                    class="password-input"
+                    id="settingsConfirmPassword"
+                    placeholder="Confirm your new password"
+                    autocomplete="new-password"
+                >
+
+
+                <div
+                    class="password-message"
+                    id="passwordMessage"
+                ></div>
+
+
+                <div class="password-modal-actions">
+
+                    <button
+                        type="button"
+                        class="password-cancel"
+                        onclick="closePasswordModal()"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="password-submit"
+                        id="settingsChangePasswordButton"
+                        onclick="changeSettingsPassword()"
+                    >
+                        Change Password
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 STEP 2 — EMAIL VERIFICATION
+            ========================== -->
+
+            <div
+                id="passwordVerificationStep"
+                style="display:none;"
+            >
+
+                <p class="password-description">
+
+                    We've sent a 6-digit verification code to your
+                    registered email address.
+
+                </p>
+
+
+                <p
+                    id="passwordVerificationEmail"
+                    style="
+                        text-align:center;
+                        font-size:14px;
+                        color:#756A73;
+                        margin:10px 0 24px;
+                    "
+                ></p>
+
+
+                <label class="password-label">
+                    Verification Code
+                </label>
+
+
+                <input
+                    type="text"
+                    class="password-input"
+                    id="passwordVerificationCode"
+                    placeholder="Enter 6-digit code"
+                    inputmode="numeric"
+                    maxlength="6"
+                    autocomplete="one-time-code"
+                >
+
+
+                <div
+                    class="password-message"
+                    id="verificationMessage"
+                ></div>
+
+
+                <div class="password-modal-actions">
+
+                    <button
+                        type="button"
+                        class="password-cancel"
+                        onclick="cancelPasswordVerification()"
+                    >
+                        Back
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="password-submit"
+                        id="verifyPasswordCodeButton"
+                        onclick="verifyPasswordCode()"
+                    >
+                        Verify Code
+                    </button>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="resendPasswordCodeButton"
+                    onclick="resendPasswordCode()"
+                    style="
+                        display:block;
+                        margin:18px auto 0;
+                        background:none;
+                        border:none;
+                        color:#D60072;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-size:14px;
+                    "
+                >
+                    Resend Code
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+    /* =====================================================
+       SUPABASE CONNECTION
+    ===================================================== */
+
+    const SUPABASE_URL =
+        "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+
+
+    /* =====================================================
+       SUPPORT EMAIL
+    ===================================================== */
+
+    const SUPPORT_EMAIL =
+        "customer-care@yourdomain.com";
+
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById("toast");
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+
+        setTimeout(function () {
+
+            toast.classList.remove("show");
+
+        }, 2500);
+
+    }
+
+
+
+    /* =====================================================
+       LANGUAGE
+    ===================================================== */
+
+    const language =
+        document.getElementById("language");
+
+
+    const savedLanguage =
+        localStorage.getItem("GoldmanSachsLanguage");
+
+
+    if (savedLanguage) {
+
+        language.value =
+            savedLanguage;
+
+    }
+
+
+    language.addEventListener(
+        "change",
+        function () {
+
+            localStorage.setItem(
+                "GoldmanSachsLanguage",
+                this.value
+            );
+
+            showToast(
+                "Language preference saved."
+            );
+
+        }
+    );
+
+
+
+    /* =====================================================
+       SAVE LOCAL PREFERENCES
+    ===================================================== */
+
+    const preferenceIds = [
+
+        "rememberDevice",
+        "dashboardSummary",
+        "twoStep",
+        "loginNotifications",
+        "transactionNotifications",
+        "securityAlerts",
+        "serviceUpdates"
+
+    ];
+
+
+    preferenceIds.forEach(function (id) {
+
+        const element =
+            document.getElementById(id);
+
+
+        const saved =
+            localStorage.getItem(
+                "GoldmanSachs_" + id
+            );
+
+
+        if (saved !== null) {
+
+            element.checked =
+                saved === "true";
+
+        }
+
+
+        element.addEventListener(
+            "change",
+            function () {
+
+                localStorage.setItem(
+                    "GoldmanSachs_" + id,
+                    this.checked
+                );
+
+
+                if (
+                    id === "twoStep" &&
+                    this.checked
+                ) {
+
+                    showToast(
+                        "Two-step verification preference enabled."
+                    );
+
+                    return;
+
+                }
+
+
+                showToast(
+                    "Preference saved."
+                );
+
+            }
+        );
+
+    });
+
+
+
+    /* =====================================================
+       SECURITY MESSAGE
+    ===================================================== */
+
+    async function showSecurityMessage() {
+
+        try {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth.getSession();
+
+
+            if (
+                error ||
+                !data ||
+                !data.session
+            ) {
+
+                showToast(
+                    "Your session has expired. Please log in again."
+                );
+
+
+                setTimeout(function () {
+
+                    window.location.href =
+                        "login.html";
+
+                }, 1200);
+
+
+                return;
+
+            }
+
+
+            showToast(
+                "Your current authenticated session is active."
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Session check error:",
+                error
+            );
+
+
+            showToast(
+                "Unable to check your current session."
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       ACCOUNT INFORMATION
+    ===================================================== */
+
+    async function loadAccountInformation() {
+
+        try {
+
+            const {
+                data: sessionData,
+                error: sessionError
+            } =
+                await supabaseClient.auth.getSession();
+
+
+            if (
+                sessionError ||
+                !sessionData ||
+                !sessionData.session
+            ) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            const user =
+                sessionData.session.user;
+
+
+            const {
+                data: customer,
+                error: customerError
+            } =
+                await supabaseClient
+                    .from("customers")
+                    .select(
+                        "id, account_number, account_type, account_status"
+                    )
+                    .eq(
+                        "user_id",
+                        user.id
+                    )
+                    .single();
+
+
+            if (customerError) {
+
+                console.error(
+                    "Customer loading error:",
+                    customerError
+                );
+
+
+                document.getElementById(
+                    "accountNumber"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "accountType"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "accountStatus"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerId"
+                ).textContent =
+                    "Unavailable";
+
+
+                return;
+
+            }
+
+
+            if (!customer) {
+
+                document.getElementById(
+                    "accountNumber"
+                ).textContent =
+                    "Not assigned";
+
+
+                document.getElementById(
+                    "accountType"
+                ).textContent =
+                    "Not assigned";
+
+
+                document.getElementById(
+                    "accountStatus"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerId"
+                ).textContent =
+                    user.id;
+
+
+                return;
+
+            }
+
+
+            const accountNumber =
+                customer.account_number ||
+                "Not assigned";
+
+
+            const accountType =
+                customer.account_type ||
+                "Account";
+
+
+            const accountStatus =
+                customer.account_status ||
+                "Active";
+
+
+            const customerId =
+                customer.id ||
+                user.id;
+
+
+            document.getElementById(
+                "accountNumber"
+            ).textContent =
+                accountNumber;
+
+
+            document.getElementById(
+                "accountType"
+            ).textContent =
+                accountType;
+
+
+            const statusElement =
+                document.getElementById(
+                    "accountStatus"
+                );
+
+
+            statusElement.innerHTML =
+                "";
+
+
+            const statusBadge =
+                document.createElement(
+                    "span"
+                );
+
+
+            statusBadge.className =
+                "status";
+
+
+            if (
+                String(accountStatus)
+                    .toLowerCase()
+                    === "blocked"
+            ) {
+
+                statusBadge.classList.add(
+                    "blocked"
+                );
+
+            }
+
+
+            statusBadge.textContent =
+                accountStatus;
+
+
+            statusElement.appendChild(
+                statusBadge
+            );
+
+
+            document.getElementById(
+                "customerId"
+            ).textContent =
+                customerId;
+
+        }
+        catch (error) {
+
+            console.error(
+                "Account information error:",
+                error
+            );
+
+
+            document.getElementById(
+                "accountNumber"
+            ).textContent =
+                "Unavailable";
+
+
+            document.getElementById(
+                "accountType"
+            ).textContent =
+                "Unavailable";
+
+
+            document.getElementById(
+                "accountStatus"
+            ).textContent =
+                "Unavailable";
+
+
+            document.getElementById(
+                "customerId"
+            ).textContent =
+                "Unavailable";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       PASSWORD VERIFICATION STATE
+    ===================================================== */
+
+    let pendingNewPassword =
+        "";
+
+    let pendingPasswordEmail =
+        "";
+
+
+
+    /* =====================================================
+       PASSWORD MODAL
+    ===================================================== */
+
+    function openPasswordModal() {
+
+        const modal =
+            document.getElementById(
+                "passwordModal"
+            );
+
+
+        modal.classList.add(
+            "active"
+        );
+
+
+        /*
+           Always start at Step 1.
+        */
+
+        document.getElementById(
+            "passwordFormStep"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "passwordVerificationStep"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "settingsOldPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "settingsNewPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "settingsConfirmPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "passwordVerificationCode"
+        ).value =
+            "";
+
+
+        pendingNewPassword =
+            "";
+
+        pendingPasswordEmail =
+            "";
+
+
+        clearPasswordMessage();
+
+        clearVerificationMessage();
+
+
+        setTimeout(function () {
+
+            document
+                .getElementById(
+                    "settingsOldPassword"
+                )
+                .focus();
+
+        }, 100);
+
+    }
+
+
+
+    function closePasswordModal() {
+
+        /*
+           Clear the temporary password.
+        */
+
+        pendingNewPassword =
+            "";
+
+        pendingPasswordEmail =
+            "";
+
+
+        document.getElementById(
+            "passwordFormStep"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "passwordVerificationStep"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "settingsOldPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "settingsNewPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "settingsConfirmPassword"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "passwordVerificationCode"
+        ).value =
+            "";
+
+
+        clearPasswordMessage();
+
+        clearVerificationMessage();
+
+
+        document
+            .getElementById(
+                "passwordModal"
+            )
+            .classList.remove(
+                "active"
+            );
+
+    }
+
+
+
+    document
+        .getElementById("passwordModal")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    closePasswordModal();
+
+                }
+
+            }
+        );
+
+
+
+    /* =====================================================
+       PASSWORD MESSAGES
+    ===================================================== */
+
+    function showPasswordMessage(
+        message,
+        type
+    ) {
+
+        const box =
+            document.getElementById(
+                "passwordMessage"
+            );
+
+
+        box.textContent =
+            message;
+
+
+        box.className =
+            "password-message show " +
+            type;
+
+    }
+
+
+
+    function clearPasswordMessage() {
+
+        const box =
+            document.getElementById(
+                "passwordMessage"
+            );
+
+
+        box.textContent =
+            "";
+
+
+        box.className =
+            "password-message";
+
+    }
+
+
+
+    function showVerificationMessage(
+        message,
+        type
+    ) {
+
+        const box =
+            document.getElementById(
+                "verificationMessage"
+            );
+
+
+        box.textContent =
+            message;
+
+
+        box.className =
+            "password-message show " +
+            type;
+
+    }
+
+
+
+    function clearVerificationMessage() {
+
+        const box =
+            document.getElementById(
+                "verificationMessage"
+            );
+
+
+        box.textContent =
+            "";
+
+
+        box.className =
+            "password-message";
+
+    }
+
+
+
+    /* =====================================================
+       MASK EMAIL
+    ===================================================== */
+
+    function maskPasswordEmail(email) {
+
+        if (
+            !email ||
+            !email.includes("@")
+        ) {
+
+            return email;
+
+        }
+
+
+        const parts =
+            email.split("@");
+
+
+        const name =
+            parts[0];
+
+
+        const domain =
+            parts[1];
+
+
+        if (
+            name.length <= 2
+        ) {
+
+            return (
+                name.charAt(0) +
+                "***@" +
+                domain
+            );
+
+        }
+
+
+        return (
+            name.substring(0, 2) +
+            "***@" +
+            domain
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CHANGE PASSWORD — STEP 1
+    ===================================================== */
+
+    async function changeSettingsPassword() {
+
+        clearPasswordMessage();
+
+
+        const oldPassword =
+            document
+                .getElementById(
+                    "settingsOldPassword"
+                )
+                .value;
+
+
+        const newPassword =
+            document
+                .getElementById(
+                    "settingsNewPassword"
+                )
+                .value;
+
+
+        const confirmPassword =
+            document
+                .getElementById(
+                    "settingsConfirmPassword"
+                )
+                .value;
+
+
+
+        /* =========================
+           VALIDATION
+        ========================== */
+
+        if (
+            !oldPassword ||
+            !newPassword ||
+            !confirmPassword
+        ) {
+
+            showPasswordMessage(
+                "Please fill in all password fields.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+
+        if (
+            newPassword.length < 6
+        ) {
+
+            showPasswordMessage(
+                "New password must be at least 6 characters.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+
+        if (
+            newPassword !==
+            confirmPassword
+        ) {
+
+            showPasswordMessage(
+                "New passwords do not match.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+
+        /* =========================
+           GET SESSION
+        ========================== */
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await supabaseClient
+                .auth
+                .getSession();
+
+
+        if (
+            sessionError ||
+            !sessionData ||
+            !sessionData.session
+        ) {
+
+            showPasswordMessage(
+                "Your session has expired. Please log in again.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const email =
+            sessionData.session.user.email;
+
+
+        if (!email) {
+
+            showPasswordMessage(
+                "Unable to verify your account email.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+
+        const button =
+            document.getElementById(
+                "settingsChangePasswordButton"
+            );
+
+
+        try {
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Verifying...";
+
+
+
+            /* =========================
+               VERIFY CURRENT PASSWORD
+            ========================== */
+
+            const {
+                error: loginError
+            } =
+                await supabaseClient
+                    .auth
+                    .signInWithPassword({
+
+                        email:
+                            email,
+
+                        password:
+                            oldPassword
+
+                    });
+
+
+            if (loginError) {
+
+                showPasswordMessage(
+                    "Current password is incorrect.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+
+            /* =========================
+               HOLD NEW PASSWORD TEMPORARILY
+            ========================== */
+
+            pendingNewPassword =
+                newPassword;
+
+
+            pendingPasswordEmail =
+                email;
+
+
+
+            /* =========================
+               SEND VERIFICATION CODE
+            ========================== */
+
+            button.textContent =
+                "Sending code...";
+
+
+            const {
+                data: codeData,
+                error: codeError
+            } =
+                await supabaseClient
+                    .functions
+                    .invoke(
+                        "send-password-change-code",
+                        {
+                            body: {
+
+                                email:
+                                    email,
+
+                                fullName:
+                                    "Customer"
+
+                            }
+                        }
+                    );
+
+
+            if (codeError) {
+
+                console.error(
+                    "Send password code error:",
+                    codeError
+                );
+
+
+                pendingNewPassword =
+                    "";
+
+                pendingPasswordEmail =
+                    "";
+
+
+                showPasswordMessage(
+                    "Unable to send the verification code. Please try again.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            if (
+                !codeData ||
+                !codeData.success
+            ) {
+
+                pendingNewPassword =
+                    "";
+
+                pendingPasswordEmail =
+                    "";
+
+
+                showPasswordMessage(
+                    codeData?.error ||
+                    "Unable to send the verification code.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* =========================
+               SWITCH TO STEP 2
+            ========================== */
+
+            document.getElementById(
+                "passwordFormStep"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "passwordVerificationStep"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "passwordVerificationEmail"
+            ).textContent =
+                maskPasswordEmail(
+                    email
+                );
+
+
+            document.getElementById(
+                "passwordVerificationCode"
+            ).value =
+                "";
+
+
+            clearVerificationMessage();
+
+
+            setTimeout(function () {
+
+                document
+                    .getElementById(
+                        "passwordVerificationCode"
+                    )
+                    .focus();
+
+            }, 100);
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Password change error:",
+                error
+            );
+
+
+            pendingNewPassword =
+                "";
+
+            pendingPasswordEmail =
+                "";
+
+
+            showPasswordMessage(
+                "Something went wrong. Please try again.",
+                "error"
+            );
+
+        }
+        finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Change Password";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       VERIFY PASSWORD CODE — STEP 2
+    ===================================================== */
+
+    async function verifyPasswordCode() {
+
+        const code =
+            document
+                .getElementById(
+                    "passwordVerificationCode"
+                )
+                .value
+                .trim();
+
+
+        const button =
+            document.getElementById(
+                "verifyPasswordCodeButton"
+            );
+
+
+        clearVerificationMessage();
+
+
+        if (
+            !/^\d{6}$/.test(code)
+        ) {
+
+            showVerificationMessage(
+                "Please enter the 6-digit verification code.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!pendingNewPassword) {
+
+            showVerificationMessage(
+                "Your password change request has expired. Please start again.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Verifying...";
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .functions
+                    .invoke(
+                        "verify-password-change-code",
+                        {
+                            body: {
+                                code:
+                                    code
+                            }
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "Verification function error:",
+                    error
+                );
+
+
+                showVerificationMessage(
+                    "Unable to verify the code. Please try again.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            if (
+                !data ||
+                !data.verified
+            ) {
+
+                showVerificationMessage(
+                    data?.error ||
+                    "The verification code is incorrect.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* =========================
+               CODE VERIFIED
+               NOW CHANGE PASSWORD
+            ========================== */
+
+            const {
+                error: updateError
+            } =
+                await supabaseClient
+                    .auth
+                    .updateUser({
+
+                        password:
+                            pendingNewPassword
+
+                    });
+
+
+            if (updateError) {
+
+                console.error(
+                    "Password update error:",
+                    updateError
+                );
+
+
+                showVerificationMessage(
+                    updateError.message ||
+                    "Unable to change password.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+
+            /* =========================
+               SUCCESS
+            ========================== */
+
+            showVerificationMessage(
+                "Password changed successfully.",
+                "success"
+            );
+
+
+            pendingNewPassword =
+                "";
+
+            pendingPasswordEmail =
+                "";
+
+
+            document.getElementById(
+                "passwordVerificationCode"
+            ).value =
+                "";
+
+
+            setTimeout(function () {
+
+                closePasswordModal();
+
+            }, 1800);
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Final password change error:",
+                error
+            );
+
+
+            showVerificationMessage(
+                "Something went wrong. Please try again.",
+                "error"
+            );
+
+        }
+        finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Verify Code";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       RESEND VERIFICATION CODE
+    ===================================================== */
+
+    async function resendPasswordCode() {
+
+        const button =
+            document.getElementById(
+                "resendPasswordCodeButton"
+            );
+
+
+        if (!pendingPasswordEmail) {
+
+            showVerificationMessage(
+                "Please start the password change again.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Sending...";
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .functions
+                    .invoke(
+                        "send-password-change-code",
+                        {
+                            body: {
+
+                                email:
+                                    pendingPasswordEmail,
+
+                                fullName:
+                                    "Customer"
+
+                            }
+                        }
+                    );
+
+
+            if (
+                error ||
+                !data?.success
+            ) {
+
+                console.error(
+                    "Resend code error:",
+                    error
+                );
+
+
+                showVerificationMessage(
+                    data?.error ||
+                    "Unable to resend the verification code.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            showVerificationMessage(
+                "A new verification code has been sent.",
+                "success"
+            );
+
+
+            document.getElementById(
+                "passwordVerificationCode"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "passwordVerificationCode"
+            ).focus();
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Resend code error:",
+                error
+            );
+
+
+            showVerificationMessage(
+                "Unable to resend the verification code.",
+                "error"
+            );
+
+        }
+        finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Resend Code";
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       BACK FROM VERIFICATION
+    ===================================================== */
+
+    function cancelPasswordVerification() {
+
+        pendingNewPassword =
+            "";
+
+        pendingPasswordEmail =
+            "";
+
+
+        document.getElementById(
+            "passwordVerificationCode"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "passwordVerificationStep"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "passwordFormStep"
+        ).style.display =
+            "block";
+
+
+        clearVerificationMessage();
+
+
+        clearPasswordMessage();
+
+    }
+
+
+
+    /* =====================================================
+       ACCOUNT CLOSURE
+    ===================================================== */
+
+    function openCloseModal() {
+
+        document.getElementById(
+            "closeModal"
+        ).style.display =
+            "flex";
+
+    }
+
+
+
+    function closeCloseModal() {
+
+        document.getElementById(
+            "closeModal"
+        ).style.display =
+            "none";
+
+    }
+
+
+
+    function submitClosureRequest() {
+
+        closeCloseModal();
+
+
+        showToast(
+            "Account closure request submitted for review."
+        );
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    async function logout() {
+
+        const confirmLogout =
+            confirm(
+                "Are you sure you want to log out?"
+            );
+
+
+        if (!confirmLogout) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+        }
+
+
+        window.location.href =
+            "login.html";
+
+    }
+
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    loadAccountInformation();
+
+</script>
+
+</body>
+</html>

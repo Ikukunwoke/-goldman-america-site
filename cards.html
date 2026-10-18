@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cards | Goldman Sachs American Bank</title>
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --plum: #5B1647;
+            --plum-dark: #35102B;
+            --plum-light: #7A2A60;
+
+            --pink: #FF1493;
+            --pink-dark: #D60072;
+            --pink-soft: #FFF0F7;
+            --pink-light: #FFE1EF;
+
+            --black: #0B0B0D;
+            --white: #FFFFFF;
+
+            --bg: #F8F4F7;
+            --text: #211A20;
+            --muted: #756A73;
+            --border: #E9DFE6;
+
+            --green: #197A4B;
+            --green-soft: #EAF7F0;
+            --red: #C84444;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            height: 76px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 42px;
+        }
+
+        .brand {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            font-weight: bold;
+            color: var(--black);
+        }
+
+        .brand span {
+            color: var(--pink);
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .back-link {
+            color: var(--plum);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .logout {
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--plum);
+            border-radius: 7px;
+            padding: 9px 15px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout:hover {
+            background: var(--pink-soft);
+            border-color: var(--pink-light);
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 42px 25px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            color: var(--plum-dark);
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* CUSTOMER MESSAGE */
+
+        .loading-message {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px 18px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .error-message {
+            background: #fff4f4;
+            border: 1px solid #f0caca;
+            color: #9b2525;
+            border-radius: 12px;
+            padding: 15px 18px;
+            font-size: 13px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        /* CARD SECTION */
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card-section {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .card-section h2 {
+            font-family: Georgia, serif;
+            color: var(--plum-dark);
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .card-section p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        /* BANK CARD */
+
+        .bank-card {
+            position: relative;
+            height: 225px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 18px;
+            padding: 25px;
+            color: var(--white);
+            overflow: hidden;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .bank-card::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            right: -100px;
+            top: -100px;
+            background: rgba(255,255,255,0.09);
+        }
+
+        .bank-card::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            left: -90px;
+            bottom: -120px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* CARD COLOURS */
+
+        .plum-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #35102B 0%,
+                    #6A1D51 48%,
+                    #1E0A18 100%
+                );
+        }
+
+        .pink-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #8C0A55 0%,
+                    #E42A8A 52%,
+                    #6A083F 100%
+                );
+        }
+
+        .black-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #111111 0%,
+                    #3B3B3B 52%,
+                    #0C0C0C 100%
+                );
+        }
+
+        .burgundy-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #481321 0%,
+                    #7B2738 52%,
+                    #2A0A12 100%
+                );
+        }
+
+        .card-top {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-name {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .card-type {
+            font-size: 10px;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            opacity: 0.78;
+            margin-top: 4px;
+        }
+
+        .contactless {
+            font-size: 25px;
+            transform: rotate(90deg);
+            opacity: 0.9;
+        }
+
+        /* CHIP */
+
+        .chip {
+            position: relative;
+            z-index: 2;
+            width: 47px;
+            height: 35px;
+            border-radius: 7px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #D6C18C,
+                    #F1DFAA,
+                    #AD955B
+                );
+            margin-top: 28px;
+            overflow: hidden;
+        }
+
+        .chip::before,
+        .chip::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(80,60,20,0.45);
+        }
+
+        .chip::before {
+            width: 100%;
+            height: 12px;
+            top: 10px;
+            left: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        .chip::after {
+            width: 12px;
+            height: 100%;
+            left: 17px;
+            top: 0;
+            border-top: none;
+            border-bottom: none;
+        }
+
+        .card-number {
+            position: relative;
+            z-index: 2;
+            margin-top: 18px;
+            font-family: "Courier New", monospace;
+            font-size: 19px;
+            letter-spacing: 2.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        }
+
+        .card-bottom {
+            position: absolute;
+            z-index: 2;
+            left: 25px;
+            right: 25px;
+            bottom: 21px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-holder small,
+        .expiry small {
+            display: block;
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.65;
+            margin-bottom: 4px;
+        }
+
+        .card-holder strong,
+        .expiry strong {
+            font-family: "Courier New", monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .network {
+            position: absolute;
+            right: 24px;
+            top: 92px;
+            z-index: 2;
+            font-weight: bold;
+            font-size: 15px;
+            font-style: italic;
+            letter-spacing: -0.5px;
+            opacity: 0.95;
+        }
+
+        /* CARD INFO */
+
+        .card-details {
+            margin-top: 20px;
+            border-top: 1px solid var(--border);
+            padding-top: 17px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-status {
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .manage-btn {
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--plum);
+            border-radius: 7px;
+            padding: 8px 13px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .manage-btn:hover {
+            background: var(--pink-soft);
+            border-color: var(--pink-light);
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .actions h2 {
+            font-family: Georgia, serif;
+            color: var(--plum-dark);
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .action {
+            background: #FAFAFA;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 18px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .action:hover {
+            border-color: var(--pink);
+            background: var(--pink-soft);
+        }
+
+        .action-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: var(--pink-light);
+            color: var(--pink-dark);
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .action strong {
+            display: block;
+            color: var(--plum-dark);
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .action span {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        /* NOTICE */
+
+        .demo-notice {
+            margin-top: 25px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: var(--pink-soft);
+            border: 1px solid var(--pink-light);
+            color: var(--plum-dark);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            padding: 35px 20px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .back-link {
+                display: none;
+            }
+
+            .container {
+                padding: 30px 15px;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+            .card-section {
+                padding: 18px;
+            }
+
+            .bank-card {
+                height: 205px;
+                padding: 21px;
+            }
+
+            .card-number {
+                font-size: 16px;
+                letter-spacing: 1.8px;
+            }
+
+            .card-bottom {
+                left: 21px;
+                right: 21px;
+                bottom: 18px;
+            }
+
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <a href="dashboard.html" class="brand">
+            Goldman Sachs American Bank
+        </a>
+
+        <div class="top-right">
+
+            <a href="dashboard.html" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+            <button class="logout" onclick="logoutUser()">
+                Log out
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <section class="heading">
+
+            <h1>Your Cards</h1>
+
+            <p>
+                Manage and review your cards connected to your account.
+            </p>
+
+        </section>
+
+
+        <div id="loadingMessage" class="loading-message">
+            Loading your card information...
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            Unable to load your card information. Please return to the dashboard and try again.
+        </div>
+
+
+        <!-- CARDS -->
+
+        <section class="cards-grid">
+
+
+            <!-- PREMIUM CARD -->
+
+            <div class="card-section">
+
+                <h2>Premium Debit Card</h2>
+
+                <p>
+                    Primary card connected to your account.
+                </p>
+
+                <div class="bank-card plum-card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-name">
+                                Goldman Sachs American Bank
+                            </div>
+
+                            <div class="card-type">
+                                Premium Debit
+                            </div>
+
+                        </div>
+
+                        <div class="contactless">
+                            )))
+                        </div>
+
+                    </div>
+
+                    <div class="chip"></div>
+
+                    <div class="card-number" id="premiumCardNumber">
+                        •••• •••• •••• 0000
+                    </div>
+
+                    <div class="network">
+                        debit
+                    </div>
+
+                    <div class="card-bottom">
+
+                        <div class="card-holder">
+
+                            <small>
+                                Card Holder
+                            </small>
+
+                            <strong id="premiumCardHolder">
+                                CUSTOMER
+                            </strong>
+
+                        </div>
+
+                        <div class="expiry">
+
+                            <small>
+                                Expires
+                            </small>
+
+                            <strong>
+                                09/29
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-details">
+
+                    <span class="card-status">
+                        ● Active
+                    </span>
+
+                    <button
+                        class="manage-btn"
+                        onclick="manageCard('Premium Debit Card')"
+                    >
+                        Manage card
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVERYDAY CARD -->
+
+            <div class="card-section">
+
+                <h2>Everyday Debit Card</h2>
+
+                <p>
+                    Everyday spending card connected to your account.
+                </p>
+
+                <div class="bank-card pink-card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-name">
+                                Goldman Sachs American Bank
+                            </div>
+
+                            <div class="card-type">
+                                Everyday Debit
+                            </div>
+
+                        </div>
+
+                        <div class="contactless">
+                            )))
+                        </div>
+
+                    </div>
+
+                    <div class="chip"></div>
+
+                    <div class="card-number" id="everydayCardNumber">
+                        •••• •••• •••• 0000
+                    </div>
+
+                    <div class="network">
+                        debit
+                    </div>
+
+                    <div class="card-bottom">
+
+                        <div class="card-holder">
+
+                            <small>
+                                Card Holder
+                            </small>
+
+                            <strong id="everydayCardHolder">
+                                CUSTOMER
+                            </strong>
+
+                        </div>
+
+                        <div class="expiry">
+
+                            <small>
+                                Expires
+                            </small>
+
+                            <strong>
+                                11/28
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-details">
+
+                    <span class="card-status">
+                        ● Active
+                    </span>
+
+                    <button
+                        class="manage-btn"
+                        onclick="manageCard('Everyday Debit Card')"
+                    >
+                        Manage card
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BLACK CARD -->
+
+            <div class="card-section">
+
+                <h2>Black Premium Card</h2>
+
+                <p>
+                    Premium card for enhanced account services.
+                </p>
+
+                <div class="bank-card black-card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-name">
+                                Goldman Sachs American Bank
+                            </div>
+
+                            <div class="card-type">
+                                Black Premium
+                            </div>
+
+                        </div>
+
+                        <div class="contactless">
+                            )))
+                        </div>
+
+                    </div>
+
+                    <div class="chip"></div>
+
+                    <div class="card-number" id="blackCardNumber">
+                        •••• •••• •••• 0000
+                    </div>
+
+                    <div class="network">
+                        premium
+                    </div>
+
+                    <div class="card-bottom">
+
+                        <div class="card-holder">
+
+                            <small>
+                                Card Holder
+                            </small>
+
+                            <strong id="blackCardHolder">
+                                CUSTOMER
+                            </strong>
+
+                        </div>
+
+                        <div class="expiry">
+
+                            <small>
+                                Expires
+                            </small>
+
+                            <strong>
+                                04/30
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-details">
+
+                    <span class="card-status">
+                        ● Active
+                    </span>
+
+                    <button
+                        class="manage-btn"
+                        onclick="manageCard('Black Premium Card')"
+                    >
+                        Manage card
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRAVEL CARD -->
+
+            <div class="card-section">
+
+                <h2>Travel Debit Card</h2>
+
+                <p>
+                    A dedicated card for travel and international spending.
+                </p>
+
+                <div class="bank-card burgundy-card">
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-name">
+                                Goldman Sachs American Bank
+                            </div>
+
+                            <div class="card-type">
+                                Travel Debit
+                            </div>
+
+                        </div>
+
+                        <div class="contactless">
+                            )))
+                        </div>
+
+                    </div>
+
+                    <div class="chip"></div>
+
+                    <div class="card-number" id="travelCardNumber">
+                        •••• •••• •••• 0000
+                    </div>
+
+                    <div class="network">
+                        travel
+                    </div>
+
+                    <div class="card-bottom">
+
+                        <div class="card-holder">
+
+                            <small>
+                                Card Holder
+                            </small>
+
+                            <strong id="travelCardHolder">
+                                CUSTOMER
+                            </strong>
+
+                        </div>
+
+                        <div class="expiry">
+
+                            <small>
+                                Expires
+                            </small>
+
+                            <strong>
+                                07/29
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-details">
+
+                    <span class="card-status">
+                        ● Active
+                    </span>
+
+                    <button
+                        class="manage-btn"
+                        onclick="manageCard('Travel Debit Card')"
+                    >
+                        Manage card
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CARD ACTIONS -->
+
+        <section class="actions">
+
+            <h2>Card Services</h2>
+
+            <div class="action-grid">
+
+                <button
+                    class="action"
+                    onclick="cardAction('Freeze card')"
+                >
+
+                    <div class="action-icon">
+                        ❄
+                    </div>
+
+                    <strong>
+                        Freeze card
+                    </strong>
+
+                    <span>
+                        Temporarily stop card transactions.
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="action"
+                    onclick="cardAction('Replace card')"
+                >
+
+                    <div class="action-icon">
+                        ↻
+                    </div>
+
+                    <strong>
+                        Replace card
+                    </strong>
+
+                    <span>
+                        Request a replacement card.
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="action"
+                    onclick="cardAction('Change PIN')"
+                >
+
+                    <div class="action-icon">
+                        #
+                    </div>
+
+                    <strong>
+                        Change PIN
+                    </strong>
+
+                    <span>
+                        Update your card security PIN.
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="action"
+                    onclick="cardAction('View card details')"
+                >
+
+                    <div class="action-icon">
+                        ▣
+                    </div>
+
+                    <strong>
+                        Card details
+                    </strong>
+
+                    <span>
+                        View available card information.
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <div class="demo-notice">
+            This page is a banking interface demonstration. Card actions shown here
+            are interface features and do not issue, freeze, replace, or modify real
+            financial cards.
+        </div>
+
+    </main>
+
+
+    <footer>
+        Goldman Sachs American Bank · Secure digital banking interface
+    </footer>
+
+
+    <script>
+
+        /* =========================================================
+           NEW SUPABASE PROJECT
+           ========================================================= */
+
+        const SUPABASE_URL =
+            "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+
+        /* =========================================================
+           CREATE SUPABASE CLIENT
+           ========================================================= */
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY,
+                {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true
+                    }
+                }
+            );
+
+
+        /* =========================================================
+           GET LAST FOUR DIGITS
+           ========================================================= */
+
+        function getLastFour(accountNumber) {
+
+            const value =
+                String(accountNumber || "")
+                    .replace(/\s+/g, "");
+
+            if (!value) {
+                return "0000";
+            }
+
+            return value.slice(-4);
+        }
+
+
+        /* =========================================================
+           CREATE MASKED CARD NUMBER
+           ========================================================= */
+
+        function createMaskedCardNumber(accountNumber) {
+
+            const last4 =
+                getLastFour(accountNumber);
+
+            return "•••• •••• •••• " + last4;
+        }
+
+
+        /* =========================================================
+           LOAD CUSTOMER DATA
+           ========================================================= */
+
+        async function loadCardData() {
+
+            const loadingMessage =
+                document.getElementById("loadingMessage");
+
+            const errorMessage =
+                document.getElementById("errorMessage");
+
+
+            loadingMessage.style.display =
+                "block";
+
+            errorMessage.style.display =
+                "none";
+
+
+            try {
+
+                /* =========================================
+                   GET CURRENT SUPABASE SESSION
+                ========================================= */
+
+                const {
+                    data: sessionData,
+                    error: sessionError
+                } =
+                    await supabaseClient.auth.getSession();
+
+
+                if (
+                    sessionError ||
+                    !sessionData ||
+                    !sessionData.session
+                ) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                const user =
+                    sessionData.session.user;
+
+                const userId =
+                    user.id;
+
+
+                /* =========================================
+                   GET CUSTOMER CREATED BY ADMIN
+                ========================================= */
+
+                const {
+                    data: customer,
+                    error: customerError
+                } =
+                    await supabaseClient
+                        .from("customers")
+                        .select(
+                            "full_name, account_number, account_status"
+                        )
+                        .eq("user_id", userId)
+                        .maybeSingle();
+
+
+                if (customerError) {
+
+                    console.error(
+                        "Customer lookup error:",
+                        customerError
+                    );
+
+                    loadingMessage.style.display =
+                        "none";
+
+                    errorMessage.textContent =
+                        "Unable to retrieve your account information. Please try again.";
+
+                    errorMessage.style.display =
+                        "block";
+
+                    return;
+                }
+
+
+                if (!customer) {
+
+                    loadingMessage.style.display =
+                        "none";
+
+                    errorMessage.textContent =
+                        "No customer account is linked to this login. Please contact Customer Care.";
+
+                    errorMessage.style.display =
+                        "block";
+
+                    return;
+                }
+
+
+                /* =========================================
+                   CHECK ACCOUNT STATUS
+                ========================================= */
+
+                const accountStatus =
+                    String(
+                        customer.account_status || "Active"
+                    ).toLowerCase();
+
+
+                if (
+                    accountStatus === "blocked" ||
+                    accountStatus === "closed" ||
+                    accountStatus === "pending"
+                ) {
+
+                    await supabaseClient.auth.signOut();
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                /* =========================================
+                   CUSTOMER NAME
+                ========================================= */
+
+                const customerName =
+                    String(
+                        customer.full_name ||
+                        "Customer"
+                    ).trim();
+
+
+                /*
+                 * The name entered by the administrator
+                 * is displayed on every card.
+                 */
+
+                const displayName =
+                    customerName.toUpperCase();
+
+
+                /* =========================================
+                   ACCOUNT NUMBER
+                ========================================= */
+
+                const maskedCardNumber =
+                    createMaskedCardNumber(
+                        customer.account_number
+                    );
+
+
+                /* =========================================
+                   UPDATE ALL CARD HOLDER NAMES
+                ========================================= */
+
+                const holderElements = [
+
+                    "premiumCardHolder",
+
+                    "everydayCardHolder",
+
+                    "blackCardHolder",
+
+                    "travelCardHolder"
+
+                ];
+
+
+                holderElements.forEach(function(id) {
+
+                    const element =
+                        document.getElementById(id);
+
+                    if (element) {
+
+                        element.textContent =
+                            displayName;
+                    }
+
+                });
+
+
+                /* =========================================
+                   UPDATE ALL CARD NUMBERS
+                ========================================= */
+
+                const cardNumberElements = [
+
+                    "premiumCardNumber",
+
+                    "everydayCardNumber",
+
+                    "blackCardNumber",
+
+                    "travelCardNumber"
+
+                ];
+
+
+                cardNumberElements.forEach(function(id) {
+
+                    const element =
+                        document.getElementById(id);
+
+                    if (element) {
+
+                        element.textContent =
+                            maskedCardNumber;
+                    }
+
+                });
+
+
+                /* =========================================
+                   FINISHED
+                ========================================= */
+
+                loadingMessage.style.display =
+                    "none";
+
+            } catch (error) {
+
+                console.error(
+                    "Cards page error:",
+                    error
+                );
+
+                loadingMessage.style.display =
+                    "none";
+
+                errorMessage.textContent =
+                    "Unable to connect to your account. Please check your connection and try again.";
+
+                errorMessage.style.display =
+                    "block";
+            }
+        }
+
+
+        /* =========================================================
+           CARD MANAGEMENT
+           ========================================================= */
+
+        function manageCard(cardName) {
+
+            alert(
+                cardName +
+                "\n\nCard management will be connected to the banking system later."
+            );
+        }
+
+
+        function cardAction(action) {
+
+            alert(
+                action +
+                "\n\nThis feature will be connected during the banking system integration."
+            );
+        }
+
+
+        /* =========================================================
+           LOGOUT
+           ========================================================= */
+
+        async function logoutUser() {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to log out?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const {
+                    error
+                } =
+                    await supabaseClient.auth.signOut();
+
+
+                if (error) {
+
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to log out. Please try again."
+                    );
+
+                    return;
+                }
+
+
+                window.location.href =
+                    "login.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "Unable to log out. Please try again."
+                );
+            }
+        }
+
+
+        /* =========================================================
+           START PAGE
+        ========================================================= */
+
+        loadCardData();
+
+    </script>
+
+</body>
+</html>

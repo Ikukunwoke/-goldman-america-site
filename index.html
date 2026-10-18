@@ -1,0 +1,6813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Goldman Sachs — Fictional Concept</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --pink:#ff1493;
+    --pink-dark:#d60072;
+    --pink-soft:#fff0f7;
+    --pink-light:#ffe1ef;
+
+    --black:#0b0b0d;
+    --black-soft:#17171a;
+
+    --white:#ffffff;
+
+    --grey:#6d6d73;
+    --grey-dark:#333338;
+
+    --light:#f7f7f8;
+    --border:#e8e8eb;
+
+    --lavender:#eee8ff;
+    --silver:#d9d9de;
+
+    --green:#197a4b;
+    --green-soft:#eaf7f0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--black);
+    background:#fff;
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:76px;
+
+    background:#fff;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 5%;
+
+    z-index:1000;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    cursor:pointer;
+}
+
+.logo{
+    width:41px;
+    height:41px;
+
+    border-radius:10px;
+
+    background:var(--pink);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    flex-shrink:0;
+
+    box-shadow:0 7px 20px rgba(255,20,147,.18);
+}
+
+.logo svg{
+    width:27px;
+    height:27px;
+}
+
+.brand-name{
+    color:var(--black);
+    font-size:19px;
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.login-btn{
+    border:0;
+    background:none;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    color:var(--black);
+
+    font-size:13px;
+    font-weight:700;
+}
+
+.login-lock{
+    width:33px;
+    height:33px;
+
+    border:1px solid var(--silver);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.login-lock svg{
+    width:16px;
+    height:16px;
+
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+}
+
+.menu-btn{
+    border:0;
+    background:none;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    color:var(--black);
+
+    font-size:13px;
+    font-weight:700;
+}
+
+.menu-icon{
+    width:28px;
+
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.menu-icon span{
+    height:2px;
+    width:100%;
+
+    background:var(--black);
+
+    border-radius:4px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu-overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(11,11,13,.45);
+
+    z-index:1500;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.3s ease;
+}
+
+.menu-overlay.open{
+    opacity:1;
+    visibility:visible;
+}
+
+.menu-panel{
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    height:100%;
+    width:460px;
+    max-width:100%;
+
+    background:#fff;
+
+    overflow-y:auto;
+
+    transform:translateX(100%);
+
+    transition:.35s ease;
+
+    padding:28px;
+}
+
+.menu-overlay.open .menu-panel{
+    transform:translateX(0);
+}
+
+.menu-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding-bottom:24px;
+
+    border-bottom:1px solid var(--border);
+
+    margin-bottom:10px;
+}
+
+.menu-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.menu-brand strong{
+    color:var(--black);
+    font-size:18px;
+}
+
+.close-menu{
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    font-size:22px;
+
+    color:var(--black);
+}
+
+.close-menu:hover{
+    border-color:var(--pink);
+    color:var(--pink);
+}
+
+.menu-item{
+    width:100%;
+
+    padding:17px 5px;
+
+    border:0;
+    border-bottom:1px solid var(--border);
+
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    text-align:left;
+
+    color:var(--black);
+
+    font-size:15px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.menu-item:hover{
+    color:var(--pink-dark);
+    padding-left:10px;
+}
+
+.menu-arrow{
+    color:#999;
+    font-size:21px;
+}
+
+.menu-login{
+    margin-top:25px;
+
+    width:100%;
+
+    padding:15px;
+
+    border:0;
+    border-radius:7px;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    font-weight:700;
+}
+
+.menu-login:hover{
+    background:var(--pink-dark);
+}
+
+
+/* =========================================================
+   ALL PAGES
+========================================================= */
+
+.page{
+    display:none;
+    padding-top:76px;
+}
+
+.page.active{
+    display:block;
+}
+
+
+/* =========================================================
+   PERSONAL HERO
+========================================================= */
+
+.hero{
+    min-height:720px;
+
+    display:grid;
+    grid-template-columns:46% 54%;
+
+    background:#fff;
+}
+
+.hero-content{
+    padding:90px 9% 80px 12%;
+
+    color:var(--black);
+
+    background:#fff;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.hero-small,
+.inner-small{
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+    font-weight:700;
+
+    color:var(--pink-dark);
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-family:Georgia,serif;
+
+    font-size:63px;
+
+    line-height:1.03;
+
+    letter-spacing:-2px;
+
+    margin-bottom:24px;
+
+    color:var(--black);
+}
+
+.hero p{
+    max-width:520px;
+
+    color:var(--grey);
+
+    font-size:16px;
+
+    line-height:1.75;
+
+    margin-bottom:30px;
+}
+
+.hero-image{
+    min-height:720px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.10),
+            rgba(255,20,147,.05)
+        ),
+        url("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1400&q=90");
+
+    background-size:cover;
+
+    background-position:center top;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.primary-btn{
+    padding:15px 25px;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    border:0;
+
+    border-radius:6px;
+
+    font-size:12px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.primary-btn:hover{
+    background:var(--pink-dark);
+
+    transform:translateY(-2px);
+}
+
+.secondary-btn{
+    padding:15px 25px;
+
+    background:#fff;
+
+    color:var(--black);
+
+    border:1px solid #ccc;
+
+    border-radius:6px;
+
+    font-size:12px;
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.secondary-btn:hover{
+    border-color:var(--pink);
+
+    color:var(--pink);
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+.intro{
+    padding:100px 7%;
+
+    text-align:center;
+
+    background:#fff;
+}
+
+.intro-label{
+    color:var(--pink-dark);
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    margin-bottom:15px;
+}
+
+.intro h2,
+.page-intro h2,
+.info-heading h2{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:43px;
+
+    line-height:1.15;
+}
+
+.intro p,
+.page-intro p{
+    max-width:720px;
+
+    margin:20px auto 0;
+
+    color:var(--grey);
+
+    font-size:14px;
+
+    line-height:1.75;
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.services{
+    padding:30px 7% 105px;
+
+    background:var(--light);
+}
+
+.section-heading{
+    margin-bottom:35px;
+}
+
+.section-heading h2{
+    font-family:Georgia,serif;
+
+    font-size:38px;
+
+    color:var(--black);
+}
+
+.section-heading p{
+    color:var(--grey);
+
+    font-size:13px;
+
+    margin-top:7px;
+}
+
+.service-grid{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+}
+
+.service-card{
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    overflow:hidden;
+
+    transition:.25s;
+
+    cursor:pointer;
+}
+
+.service-card:hover{
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.08);
+
+    border-color:#ffc1dd;
+}
+
+.service-image{
+    height:215px;
+
+    background-size:cover;
+
+    background-position:center;
+}
+
+.service-content{
+    padding:25px;
+}
+
+.service-content h3{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:23px;
+
+    margin-bottom:10px;
+}
+
+.service-content p{
+    color:var(--grey);
+
+    font-size:13px;
+
+    line-height:1.65;
+
+    margin-bottom:18px;
+}
+
+.learn{
+    color:var(--pink-dark);
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   FEATURED BRANDS
+========================================================= */
+
+.featured-brands{
+    padding:90px 7%;
+
+    background:#fff;
+
+    overflow:hidden;
+}
+
+.brands-heading{
+    text-align:center;
+
+    margin-bottom:35px;
+}
+
+.brands-heading small{
+    display:block;
+
+    color:var(--pink-dark);
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+}
+
+.brands-heading h2{
+    font-family:Georgia,serif;
+
+    font-size:40px;
+
+    color:var(--black);
+
+    margin-bottom:10px;
+}
+
+.brands-heading p{
+    color:var(--grey);
+
+    font-size:13px;
+}
+
+.brands-slider{
+    position:relative;
+
+    overflow:hidden;
+
+    width:100%;
+}
+
+.brands-track{
+    display:flex;
+
+    gap:18px;
+
+    transition:transform .45s ease;
+}
+
+.brand-card{
+    flex:0 0 calc(25% - 14px);
+
+    min-height:150px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    background:#fff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.04);
+
+    transition:.25s;
+}
+
+.brand-card:hover{
+    transform:translateY(-5px);
+
+    border-color:#ffacd0;
+
+    box-shadow:0 15px 35px rgba(255,20,147,.1);
+}
+
+.brand-logo{
+    font-size:25px;
+
+    font-weight:900;
+
+    color:var(--black);
+
+    margin-bottom:8px;
+}
+
+.brand-card small{
+    color:var(--grey);
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+.brand-controls{
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:25px;
+}
+
+.brand-control{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+    color:var(--black);
+
+    font-size:18px;
+
+    transition:.2s;
+}
+
+.brand-control:hover{
+    background:var(--pink);
+
+    border-color:var(--pink);
+
+    color:#fff;
+}
+
+
+/* =========================================================
+   PRODUCT & GUIDE STRIP
+========================================================= */
+
+.products-guides{
+    padding:90px 7%;
+
+    background:#fff;
+}
+
+.product-header{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:30px;
+
+    align-items:end;
+
+    margin-bottom:35px;
+}
+
+.product-header h2{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:40px;
+}
+
+.product-header p{
+    max-width:500px;
+
+    color:var(--grey);
+
+    font-size:14px;
+
+    line-height:1.7;
+}
+
+.product-grid{
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:16px;
+}
+
+.product-tile{
+    border:1px solid var(--border);
+
+    padding:25px 20px;
+
+    min-height:190px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    background:#fff;
+}
+
+.product-tile:hover{
+    transform:translateY(-5px);
+
+    border-color:#ffacd0;
+
+    box-shadow:0 14px 35px rgba(255,20,147,.08);
+}
+
+.product-icon{
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    background:var(--pink-soft);
+
+    color:var(--pink-dark);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+
+    margin-bottom:22px;
+}
+
+.product-tile h3{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:19px;
+
+    margin-bottom:8px;
+}
+
+.product-tile p{
+    color:var(--grey);
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   FEATURE
+========================================================= */
+
+.feature{
+    display:grid;
+
+    grid-template-columns:50% 50%;
+
+    min-height:550px;
+}
+
+.feature-image{
+    background:
+        linear-gradient(
+            rgba(255,20,147,.08),
+            rgba(255,20,147,.08)
+        ),
+        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=90");
+
+    background-size:cover;
+
+    background-position:center;
+}
+
+.feature-content{
+    background:#fff;
+
+    color:var(--black);
+
+    padding:80px 10%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    border-left:5px solid var(--pink);
+}
+
+.feature-content small,
+.feature-content .eyebrow{
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+
+    color:var(--pink-dark);
+
+    margin-bottom:15px;
+
+    font-weight:800;
+}
+
+.feature-content h2{
+    font-family:Georgia,serif;
+
+    font-size:43px;
+
+    line-height:1.1;
+
+    margin-bottom:20px;
+
+    color:var(--black);
+}
+
+.feature-content p{
+    max-width:520px;
+
+    color:var(--grey);
+
+    line-height:1.7;
+
+    font-size:14px;
+}
+
+.feature-content button{
+    width:max-content;
+
+    margin-top:24px;
+
+    padding:14px 24px;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    border:0;
+
+    border-radius:6px;
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   INFORMATION CARDS
+========================================================= */
+
+.info-section{
+    padding:100px 7%;
+
+    background:#fff;
+}
+
+.info-heading{
+    text-align:center;
+
+    margin-bottom:50px;
+}
+
+.info-heading p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    margin-top:12px;
+}
+
+.info-grid{
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+}
+
+.info-card{
+    display:grid;
+
+    grid-template-columns:42% 58%;
+
+    min-height:260px;
+
+    border:1px solid var(--border);
+
+    overflow:hidden;
+
+    background:#fff;
+}
+
+.info-card-image{
+    background-size:cover;
+
+    background-position:center;
+}
+
+.info-card-content{
+    padding:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+.info-card-content h3{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:24px;
+
+    margin-bottom:10px;
+}
+
+.info-card-content p{
+    color:var(--grey);
+
+    font-size:13px;
+
+    line-height:1.65;
+
+    margin-bottom:16px;
+}
+
+.info-card-content button{
+    width:max-content;
+
+    border:0;
+
+    background:none;
+
+    color:var(--pink-dark);
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   FRAUD SECTION
+========================================================= */
+
+.security-section{
+    padding:90px 7%;
+
+    background:var(--pink-soft);
+
+    border-top:1px solid #ffd1e5;
+
+    border-bottom:1px solid #ffd1e5;
+}
+
+.security-heading{
+    max-width:700px;
+
+    margin-bottom:35px;
+}
+
+.security-heading .label{
+    color:var(--pink-dark);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    margin-bottom:12px;
+}
+
+.security-heading h2{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:40px;
+
+    margin-bottom:12px;
+}
+
+.security-heading p{
+    color:var(--grey);
+
+    line-height:1.7;
+
+    font-size:14px;
+}
+
+.security-grid{
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:15px;
+}
+
+.security-card{
+    background:#fff;
+
+    border:1px solid #f4cadd;
+
+    padding:24px 18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.security-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 30px rgba(255,20,147,.08);
+}
+
+.security-card h3{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:18px;
+
+    margin-bottom:8px;
+}
+
+.security-card p{
+    color:var(--grey);
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+.security-card span{
+    display:inline-block;
+
+    margin-top:16px;
+
+    color:var(--pink-dark);
+
+    font-weight:800;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   SUPPORT SECTION
+========================================================= */
+
+.support-section{
+    padding:90px 7%;
+
+    background:var(--light);
+}
+
+.support-heading{
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+.support-heading h2{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:40px;
+}
+
+.support-heading p{
+    color:var(--grey);
+
+    margin-top:10px;
+
+    font-size:14px;
+}
+
+.support-grid{
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:15px;
+}
+
+.support-card{
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    padding:25px 18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.support-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.06);
+
+    border-color:#ffc1dd;
+}
+
+.support-card h3{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:18px;
+
+    margin-bottom:8px;
+}
+
+.support-card p{
+    color:var(--grey);
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+.support-card span{
+    display:inline-block;
+
+    margin-top:15px;
+
+    color:var(--pink-dark);
+
+    font-size:11px;
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   HELP SEARCH
+========================================================= */
+
+.help-search{
+    padding:80px 7%;
+
+    background:#fff;
+
+    color:var(--black);
+
+    text-align:center;
+
+    border-top:4px solid var(--pink);
+}
+
+.help-search h2{
+    font-family:Georgia,serif;
+
+    font-size:40px;
+
+    margin-bottom:12px;
+
+    color:var(--black);
+}
+
+.help-search p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    margin-bottom:25px;
+}
+
+.search-box{
+    max-width:650px;
+
+    margin:auto;
+
+    display:flex;
+
+    background:#fff;
+
+    padding:6px;
+
+    border:1px solid var(--border);
+
+    border-radius:8px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.05);
+}
+
+.search-box input{
+    flex:1;
+
+    border:0;
+
+    outline:0;
+
+    padding:14px;
+
+    font-size:13px;
+
+    color:var(--black);
+}
+
+.search-box button{
+    border:0;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    padding:0 25px;
+
+    border-radius:4px;
+
+    font-weight:800;
+}
+
+.search-result{
+    display:none;
+
+    max-width:650px;
+
+    margin:18px auto 0;
+
+    padding:15px;
+
+    background:var(--pink-soft);
+
+    border:1px solid #ffd1e5;
+
+    color:var(--black);
+
+    text-align:left;
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   INNER PAGE HERO
+========================================================= */
+
+.inner-hero{
+    min-height:610px;
+
+    display:flex;
+
+    align-items:center;
+
+    background-size:cover;
+
+    background-position:center;
+
+    position:relative;
+}
+
+.inner-content{
+    color:var(--black);
+
+    padding:80px 10%;
+
+    max-width:800px;
+
+    position:relative;
+
+    z-index:2;
+}
+
+.inner-content h1{
+    font-family:Georgia,serif;
+
+    font-size:62px;
+
+    line-height:1.02;
+
+    margin-bottom:20px;
+
+    color:var(--black);
+}
+
+.inner-content p{
+    color:#444;
+
+    max-width:620px;
+
+    font-size:16px;
+
+    line-height:1.75;
+}
+
+
+/* =========================================================
+   INNER CONTENT GRID
+========================================================= */
+
+.inner-section{
+    padding:90px 7%;
+
+    background:#fff;
+}
+
+.inner-section.grey{
+    background:var(--light);
+}
+
+.inner-title{
+    max-width:760px;
+
+    margin-bottom:45px;
+}
+
+.inner-title h2{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:41px;
+
+    margin-bottom:14px;
+}
+
+.inner-title p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    line-height:1.75;
+}
+
+.inner-grid{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:22px;
+}
+
+.inner-card{
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.inner-card:hover{
+    transform:translateY(-5px);
+
+    box-shadow:0 14px 35px rgba(0,0,0,.08);
+
+    border-color:#ffb1d2;
+}
+
+.inner-card-image{
+    height:200px;
+
+    background-size:cover;
+
+    background-position:center;
+}
+
+.inner-card-body{
+    padding:24px;
+}
+
+.inner-card-body h3{
+    color:var(--black);
+
+    font-family:Georgia,serif;
+
+    font-size:21px;
+
+    margin-bottom:9px;
+}
+
+.inner-card-body p{
+    color:var(--grey);
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+.card-action{
+    display:inline-block;
+
+    margin-top:17px;
+
+    color:var(--pink-dark);
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   TWO COLUMN CONTENT
+========================================================= */
+
+.two-column{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    min-height:500px;
+
+    background:#fff;
+}
+
+.two-column-image{
+    background-size:cover;
+
+    background-position:center;
+
+    min-height:500px;
+}
+
+.two-column-content{
+    padding:80px 10%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    background:#fff;
+}
+
+.two-column-content small{
+    color:var(--pink-dark);
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    margin-bottom:14px;
+}
+
+.two-column-content h2{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:42px;
+
+    line-height:1.1;
+
+    margin-bottom:18px;
+}
+
+.two-column-content p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    line-height:1.75;
+
+    max-width:520px;
+}
+
+.two-column-content button{
+    width:max-content;
+
+    margin-top:24px;
+
+    border:0;
+
+    padding:14px 22px;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+.two-column-content button:hover{
+    background:var(--pink-dark);
+}
+
+
+/* =========================================================
+   CONTACT / ENDING SECTIONS
+========================================================= */
+
+.contact{
+    padding:85px 7%;
+
+    background:#fff;
+
+    color:var(--black);
+
+    text-align:center;
+
+    border-top:1px solid var(--border);
+}
+
+.contact h2{
+    font-family:Georgia,serif;
+
+    font-size:40px;
+
+    margin-bottom:12px;
+
+    color:var(--black);
+}
+
+.contact p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    margin-bottom:25px;
+}
+
+.contact-buttons{
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.contact-primary{
+    border:0;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    padding:15px 25px;
+
+    border-radius:6px;
+
+    font-weight:800;
+}
+
+.contact-primary:hover{
+    background:var(--pink-dark);
+}
+
+.contact-secondary{
+    border:1px solid #ccc;
+
+    background:#fff;
+
+    color:var(--black);
+
+    padding:15px 25px;
+
+    border-radius:6px;
+
+    font-weight:800;
+}
+
+.contact-secondary:hover{
+    border-color:var(--pink);
+
+    color:var(--pink);
+}
+
+
+/* =========================================================
+   HELP PAGE
+========================================================= */
+
+.help-section{
+    background:#fff;
+
+    padding:0 7% 90px;
+}
+
+.help-section > .help-search{
+    margin:0 -7% 60px;
+}
+
+.help-search-box{
+    max-width:650px;
+
+    margin:25px auto 0;
+
+    display:flex;
+
+    background:#fff;
+
+    padding:6px;
+
+    border:1px solid var(--border);
+
+    border-radius:8px;
+}
+
+.help-search-box input{
+    flex:1;
+
+    border:0;
+
+    outline:0;
+
+    padding:14px;
+
+    font-size:13px;
+}
+
+.help-search-box button{
+    border:0;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    padding:0 24px;
+
+    border-radius:5px;
+
+    font-weight:800;
+}
+
+.help-grid{
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+}
+
+.help-card{
+    padding:30px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    transition:.25s;
+}
+
+.help-card:hover{
+    transform:translateY(-4px);
+
+    border-color:#ffc1dd;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.06);
+}
+
+.help-icon{
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:var(--pink-soft);
+
+    color:var(--pink-dark);
+
+    font-weight:900;
+
+    margin-bottom:18px;
+}
+
+.help-card h3{
+    font-family:Georgia,serif;
+
+    font-size:21px;
+
+    color:var(--black);
+
+    margin-bottom:10px;
+}
+
+.help-card p{
+    color:var(--grey);
+
+    font-size:13px;
+
+    line-height:1.7;
+}/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+    background:#fff;
+
+    color:var(--black);
+
+    border-top:1px solid var(--border);
+}
+
+.footer-top{
+    padding:70px 7% 55px;
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr 1fr;
+
+    gap:50px;
+
+    background:#fff;
+}
+
+.footer-brand{
+    max-width:360px;
+}
+
+.footer-logo{
+    width:40px;
+
+    height:40px;
+
+    border-radius:10px;
+
+    background:var(--pink);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:3px;
+
+    margin-bottom:18px;
+}
+
+.footer-logo span{
+    display:block;
+
+    width:4px;
+
+    background:#fff;
+
+    border-radius:3px;
+}
+
+.footer-logo span:nth-child(1){
+    height:14px;
+}
+
+.footer-logo span:nth-child(2){
+    height:23px;
+}
+
+.footer-logo span:nth-child(3){
+    height:17px;
+}
+
+.footer-brand h3{
+    color:var(--black);
+
+    font-size:19px;
+
+    margin-bottom:12px;
+}
+
+.footer-brand p{
+    color:#666;
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+.footer-column{
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-start;
+}
+
+.footer-column h4{
+    color:var(--black);
+
+    font-size:13px;
+
+    margin-bottom:18px;
+}
+
+.footer-column span{
+    display:block;
+
+    color:#666;
+
+    font-size:12px;
+
+    margin-bottom:12px;
+
+    cursor:pointer;
+
+    line-height:1.4;
+
+    transition:.2s;
+}
+
+.footer-column span:hover{
+    color:var(--pink);
+}
+
+.footer-bottom{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:24px 7%;
+
+    color:#777;
+
+    font-size:11px;
+
+    background:#fafafa;
+
+    border-top:1px solid #eeeeee;
+}
+
+.footer-links{
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+}
+
+.footer-links span{
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.footer-links span:hover{
+    color:var(--pink);
+}
+
+
+/* =========================================================
+   INFORMATION MODAL
+========================================================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(11,11,13,.55);
+
+    z-index:3000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(600px,100%);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:14px;
+
+    padding:35px;
+
+    box-shadow:0 25px 80px rgba(0,0,0,.25);
+
+    position:relative;
+}
+
+.modal-close{
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    width:36px;
+
+    height:36px;
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+    color:var(--black);
+}
+
+.modal-close:hover{
+    color:var(--pink);
+
+    border-color:var(--pink);
+}
+
+.modal-small{
+    color:var(--pink-dark);
+
+    font-size:10px;
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+    margin-bottom:12px;
+}
+
+.modal-box h2{
+    font-family:Georgia,serif;
+
+    color:var(--black);
+
+    font-size:30px;
+
+    margin-bottom:15px;
+
+    padding-right:35px;
+}
+
+.modal-box p{
+    color:var(--grey);
+
+    font-size:14px;
+
+    line-height:1.75;
+}
+
+.modal-button{
+    margin-top:25px;
+
+    width:100%;
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:6px;
+
+    background:var(--pink);
+
+    color:#fff;
+
+    font-weight:800;
+}
+
+.modal-button:hover{
+    background:var(--pink-dark);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .hero h1{
+        font-size:52px;
+    }
+
+    .inner-content h1{
+        font-size:52px;
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .security-grid,
+    .support-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .brand-card{
+        flex-basis:calc(33.333% - 12px);
+    }
+
+    .footer-top{
+        grid-template-columns:2fr 1fr 1fr;
+    }
+
+}
+
+
+@media(max-width:950px){
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .hero-image{
+        min-height:430px;
+
+        order:-1;
+    }
+
+    .hero-content{
+        padding:70px 7%;
+    }
+
+    .feature{
+        grid-template-columns:1fr;
+    }
+
+    .feature-image{
+        min-height:400px;
+    }
+
+    .service-grid,
+    .inner-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .security-grid,
+    .support-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .help-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .two-column{
+        grid-template-columns:1fr;
+    }
+
+    .two-column-image{
+        min-height:400px;
+    }
+
+    .footer-top{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .header{
+        padding:0 20px;
+    }
+
+    .brand-name{
+        font-size:16px;
+    }
+
+    .header-right{
+        gap:12px;
+    }
+
+    .login-btn{
+        font-size:0;
+    }
+
+    .hero h1{
+        font-size:43px;
+    }
+
+    .hero-image{
+        min-height:350px;
+    }
+
+    .intro h2,
+    .feature-content h2,
+    .help-search h2{
+        font-size:34px;
+    }
+
+    .section-heading h2,
+    .product-header h2,
+    .security-heading h2,
+    .support-heading h2{
+        font-size:32px;
+    }
+
+    .service-grid,
+    .inner-grid,
+    .product-grid,
+    .security-grid,
+    .support-grid,
+    .help-grid{
+        grid-template-columns:1fr;
+    }
+
+    .product-header{
+        display:block;
+    }
+
+    .product-header p{
+        margin-top:12px;
+    }
+
+    .brand-card{
+        flex-basis:calc(50% - 9px);
+    }
+
+    .inner-content h1{
+        font-size:43px;
+    }
+
+    .inner-content{
+        padding:70px 7%;
+    }
+
+    .info-card{
+        grid-template-columns:1fr;
+    }
+
+    .info-card-image{
+        min-height:210px;
+    }
+
+    .two-column-content{
+        padding:60px 7%;
+    }
+
+    .help-section{
+        padding:0 7% 60px;
+    }
+
+    .help-section > .help-search{
+        margin-left:-7%;
+        margin-right:-7%;
+    }
+
+    .footer-top{
+        grid-template-columns:1fr;
+
+        gap:35px;
+
+        padding:55px 7% 40px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        padding:22px 7%;
+    }
+
+    .footer-links{
+        gap:15px;
+    }
+
+    .menu-panel{
+        width:100%;
+    }
+
+    .modal-box{
+        padding:28px 22px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+    <div class="brand"
+         onclick="showPage('personal')">
+
+        <div class="logo">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M5 19V9"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"/>
+
+                <path d="M12 19V5"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"/>
+
+                <path d="M19 19V11"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"/>
+
+            </svg>
+
+        </div>
+
+        <div class="brand-name">
+            Goldman Sachs
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <button class="login-btn"
+                onclick="window.location.href='login.html'">
+
+            <span class="login-lock">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect x="5"
+                          y="10"
+                          width="14"
+                          height="10"
+                          rx="2"/>
+
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+
+                </svg>
+
+            </span>
+
+            Log in
+
+        </button>
+
+
+        <button class="menu-btn"
+                onclick="openMenu()">
+
+            <span>
+                Menu
+            </span>
+
+            <span class="menu-icon">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MENU
+========================================================= -->
+
+<div class="menu-overlay"
+     id="menuOverlay"
+     onclick="closeMenu(event)">
+
+    <div class="menu-panel"
+         onclick="event.stopPropagation()">
+
+        <div class="menu-top">
+
+            <div class="menu-brand">
+
+                <div class="logo"
+                     style="width:36px;height:36px;">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 19V9"
+                              stroke="#fff"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+
+                        <path d="M12 19V5"
+                              stroke="#fff"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+
+                        <path d="M19 19V11"
+                              stroke="#fff"
+                              stroke-width="2"
+                              stroke-linecap="round"/>
+
+                    </svg>
+
+                </div>
+
+                <strong>
+                    Goldman Sachs
+                </strong>
+
+            </div>
+
+
+            <button class="close-menu"
+                    onclick="closeMenu()">
+                ×
+            </button>
+
+        </div>
+
+
+        <button class="menu-item"
+                onclick="showPage('personal');closeMenu()">
+
+            Personal
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('international');closeMenu()">
+
+            International
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('premier');closeMenu()">
+
+            Premier
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('business');closeMenu()">
+
+            Business
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('corporate');closeMenu()">
+
+            Corporate & Commercial
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('accounts');closeMenu()">
+
+            Bank accounts
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('savings');closeMenu()">
+
+            Savings
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('loans');closeMenu()">
+
+            Loans
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('mortgages');closeMenu()">
+
+            Mortgages
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('overdrafts');closeMenu()">
+
+            Overdrafts
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('support');closeMenu()">
+
+            Support
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-item"
+                onclick="showPage('banking');closeMenu()">
+
+            Banking with us
+
+            <span class="menu-arrow">
+                ›
+            </span>
+
+        </button>
+
+
+        <button class="menu-login"
+                onclick="window.location.href='login.html'">
+
+            Log in
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PERSONAL PAGE
+========================================================= -->
+
+<div id="personal"
+     class="page active">
+
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                Personal banking
+            </div>
+
+
+            <h1>
+                Banking that
+                works for you.
+            </h1>
+
+
+            <p>
+                Modern banking designed around your everyday life,
+                your plans and the things that matter most to you.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <button class="primary-btn"
+                        onclick="showPage('accounts')">
+
+                    Explore banking
+
+                </button>
+
+
+                <button class="secondary-btn"
+                        onclick="window.location.href='login.html'">
+
+                    Log in
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-image"></div>
+
+    </section>
+
+
+    <section class="intro">
+
+        <div class="intro-label">
+            Personal banking
+        </div>
+
+
+        <h2>
+            A bank that moves
+            with your life.
+        </h2>
+
+
+        <p>
+            From everyday spending and saving to buying a home or
+            planning your next chapter, explore banking designed
+            around the way you live.
+        </p>
+
+    </section>
+
+
+    <section class="services">
+
+        <div class="section-heading">
+
+            <h2>
+                Explore our services
+            </h2>
+
+            <p>
+                Simple tools and financial services for every stage.
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+
+            <div class="service-card"
+                 onclick="showPage('accounts')">
+
+                <div class="service-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+
+                <div class="service-content">
+
+                    <h3>
+                        Bank accounts
+                    </h3>
+
+                    <p>
+                        Everyday banking designed to make managing
+                        your money straightforward.
+                    </p>
+
+                    <span class="learn">
+                        Explore accounts →
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="service-card"
+                 onclick="showPage('savings')">
+
+                <div class="service-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+
+                <div class="service-content">
+
+                    <h3>
+                        Savings
+                    </h3>
+
+                    <p>
+                        Give your money a purpose and build towards
+                        the plans that matter.
+                    </p>
+
+                    <span class="learn">
+                        Explore savings →
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="service-card"
+                 onclick="showPage('mortgages')">
+
+                <div class="service-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+
+                <div class="service-content">
+
+                    <h3>
+                        Mortgages
+                    </h3>
+
+                    <p>
+                        Explore home-financing information for
+                        your next chapter.
+                    </p>
+
+                    <span class="learn">
+                        Explore mortgages →
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURED BRANDS -->
+
+    <section class="featured-brands">
+
+        <div class="brands-heading">
+
+            <small>
+                Featured brands
+            </small>
+
+            <h2>
+                Brands worth exploring
+            </h2>
+
+            <p>
+                A showcase of popular brands and destinations.
+            </p>
+
+        </div>
+
+
+        <div class="brands-slider">
+
+            <div class="brands-track"
+                 id="brandsTrack">
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Amazon
+                    </div>
+
+                    <small>
+                        Marketplace
+                    </small>
+
+                </div>
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Tanga
+                    </div>
+
+                    <small>
+                        Shopping
+                    </small>
+
+                </div>
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Walmart
+                    </div>
+
+                    <small>
+                        Retail
+                    </small>
+
+                </div>
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Target
+                    </div>
+
+                    <small>
+                        Retail
+                    </small>
+
+                </div>
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Apple
+                    </div>
+
+                    <small>
+                        Technology
+                    </small>
+
+                </div>
+
+
+                <div class="brand-card">
+
+                    <div class="brand-logo">
+                        Nike
+                    </div>
+
+                    <small>
+                        Lifestyle
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="brand-controls">
+
+            <button class="brand-control"
+                    onclick="moveBrands(-1)">
+                ‹
+            </button>
+
+            <button class="brand-control"
+                    onclick="moveBrands(1)">
+                ›
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="products-guides">
+
+        <div class="product-header">
+
+            <div>
+
+                <h2>
+                    Products & guides
+                </h2>
+
+            </div>
+
+            <p>
+                Explore products and information to help you
+                understand your options and plan ahead.
+            </p>
+
+        </div>
+
+
+        <div class="product-grid">
+
+
+            <div class="product-tile"
+                 onclick="showPage('accounts')">
+
+                <div class="product-icon">
+                    $
+                </div>
+
+                <h3>
+                    Current accounts
+                </h3>
+
+                <p>
+                    Everyday banking for spending,
+                    payments and incoming money.
+                </p>
+
+            </div>
+
+
+            <div class="product-tile"
+                 onclick="showPage('savings')">
+
+                <div class="product-icon">
+                    %
+                </div>
+
+                <h3>
+                    Savings
+                </h3>
+
+                <p>
+                    Build towards your goals with
+                    savings designed around your plans.
+                </p>
+
+            </div>
+
+
+            <div class="product-tile"
+                 onclick="showPage('loans')">
+
+                <div class="product-icon">
+                    +
+                </div>
+
+                <h3>
+                    Loans
+                </h3>
+
+                <p>
+                    Understand borrowing and think
+                    through repayment planning.
+                </p>
+
+            </div>
+
+
+            <div class="product-tile"
+                 onclick="showPage('mortgages')">
+
+                <div class="product-icon">
+                    ⌂
+                </div>
+
+                <h3>
+                    Mortgages
+                </h3>
+
+                <p>
+                    Explore information for your
+                    home-financing journey.
+                </p>
+
+            </div>
+
+
+            <div class="product-tile"
+                 onclick="showPage('overdrafts')">
+
+                <div class="product-icon">
+                    ↔
+                </div>
+
+                <h3>
+                    Overdrafts
+                </h3>
+
+                <p>
+                    Learn about short-term flexibility
+                    and cash-flow planning.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURE STORY -->
+
+    <section class="feature">
+
+        <div class="feature-image"
+             style="background-image:
+             linear-gradient(rgba(255,20,147,.08),rgba(255,20,147,.08)),
+             url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="feature-content">
+
+            <small>
+                Banking made personal
+            </small>
+
+            <h2>
+                More ways to
+                manage your money.
+            </h2>
+
+            <p>
+                Whether you are managing everyday spending,
+                building savings or planning for something bigger,
+                explore tools and services designed to help you
+                stay in control of your finances.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATION CARDS -->
+
+    <section class="info-section">
+
+        <div class="info-heading">
+
+            <div class="intro-label">
+                Useful information
+            </div>
+
+            <h2>
+                Banking made clearer.
+            </h2>
+
+            <p>
+                Explore helpful information about managing your
+                money and making the most of your banking.
+            </p>
+
+        </div>
+
+
+        <div class="info-grid">
+
+            <div class="info-card">
+
+                <div class="info-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=85');">
+                </div>
+
+                <div class="info-card-content">
+
+                    <h3>
+                        Managing your money
+                    </h3>
+
+                    <p>
+                        Understand everyday money management,
+                        payments, spending and planning ahead.
+                    </p>
+
+                    <button onclick="openInfoModal(
+                        'Managing your money',
+                        'Explore practical information about everyday banking, budgeting, payments and keeping track of your finances.'
+                    )">
+
+                        Learn more →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&w=900&q=85');">
+                </div>
+
+                <div class="info-card-content">
+
+                    <h3>
+                        Digital banking
+                    </h3>
+
+                    <p>
+                        Discover convenient ways to manage your
+                        banking and stay connected with your accounts.
+                    </p>
+
+                    <button onclick="openInfoModal(
+                        'Digital banking',
+                        'Digital banking can make it easier to view your accounts, manage payments and access useful banking services.'
+                    )">
+
+                        Learn more →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85');">
+                </div>
+
+                <div class="info-card-content">
+
+                    <h3>
+                        Planning ahead
+                    </h3>
+
+                    <p>
+                        Explore information that can help you
+                        think about your future financial plans.
+                    </p>
+
+                    <button onclick="openInfoModal(
+                        'Planning ahead',
+                        'Planning ahead can help you understand your options and prepare for important financial goals.'
+                    )">
+
+                        Learn more →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=900&q=85');">
+                </div>
+
+                <div class="info-card-content">
+
+                    <h3>
+                        Financial guidance
+                    </h3>
+
+                    <p>
+                        Find general information to help you
+                        understand financial products and services.
+                    </p>
+
+                    <button onclick="openInfoModal(
+                        'Financial guidance',
+                        'Use reliable information and consider your individual circumstances when making financial decisions.'
+                    )">
+
+                        Learn more →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SECURITY -->
+
+    <section class="security-section">
+
+        <div class="security-heading">
+
+            <div class="label">
+                Fraud and security
+            </div>
+
+            <h2>
+                Stay alert. Stay secure.
+            </h2>
+
+            <p>
+                Learn about common security risks and practical
+                steps you can take to protect your personal and
+                financial information.
+            </p>
+
+        </div>
+
+
+        <div class="security-grid">
+
+            <div class="security-card"
+                 onclick="openInfoModal(
+                    'Fraud awareness',
+                    'Be cautious of unexpected messages, calls or emails asking for personal or financial information.'
+                 )">
+
+                <h3>
+                    Fraud awareness
+                </h3>
+
+                <p>
+                    Learn how to recognise common warning signs
+                    and suspicious activity.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+
+            <div class="security-card"
+                 onclick="openInfoModal(
+                    'Online security',
+                    'Use strong passwords, keep your devices updated and avoid sharing sensitive account information.'
+                 )">
+
+                <h3>
+                    Online security
+                </h3>
+
+                <p>
+                    Simple steps for keeping your online banking
+                    information protected.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+
+            <div class="security-card"
+                 onclick="openInfoModal(
+                    'Scam protection',
+                    'Take care when receiving unexpected requests for payments, passwords or security codes.'
+                 )">
+
+                <h3>
+                    Scam protection
+                </h3>
+
+                <p>
+                    Understand common scams and how to approach
+                    unexpected requests.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+
+            <div class="security-card"
+                 onclick="openInfoModal(
+                    'Card security',
+                    'Keep your card and security details private and report suspicious activity as soon as possible.'
+                 )">
+
+                <h3>
+                    Card security
+                </h3>
+
+                <p>
+                    Information about protecting your card and
+                    responding to suspicious transactions.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+
+            <div class="security-card"
+                 onclick="openInfoModal(
+                    'Account protection',
+                    'Never share your password or security credentials with another person.'
+                 )">
+
+                <h3>
+                    Account protection
+                </h3>
+
+                <p>
+                    Keep your account credentials private and
+                    use secure login practices.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>    <!-- SUPPORT -->
+
+    <section class="support-section">
+
+        <div class="support-heading">
+
+            <h2>
+                Help and support
+            </h2>
+
+            <p>
+                Find information and guidance when you need it.
+            </p>
+
+        </div>
+
+
+        <div class="support-grid">
+
+            <div class="support-card"
+                 onclick="openInfoModal(
+                    'Contact us',
+                    'Use the available support channels to find help with your banking questions.'
+                 )">
+
+                <h3>
+                    Contact us
+                </h3>
+
+                <p>
+                    Find ways to get in touch and access support.
+                </p>
+
+                <span>
+                    Get help →
+                </span>
+
+            </div>
+
+
+            <div class="support-card"
+                 onclick="openInfoModal(
+                    'Frequently asked questions',
+                    'Browse answers to common questions about accounts, payments and banking services.'
+                 )">
+
+                <h3>
+                    FAQs
+                </h3>
+
+                <p>
+                    Answers to common banking questions.
+                </p>
+
+                <span>
+                    View FAQs →
+                </span>
+
+            </div>
+
+
+            <div class="support-card"
+                 onclick="openInfoModal(
+                    'Lost or stolen card',
+                    'If your card is lost or stolen, use the appropriate banking support channel as soon as possible.'
+                 )">
+
+                <h3>
+                    Lost or stolen card
+                </h3>
+
+                <p>
+                    Information about what to do if your card
+                    goes missing.
+                </p>
+
+                <span>
+                    Find out more →
+                </span>
+
+            </div>
+
+
+            <div class="support-card"
+                 onclick="openInfoModal(
+                    'Banking help',
+                    'Find general guidance for using banking services and managing your account.'
+                 )">
+
+                <h3>
+                    Banking help
+                </h3>
+
+                <p>
+                    General guidance for everyday banking.
+                </p>
+
+                <span>
+                    Get support →
+                </span>
+
+            </div>
+
+
+            <div class="support-card"
+                 onclick="openInfoModal(
+                    'Accessibility',
+                    'Explore information about accessible banking services and support.'
+                 )">
+
+                <h3>
+                    Accessibility
+                </h3>
+
+                <p>
+                    Information about accessible banking services.
+                </p>
+
+                <span>
+                    Learn more →
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HELP SEARCH -->
+
+    <section class="help-search">
+
+        <h2>
+            How can we help?
+        </h2>
+
+        <p>
+            Search for information about banking, accounts and support.
+        </p>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="helpSearchInput"
+                placeholder="Search for help..."
+                onkeydown="if(event.key==='Enter') searchHelp()"
+            >
+
+            <button onclick="searchHelp()">
+                Search
+            </button>
+
+        </div>
+
+
+        <div class="search-result"
+             id="searchResult">
+        </div>
+
+    </section>
+
+
+    <!-- PERSONAL CONTACT -->
+
+    <section class="contact">
+
+        <h2>
+            Banking starts here.
+        </h2>
+
+        <p>
+            Explore your options or securely access your account.
+        </p>
+
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('accounts')">
+
+                Explore accounts
+
+            </button>
+
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<!-- =========================================================
+     INTERNATIONAL PAGE
+========================================================= -->
+
+<div id="international"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1521292270410-a8c4d716d518?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                International banking
+            </div>
+
+            <h1>
+                Banking beyond borders.
+            </h1>
+
+            <p>
+                Explore information and services designed for
+                people who live, work, travel or manage finances
+                across different countries.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Banking for a connected world.
+            </h2>
+
+            <p>
+                Whether you are moving money internationally,
+                travelling frequently or managing financial
+                commitments across borders, explore information
+                designed around international banking needs.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        International payments
+                    </h3>
+
+                    <p>
+                        Learn about international payments,
+                        currencies and transfer considerations.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'International payments',
+                              'International payments may involve different currencies, processing times and applicable charges.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Travel
+                    </h3>
+
+                    <p>
+                        Information to consider when managing
+                        money while travelling.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Travel banking',
+                              'Before travelling, consider how you will access money, make payments and keep your account information secure.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Global banking
+                    </h3>
+
+                    <p>
+                        Explore general information for customers
+                        with international financial needs.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Global banking',
+                              'Explore information about managing finances when your personal or professional life crosses borders.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Explore more
+            </small>
+
+            <h2>
+                Your banking,
+                wherever life takes you.
+            </h2>
+
+            <p>
+                Explore international banking information and
+                understand the options available for your needs.
+            </p>
+
+            <button onclick="openInfoModal(
+                'International banking',
+                'International banking requirements and available services can vary depending on your circumstances and location.'
+            )">
+
+                Explore information
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Need help?
+        </h2>
+
+        <p>
+            Find support and answers to your banking questions.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     PREMIER PAGE
+========================================================= -->
+
+<div id="premier"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Premier
+            </div>
+
+            <h1>
+                Banking with a
+                personal touch.
+            </h1>
+
+            <p>
+                Explore premium banking information, everyday
+                services and support designed around your needs.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                More than everyday banking.
+            </h2>
+
+            <p>
+                Explore information about premium banking,
+                financial planning and services designed for
+                customers looking for a more personalised
+                banking experience.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Personal service
+                    </h3>
+
+                    <p>
+                        Explore information about personalised
+                        banking support.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Personal service',
+                              'Personalised banking services may provide additional support depending on eligibility and available products.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Financial planning
+                    </h3>
+
+                    <p>
+                        Consider your longer-term goals and
+                        explore planning information.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Financial planning',
+                              'Financial planning should take into account your individual circumstances, goals and financial position.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Everyday banking
+                    </h3>
+
+                    <p>
+                        Explore accounts and services for everyday
+                        financial management.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="showPage('accounts')">
+
+                        Explore accounts →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Premier banking
+            </small>
+
+            <h2>
+                Banking designed
+                around you.
+            </h2>
+
+            <p>
+                Explore the services, products and support
+                available through premium banking.
+            </p>
+
+            <button onclick="showPage('accounts')">
+
+                Explore banking
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Explore your options.
+        </h2>
+
+        <p>
+            Find out more about banking services and support.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('accounts')">
+
+                Explore accounts
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     BUSINESS PAGE
+========================================================= -->
+
+<div id="business"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Business banking
+            </div>
+
+            <h1>
+                Banking that helps
+                businesses move forward.
+            </h1>
+
+            <p>
+                Explore banking information, business accounts,
+                payments and services designed for businesses
+                at different stages of growth.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Built around your business.
+            </h2>
+
+            <p>
+                From managing everyday payments to planning for
+                growth, explore information and services that can
+                support your business banking needs.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Business accounts
+                    </h3>
+
+                    <p>
+                        Explore everyday banking options for
+                        businesses and organisations.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Business accounts',
+                              'Business accounts can help separate business finances from personal finances and support everyday business activity.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Payments
+                    </h3>
+
+                    <p>
+                        Explore information about receiving and
+                        making business payments.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Business payments',
+                              'Business payment services may include options for making payments, receiving funds and managing regular business transactions.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Business growth
+                    </h3>
+
+                    <p>
+                        Explore financial information for businesses
+                        planning their next stage of growth.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Business growth',
+                              'Business growth planning can involve understanding cash flow, funding requirements and longer-term financial objectives.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Business banking
+            </small>
+
+            <h2>
+                Focus on your business.
+                We'll focus on the banking.
+            </h2>
+
+            <p>
+                Explore accounts, payments and financial
+                information designed for businesses.
+            </p>
+
+            <button onclick="showPage('accounts')">
+
+                Explore accounts
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Need business support?
+        </h2>
+
+        <p>
+            Find information and support for your business
+            banking needs.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Get support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     CORPORATE & COMMERCIAL PAGE
+========================================================= -->
+
+<div id="corporate"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Corporate & Commercial
+            </div>
+
+            <h1>
+                Banking for organisations
+                with bigger ambitions.
+            </h1>
+
+            <p>
+                Explore information about corporate banking,
+                commercial services and financial solutions
+                for organisations.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Supporting organisations at scale.
+            </h2>
+
+            <p>
+                Explore information about corporate banking,
+                commercial finance, payments and services for
+                organisations with complex financial needs.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Corporate banking
+                    </h3>
+
+                    <p>
+                        Explore information about banking services
+                        for larger organisations.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Corporate banking',
+                              'Corporate banking can involve tailored financial services for organisations with more complex operational requirements.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Commercial finance
+                    </h3>
+
+                    <p>
+                        Explore information about financing and
+                        managing commercial activity.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Commercial finance',
+                              'Commercial finance can support eligible organisations with funding and financial management needs.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Global solutions
+                    </h3>
+
+                    <p>
+                        Explore information for organisations
+                        operating across multiple markets.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Global solutions',
+                              'Organisations operating internationally may have different payment, currency and financial management requirements.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Corporate banking
+            </small>
+
+            <h2>
+                Financial information
+                for complex needs.
+            </h2>
+
+            <p>
+                Explore corporate and commercial banking
+                information and available services.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Corporate & Commercial',
+                'Corporate and commercial banking services vary according to organisation type, financial requirements and eligibility.'
+            )">
+
+                Explore information
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Find the right support.
+        </h2>
+
+        <p>
+            Explore support and information for corporate
+            and commercial banking.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     BANK ACCOUNTS PAGE
+========================================================= -->
+
+<div id="accounts"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Bank accounts
+            </div>
+
+            <h1>
+                An account for
+                everyday life.
+            </h1>
+
+            <p>
+                Explore account information and understand
+                the different features that may be available
+                for everyday banking.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Choose the way you bank.
+            </h2>
+
+            <p>
+                Different accounts can be designed around
+                different financial needs. Explore the options
+                and consider which features matter to you.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Everyday account
+                    </h3>
+
+                    <p>
+                        A general account concept for managing
+                        regular spending and payments.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Everyday account',
+                              'An everyday account can be used for regular payments, spending and managing day-to-day finances.'
+                          )">
+
+                        View details →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Premier account
+                    </h3>
+
+                    <p>
+                        Explore information about premium everyday
+                        banking and additional support.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="showPage('premier')">
+
+                        Explore Premier →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        International account
+                    </h3>
+
+                    <p>
+                        Explore information for people managing
+                        financial needs across borders.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="showPage('international')">
+
+                        Explore international →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Everyday banking
+            </small>
+
+            <h2>
+                Banking made
+                straightforward.
+            </h2>
+
+            <p>
+                Explore account information and find support
+                for your everyday banking questions.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Bank accounts',
+                'Account features, eligibility and terms can vary. Review the relevant information before opening or changing an account.'
+            )">
+
+                Learn more
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Have questions about accounts?
+        </h2>
+
+        <p>
+            Find answers and support for your banking needs.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     SAVINGS PAGE
+========================================================= -->
+
+<div id="savings"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Savings
+            </div>
+
+            <h1>
+                Make your money
+                work towards your goals.
+            </h1>
+
+            <p>
+                Explore savings information and understand
+                different ways to plan and manage money
+                for future goals.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Saving for what matters.
+            </h2>
+
+            <p>
+                Whether you are building an emergency fund,
+                planning a purchase or working towards a
+                longer-term goal, explore savings information.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Easy-access savings
+                    </h3>
+
+                    <p>
+                        Explore savings options designed around
+                        access to your money.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Easy-access savings',
+                              'Easy-access savings may allow customers to access their money while earning interest, subject to the account terms.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Savings goals
+                    </h3>
+
+                    <p>
+                        Create a clear plan around a specific
+                        financial goal.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Savings goals',
+                              'Setting a specific savings goal can make it easier to determine how much you need to save and over what period.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Long-term saving
+                    </h3>
+
+                    <p>
+                        Explore information about planning for
+                        longer-term financial objectives.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Long-term saving',
+                              'Long-term saving involves considering your goals, time horizon, access requirements and the terms of available products.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Saving
+            </small>
+
+            <h2>
+                Small steps can become
+                bigger goals.
+            </h2>
+
+            <p>
+                Explore savings information and consider
+                how different options may fit your plans.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Savings information',
+                'Savings products can have different interest rates, access conditions and terms. Review the relevant product information carefully.'
+            )">
+
+                Explore savings
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Ready to explore?
+        </h2>
+
+        <p>
+            Find more information about savings and banking.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div><!-- =========================================================
+     LOANS PAGE
+========================================================= -->
+
+<div id="loans"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Loans
+            </div>
+
+            <h1>
+                Borrowing designed
+                around your plans.
+            </h1>
+
+            <p>
+                Explore general information about borrowing,
+                loan considerations and managing repayments.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Understand your borrowing options.
+            </h2>
+
+            <p>
+                Before borrowing, consider the amount required,
+                repayment period, interest and the overall cost
+                of borrowing.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Personal borrowing
+                    </h3>
+
+                    <p>
+                        Explore general information about borrowing
+                        for personal needs.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Personal borrowing',
+                              'Personal borrowing may be available for eligible applicants. Approval, rates and terms depend on individual circumstances and the applicable product.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Loan repayments
+                    </h3>
+
+                    <p>
+                        Understand how repayment schedules can
+                        affect your overall borrowing cost.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Loan repayments',
+                              'Loan repayments may consist of principal and interest. The exact structure depends on the product and agreed terms.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Borrowing responsibly
+                    </h3>
+
+                    <p>
+                        Consider affordability before taking
+                        on additional financial commitments.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Responsible borrowing',
+                              'Before borrowing, consider whether the repayments are affordable within your budget and whether the borrowing is appropriate for your circumstances.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Borrowing
+            </small>
+
+            <h2>
+                Understand the cost
+                before you borrow.
+            </h2>
+
+            <p>
+                Explore general information about loans,
+                repayments and borrowing considerations.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Loan information',
+                'Loan terms, interest rates, fees and eligibility vary by product. Always review the applicable terms before making a borrowing decision.'
+            )">
+
+                Explore loan information
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Need help understanding loans?
+        </h2>
+
+        <p>
+            Find support and information about borrowing.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     MORTGAGES PAGE
+========================================================= -->
+
+<div id="mortgages"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Mortgages
+            </div>
+
+            <h1>
+                Information for your
+                home-buying journey.
+            </h1>
+
+            <p>
+                Explore general mortgage information and the
+                considerations involved in buying a home.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                From first steps to moving home.
+            </h2>
+
+            <p>
+                Buying a home is a significant financial decision.
+                Explore information about mortgages, deposits,
+                repayments and planning.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        First-time buyers
+                    </h3>
+
+                    <p>
+                        Explore general information to help you
+                        understand the home-buying process.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'First-time buyers',
+                              'First-time buyers may need to consider deposits, affordability, mortgage terms, legal costs and other expenses associated with purchasing a home.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Mortgage repayments
+                    </h3>
+
+                    <p>
+                        Understand the importance of planning
+                        for regular mortgage repayments.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Mortgage repayments',
+                              'Mortgage repayments depend on factors such as the amount borrowed, interest rate, term and repayment structure.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Moving home
+                    </h3>
+
+                    <p>
+                        Explore general information for people
+                        considering their next property move.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Moving home',
+                              'Moving home can involve reviewing your existing mortgage, affordability, property value and additional purchase or moving costs.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Home ownership
+            </small>
+
+            <h2>
+                Plan carefully.
+                Move confidently.
+            </h2>
+
+            <p>
+                Explore mortgage information and understand
+                the costs and commitments involved.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Mortgage information',
+                'Mortgage products, rates, eligibility and fees can vary. Review the applicable information carefully before making a decision.'
+            )">
+
+                Explore mortgage information
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Have a mortgage question?
+        </h2>
+
+        <p>
+            Find support and information about mortgages.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     OVERDRAFTS PAGE
+========================================================= -->
+
+<div id="overdrafts"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Overdrafts
+            </div>
+
+            <h1>
+                Understand how overdrafts work.
+            </h1>
+
+            <p>
+                Explore general information about overdrafts,
+                eligibility, limits and managing your account.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                A flexible way to manage short-term needs.
+            </h2>
+
+            <p>
+                An overdraft may allow eligible customers to
+                spend beyond the available balance, subject to
+                the applicable account terms and limits.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        How overdrafts work
+                    </h3>
+
+                    <p>
+                        Understand the difference between an
+                        arranged and unarranged overdraft.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'How overdrafts work',
+                              'An overdraft can allow an eligible account to go below its available balance. Terms, limits, charges and eligibility depend on the account.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Managing your limit
+                    </h3>
+
+                    <p>
+                        Keep track of your available balance and
+                        any agreed overdraft limit.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Managing your overdraft',
+                              'Keeping track of your balance and overdraft usage can help you understand how much money remains available to you.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Understanding charges
+                    </h3>
+
+                    <p>
+                        Review the applicable terms and charges
+                        before using an overdraft.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Overdraft charges',
+                              'Charges and interest associated with overdrafts depend on the applicable account terms. Review current information before using an overdraft.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Account management
+            </small>
+
+            <h2>
+                Know your available balance.
+            </h2>
+
+            <p>
+                Understanding your balance, limit and account
+                terms can help you manage your finances.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Overdraft information',
+                'Overdraft availability, limits, interest and charges vary by account and circumstances. Check the relevant account information for details.'
+            )">
+
+                Explore overdraft information
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Need help with your account?
+        </h2>
+
+        <p>
+            Find support and answers to your banking questions.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div><!-- =========================================================
+     SUPPORT PAGE
+========================================================= -->
+
+<div id="support"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Help and support
+            </div>
+
+            <h1>
+                We're here to help.
+            </h1>
+
+            <p>
+                Find answers to common banking questions,
+                explore support information and get help
+                managing your account.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="help-section">
+
+        <div class="help-search">
+
+            <div class="inner-small">
+                Help centre
+            </div>
+
+            <h2>
+                How can we help?
+            </h2>
+
+            <p>
+                Search for information about accounts,
+                payments, cards, security and more.
+            </p>
+
+            <div class="help-search-box">
+
+                <input
+                    type="text"
+                    id="helpSearch"
+                    placeholder="Search help and support..."
+                    oninput="filterHelp()"
+                >
+
+                <button onclick="filterHelp()">
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="help-grid"
+             id="helpGrid">
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ?
+                </div>
+
+                <h3>
+                    Account help
+                </h3>
+
+                <p>
+                    Find information about your account,
+                    balance and everyday banking.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Account help',
+                          'For account questions, review your account information or contact support for assistance with your specific situation.'
+                      )">
+
+                    Get help →
+
+                </span>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    £
+                </div>
+
+                <h3>
+                    Payments and transfers
+                </h3>
+
+                <p>
+                    Learn about making payments, transfers
+                    and managing transactions.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Payments and transfers',
+                          'Payment and transfer processing times can vary depending on the payment type, destination and applicable checks.'
+                      )">
+
+                    Get help →
+
+                </span>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    🔒
+                </div>
+
+                <h3>
+                    Fraud and security
+                </h3>
+
+                <p>
+                    Learn how to protect your account and
+                    recognise suspicious activity.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Fraud and security',
+                          'Never share your password, security codes or sensitive banking information with someone who contacts you unexpectedly.'
+                      )">
+
+                    Security information →
+
+                </span>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    📱
+                </div>
+
+                <h3>
+                    Online banking
+                </h3>
+
+                <p>
+                    Find information about logging in and
+                    using online banking services.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Online banking',
+                          'If you are having trouble accessing online banking, check your login details and use the available account recovery or support options.'
+                      )">
+
+                    Get help →
+
+                </span>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Cards
+                </h3>
+
+                <p>
+                    Explore information about card security,
+                    payments and card management.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Card support',
+                          'For card-related issues, check your account information and contact the appropriate support service if further assistance is required.'
+                      )">
+
+                    Get help →
+
+                </span>
+
+            </div>
+
+
+            <div class="help-card">
+
+                <div class="help-icon">
+                    ☎
+                </div>
+
+                <h3>
+                    Contact us
+                </h3>
+
+                <p>
+                    Find the appropriate support option for
+                    your banking question.
+                </p>
+
+                <span class="card-action"
+                      onclick="openInfoModal(
+                          'Contact support',
+                          'Please use the available support channels for assistance with your banking questions or account-related issues.'
+                      )">
+
+                    Contact support →
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="two-column">
+
+        <div class="two-column-image"
+             style="background-image:url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90');">
+        </div>
+
+        <div class="two-column-content">
+
+            <small>
+                Need more help?
+            </small>
+
+            <h2>
+                We're here when
+                you need us.
+            </h2>
+
+            <p>
+                If you cannot find the information you need,
+                explore the available support options.
+            </p>
+
+            <button onclick="openInfoModal(
+                'Customer support',
+                'For account-specific assistance, use the appropriate official support channel and have the relevant account information available.'
+            )">
+
+                Contact support
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Banking support when you need it.
+        </h2>
+
+        <p>
+            Explore our banking services or return to the
+            main banking page.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('personal')">
+
+                Back to personal banking
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     BANKING WITH US PAGE
+========================================================= -->
+
+<div id="banking"
+     class="page">
+
+    <section class="inner-hero"
+             style="background-image:
+             linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,255,255,.18)),
+             url('https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90');">
+
+        <div class="inner-content">
+
+            <div class="inner-small">
+                Banking with us
+            </div>
+
+            <h1>
+                Banking built around
+                your everyday life.
+            </h1>
+
+            <p>
+                Explore ways to bank, manage your money and
+                find support whenever you need it.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="inner-section">
+
+        <div class="inner-title">
+
+            <h2>
+                Ways to manage your banking.
+            </h2>
+
+            <p>
+                Explore information about online banking,
+                everyday accounts, support and keeping your
+                finances secure.
+            </p>
+
+        </div>
+
+
+        <div class="inner-grid">
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Online banking
+                    </h3>
+
+                    <p>
+                        Manage your banking digitally and access
+                        information about your accounts.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="window.location.href='login.html'">
+
+                        Log in →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Digital banking
+                    </h3>
+
+                    <p>
+                        Explore information about managing your
+                        finances through digital services.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="openInfoModal(
+                              'Digital banking',
+                              'Digital banking can provide access to account information and everyday banking services through supported online channels.'
+                          )">
+
+                        Learn more →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="inner-card">
+
+                <div class="inner-card-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1000&q=85');">
+                </div>
+
+                <div class="inner-card-body">
+
+                    <h3>
+                        Banking securely
+                    </h3>
+
+                    <p>
+                        Learn about protecting your account,
+                        passwords and personal information.
+                    </p>
+
+                    <span class="card-action"
+                          onclick="showPage('support')">
+
+                        Security & support →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="feature">
+
+        <div class="feature-image"
+             style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=90');">
+        </div>
+
+        <div class="feature-content">
+
+            <div class="eyebrow">
+                Digital banking
+            </div>
+
+            <h2>
+                Your banking,
+                wherever you are.
+            </h2>
+
+            <p>
+                Access your banking information online,
+                review transactions and manage your everyday
+                banking needs through supported services.
+            </p>
+
+            <button onclick="window.location.href='login.html'">
+
+                Log in
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact">
+
+        <h2>
+            Ready to explore?
+        </h2>
+
+        <p>
+            Discover our banking services or get help with
+            your existing account.
+        </p>
+
+        <div class="contact-buttons">
+
+            <button class="contact-primary"
+                    onclick="showPage('personal')">
+
+                Explore banking
+
+            </button>
+
+            <button class="contact-secondary"
+                    onclick="showPage('support')">
+
+                Help and support
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================================================
+     INFORMATION MODAL
+========================================================= -->
+
+<div id="infoModal"
+     class="modal"
+     onclick="closeInfoModal(event)">
+
+    <div class="modal-box"
+         onclick="event.stopPropagation()">
+
+        <button class="modal-close"
+                onclick="closeInfoModal()">
+
+            ×
+
+        </button>
+
+        <div class="modal-small">
+            INFORMATION
+        </div>
+
+        <h2 id="modalTitle">
+            Information
+        </h2>
+
+        <p id="modalText">
+            More information will appear here.
+        </p>
+
+        <button class="modal-button"
+                onclick="closeInfoModal()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-top">
+
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+            <h3>
+                Goldman Sachs
+            </h3>
+
+            <p>
+                A fictional banking website concept created
+                for demonstration and design purposes.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Banking
+            </h4>
+
+            <span onclick="showPage('personal')">
+                Personal
+            </span>
+
+            <span onclick="showPage('international')">
+                International
+            </span>
+
+            <span onclick="showPage('premier')">
+                Premier
+            </span>
+
+            <span onclick="showPage('business')">
+                Business
+            </span>
+
+            <span onclick="showPage('corporate')">
+                Corporate & Commercial
+            </span>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Products
+            </h4>
+
+            <span onclick="showPage('accounts')">
+                Bank accounts
+            </span>
+
+            <span onclick="showPage('savings')">
+                Savings
+            </span>
+
+            <span onclick="showPage('loans')">
+                Loans
+            </span>
+
+            <span onclick="showPage('mortgages')">
+                Mortgages
+            </span>
+
+            <span onclick="showPage('overdrafts')">
+                Overdrafts
+            </span>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Support
+            </h4>
+
+            <span onclick="showPage('support')">
+                Help & support
+            </span>
+
+            <span onclick="showPage('banking')">
+                Banking with us
+            </span>
+
+            <span onclick="window.location.href='login.html'">
+                Log in
+            </span>
+
+            <span onclick="openInfoModal(
+                'Fraud and security',
+                'Never share your password, verification codes or sensitive banking information with anyone who contacts you unexpectedly.'
+            )">
+
+                Fraud & security
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <div>
+            © 2026 Goldman Sachs — Fictional Concept
+        </div>
+
+
+        <div class="footer-links">
+
+            <span onclick="openInfoModal(
+                'Privacy',
+                'This fictional website concept does not represent a real banking service or collect banking information.'
+            )">
+
+                Privacy
+
+            </span>
+
+
+            <span onclick="openInfoModal(
+                'Security',
+                'This fictional website concept is provided for demonstration purposes only.'
+            )">
+
+                Security
+
+            </span>
+
+
+            <span onclick="openInfoModal(
+                'Terms',
+                'This website is a fictional concept created for demonstration and design purposes.'
+            )">
+
+                Terms
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(pageId){
+
+    const pages =
+        document.querySelectorAll(".page");
+
+    pages.forEach(function(page){
+
+        page.classList.remove("active");
+
+    });
+
+
+    const selectedPage =
+        document.getElementById(pageId);
+
+
+    if(selectedPage){
+
+        selectedPage.classList.add("active");
+
+    }
+
+
+    closeMenu();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function openMenu(){
+
+    const menuOverlay =
+        document.getElementById("menuOverlay");
+
+
+    if(!menuOverlay){
+        return;
+    }
+
+
+    menuOverlay.classList.add("open");
+
+    document.body.style.overflow="hidden";
+
+}
+
+
+function toggleMenu(){
+
+    const menuOverlay =
+        document.getElementById("menuOverlay");
+
+
+    if(!menuOverlay){
+        return;
+    }
+
+
+    menuOverlay.classList.toggle("open");
+
+
+    if(menuOverlay.classList.contains("open")){
+
+        document.body.style.overflow="hidden";
+
+    }else{
+
+        document.body.style.overflow="";
+
+    }
+
+}
+
+
+function closeMenu(event){
+
+    if(event &&
+       event.target !== event.currentTarget){
+
+        return;
+
+    }
+
+
+    const menuOverlay =
+        document.getElementById("menuOverlay");
+
+
+    if(menuOverlay){
+
+        menuOverlay.classList.remove("open");
+
+    }
+
+
+    document.body.style.overflow="";
+
+}
+
+
+/* =========================================================
+   INFORMATION MODAL
+========================================================= */
+
+function openInfoModal(title,text){
+
+    const modal =
+        document.getElementById("infoModal");
+
+    const modalTitle =
+        document.getElementById("modalTitle");
+
+    const modalText =
+        document.getElementById("modalText");
+
+
+    if(!modal){
+        return;
+    }
+
+
+    if(modalTitle){
+        modalTitle.textContent=title;
+    }
+
+
+    if(modalText){
+        modalText.textContent=text;
+    }
+
+
+    modal.classList.add("show");
+
+    document.body.style.overflow="hidden";
+
+}
+
+
+function closeInfoModal(event){
+
+    if(event &&
+       event.target !== event.currentTarget){
+
+        return;
+
+    }
+
+
+    const modal =
+        document.getElementById("infoModal");
+
+
+    if(modal){
+
+        modal.classList.remove("show");
+
+    }
+
+
+    document.body.style.overflow="";
+
+}
+
+
+/* =========================================================
+   HELP SEARCH - PERSONAL PAGE
+========================================================= */
+
+function searchHelp(){
+
+    const input =
+        document.getElementById("helpSearchInput");
+
+    const result =
+        document.getElementById("searchResult");
+
+
+    if(!input || !result){
+        return;
+    }
+
+
+    const searchTerm =
+        input.value.toLowerCase().trim();
+
+
+    if(!searchTerm){
+
+        result.style.display="block";
+
+        result.textContent =
+            "Please enter a search term.";
+
+        return;
+
+    }
+
+
+    const availableTopics = [
+
+        "bank accounts",
+        "savings",
+        "loans",
+        "mortgages",
+        "overdrafts",
+        "payments",
+        "transfers",
+        "fraud",
+        "security",
+        "cards",
+        "online banking",
+        "support"
+
+    ];
+
+
+    const match =
+        availableTopics.find(function(topic){
+
+            return topic.includes(searchTerm) ||
+                   searchTerm.includes(topic);
+
+        });
+
+
+    result.style.display="block";
+
+
+    if(match){
+
+        result.textContent =
+            "Information found for: " +
+            match +
+            ". Please use the menu or Help & Support section to explore this topic.";
+
+    }else{
+
+        result.textContent =
+            "No exact result was found. Please try another search term or visit Help & Support.";
+
+    }
+
+}
+
+
+/* =========================================================
+   HELP SEARCH - SUPPORT PAGE
+========================================================= */
+
+function filterHelp(){
+
+    const input =
+        document.getElementById("helpSearch");
+
+
+    const cards =
+        document.querySelectorAll(".help-card");
+
+
+    if(!input){
+        return;
+    }
+
+
+    const searchTerm =
+        input.value.toLowerCase().trim();
+
+
+    cards.forEach(function(card){
+
+        const text =
+            card.textContent.toLowerCase();
+
+
+        if(text.includes(searchTerm)){
+
+            card.style.display="";
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   BRANDS SLIDER
+========================================================= */
+
+let brandPosition=0;
+
+
+function moveBrands(direction){
+
+    const track =
+        document.getElementById("brandsTrack");
+
+
+    if(!track){
+        return;
+    }
+
+
+    const cards =
+        track.querySelectorAll(".brand-card");
+
+
+    if(cards.length===0){
+        return;
+    }
+
+
+    const firstCard =
+        cards[0];
+
+
+    const cardWidth =
+        firstCard.offsetWidth + 18;
+
+
+    const visibleCards =
+        window.innerWidth <= 600
+        ? 2
+        : window.innerWidth <= 1100
+        ? 3
+        : 4;
+
+
+    const maxPosition =
+        Math.max(
+            0,
+            cards.length-visibleCards
+        );
+
+
+    brandPosition += direction;
+
+
+    if(brandPosition<0){
+
+        brandPosition=0;
+
+    }
+
+
+    if(brandPosition>maxPosition){
+
+        brandPosition=maxPosition;
+
+    }
+
+
+    track.style.transform =
+        "translateX(-" +
+        (brandPosition*cardWidth) +
+        "px)";
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key==="Escape"){
+
+            const modal =
+                document.getElementById("infoModal");
+
+
+            if(modal &&
+               modal.classList.contains("show")){
+
+                closeInfoModal();
+
+            }
+
+
+            closeMenu();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL SETUP
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const menuOverlay =
+            document.getElementById("menuOverlay");
+
+
+        if(menuOverlay){
+
+            menuOverlay.addEventListener(
+                "click",
+                function(event){
+
+                    if(event.target===menuOverlay){
+
+                        closeMenu();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        const modal =
+            document.getElementById("infoModal");
+
+
+        if(modal){
+
+            modal.addEventListener(
+                "click",
+                function(event){
+
+                    if(event.target===modal){
+
+                        closeInfoModal();
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

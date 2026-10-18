@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | Goldman Sachs</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --plum: #5B1647;
+            --plum-dark: #35102B;
+            --plum-light: #7A2A60;
+
+            --pink: #FF1493;
+            --pink-dark: #D60072;
+            --pink-soft: #FFF0F7;
+            --pink-light: #FFE1EF;
+
+            --black: #0B0B0D;
+            --white: #FFFFFF;
+
+            --background: #F8F4F7;
+            --text: #211A20;
+            --muted: #756A73;
+            --border: #E9DFE6;
+
+            --success: #197A4B;
+            --success-soft: #EAF7F0;
+
+            --danger: #C84444;
+            --danger-soft: #FFF0F0;
+
+            --shadow: 0 12px 35px rgba(53, 16, 43, 0.09);
+
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            min-height: 76px;
+            background: var(--plum-dark);
+            color: var(--white);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--pink);
+            color: white;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-link {
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            padding: 10px 16px;
+            border-radius: 9px;
+
+            color: white;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .top-link:hover {
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .top-link.dashboard {
+            background: var(--pink);
+            border-color: var(--pink);
+        }
+
+        .top-link.dashboard:hover {
+            background: var(--pink-dark);
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            max-width: 1180px;
+            margin: auto;
+            padding: 42px 25px 80px;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           PROFILE PHOTO CARD
+        ========================= */
+
+        .photo-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+
+        .photo-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .avatar-area {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 145px;
+            height: 145px;
+
+            border-radius: 50%;
+            overflow: hidden;
+
+            background: linear-gradient(
+                135deg,
+                var(--plum-dark),
+                var(--pink-dark)
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 46px;
+            font-weight: bold;
+
+            border: 5px solid white;
+
+            box-shadow: 0 7px 25px rgba(53, 16, 43, 0.20);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .photo-info h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .photo-info p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+
+            max-width: 620px;
+            margin-bottom: 10px;
+        }
+
+        .admin-managed {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            color: var(--success);
+            background: var(--success-soft);
+
+            padding: 7px 10px;
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .photo-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .photo-note {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 9px;
+        }
+
+        .btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           MAIN GRID
+        ========================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+
+            padding: 28px;
+        }
+
+        .card-title {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--plum-dark);
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .card-description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+        /* =========================
+           INFORMATION ROWS
+        ========================= */
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 17px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            word-break: break-word;
+        }
+
+        .protected {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: var(--muted);
+            font-size: 11px;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           ACCOUNT CARD
+        ========================= */
+
+        .account-box {
+            background: linear-gradient(
+                135deg,
+                var(--plum-dark),
+                var(--plum),
+                var(--pink-dark)
+            );
+
+            color: white;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            margin-bottom: 24px;
+
+            box-shadow: 0 12px 30px rgba(53, 16, 43, 0.18);
+        }
+
+        .account-box small {
+            font-size: 10px;
+            opacity: 0.72;
+            letter-spacing: 1.4px;
+        }
+
+        .account-number {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            letter-spacing: 2px;
+            margin: 9px 0 15px;
+        }
+
+        .account-type {
+            font-size: 13px;
+            opacity: 0.88;
+        }
+
+        /* =========================
+           SECURITY
+        ========================= */
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 16px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 10px;
+
+            background: var(--pink-soft);
+            color: var(--pink-dark);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .security-info {
+            flex: 1;
+        }
+
+        .security-info strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .security-info span {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .verified {
+            color: var(--success);
+            background: var(--success-soft);
+
+            padding: 6px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn {
+            border: none;
+            border-radius: 9px;
+
+            padding: 11px 17px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--pink);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--pink-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-light {
+            background: var(--pink-soft);
+            color: var(--pink-dark);
+            border: 1px solid var(--pink-light);
+        }
+
+        .btn-light:hover {
+            background: var(--pink-light);
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+
+            left: 50%;
+            bottom: 28px;
+
+            transform: translateX(-50%) translateY(120px);
+
+            background: var(--black);
+            color: white;
+
+            padding: 14px 20px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
+
+            opacity: 0;
+
+            transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
+
+            z-index: 9999;
+
+            max-width: calc(100% - 40px);
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+
+            background: var(--background);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 9998;
+        }
+
+        .loading-box {
+            text-align: center;
+        }
+
+        .loading-logo {
+            width: 60px;
+            height: 60px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 15px;
+
+            background: var(--pink);
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .loading-box p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-section {
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .brand {
+                font-size: 18px;
+                gap: 8px;
+            }
+
+            .brand-mark {
+                width: 34px;
+                height: 34px;
+                font-size: 17px;
+            }
+
+            .top-link {
+                padding: 9px 11px;
+                font-size: 11px;
+            }
+
+            .page {
+                padding: 28px 15px 60px;
+            }
+
+            .page-heading h1 {
+                font-size: 30px;
+            }
+
+            .photo-card {
+                padding: 22px;
+            }
+
+            .photo-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .photo-info p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .photo-actions {
+                justify-content: center;
+            }
+
+            .avatar {
+                width: 125px;
+                height: 125px;
+                font-size: 40px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .info-row {
+                align-items: flex-start;
+            }
+
+            .protected {
+                font-size: 10px;
+            }
+
+            .account-number {
+                font-size: 21px;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .top-actions {
+                gap: 5px;
+            }
+
+            .top-link {
+                padding: 8px 9px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .protected {
+                white-space: normal;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- LOADING SCREEN -->
+
+    <div
+        class="loading-screen"
+        id="loadingScreen">
+
+        <div class="loading-box">
+
+            <div class="loading-logo">
+                GS
+            </div>
+
+            <p>
+                Loading profile...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <a
+            href="dashboard.html"
+            class="brand">
+
+            <span class="brand-mark">
+                GS
+            </span>
+
+            <span>
+                Goldman Sachs
+            </span>
+
+        </a>
+
+        <div class="top-actions">
+
+            <a
+                href="dashboard.html"
+                class="top-link dashboard">
+                Dashboard
+            </a>
+
+            <a
+                href="login.html"
+                class="top-link"
+                id="logoutButton">
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- PAGE -->
+
+    <main class="page">
+
+        <section class="page-heading">
+
+            <h1>
+                Profile
+            </h1>
+
+            <p>
+                View your personal information and account
+                details.
+            </p>
+
+        </section>
+
+
+        <!-- PROFILE PHOTO -->
+
+        <section class="photo-card">
+
+            <div class="photo-section">
+
+                <div class="avatar-area">
+
+                    <div class="avatar">
+
+                        <span id="avatarInitials">
+                            CU
+                        </span>
+
+                        <img
+                            id="profileImage"
+                            alt="Profile photo">
+
+                    </div>
+
+                </div>
+
+
+                <div class="photo-info">
+
+                    <h2 id="profileName">
+                        Customer
+                    </h2>
+
+                    <p>
+                       You can add or change your own
+                        profile photo from this page.
+                    </p>
+
+                    <div class="photo-actions">
+
+                        <input
+                            type="file"
+                            id="profilePhotoInput"
+                            accept="image/*"
+                            hidden>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="chooseProfilePhoto">
+                            Add Photo
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            id="removeProfilePhoto"
+                            style="display:none;">
+                            Remove Photo
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT GRID -->
+
+        <div class="grid">
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <section class="card">
+
+                <h2 class="card-title">
+                    Personal information
+                </h2>
+
+                <p class="card-description">
+                    These details are loaded directly from the
+                    customer account.
+                </p>
+
+
+                <!-- FULL NAME -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Full name
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileFullName">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Email address
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileEmail">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        âœ‰ Verified
+                    </div>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Phone number
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profilePhone">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- DATE OF BIRTH -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Date of birth
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileDateOfBirth">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- COUNTRY -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Country
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileCountry">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNT NUMBER -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Account number
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileAccountNumber">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNT TYPE -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Account type
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileAccountType">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div class="protected">
+                        ðŸ”’ Protected
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNT STATUS -->
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            Account status
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="profileStatus">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="verified"
+                        id="statusBadge">
+                        Loading...
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT COLUMN -->
+
+            <aside>
+
+
+                <!-- ACCOUNT CARD -->
+
+                <div class="account-box">
+
+                    <small>
+                        ACCOUNT NUMBER
+                    </small>
+
+                    <div
+                        class="account-number"
+                        id="profileAccountNumberCard">
+                        Loading...
+                    </div>
+
+                    <div
+                        class="account-type"
+                        id="profileAccountTypeCard">
+                        Loading...
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <section class="card">
+
+                    <h2 class="card-title">
+                        Account security
+                    </h2>
+
+                    <p class="card-description">
+                        Manage your login security and account
+                        verification information.
+                    </p>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="security-item">
+
+                        <div class="security-icon">
+                            âœ‰
+                        </div>
+
+                        <div class="security-info">
+
+                            <strong>
+                                Email
+                            </strong>
+
+                            <span id="securityEmail">
+                                Loading...
+                            </span>
+
+                        </div>
+
+                        <span class="verified">
+                            Verified
+                        </span>
+
+                    </div>
+
+
+                    <!-- SESSION -->
+
+                    <div class="security-item">
+
+                        <div class="security-icon">
+                            ðŸ›¡
+                        </div>
+
+                        <div class="security-info">
+
+                            <strong>
+                                Account session
+                            </strong>
+
+                            <span>
+                                Your account session is protected
+                                by secure authentication.
+                            </span>
+
+                        </div>
+
+                        <span class="verified">
+                            Secure
+                        </span>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast">
+    </div>
+
+
+    <script>
+
+        /* =====================================================
+           SUPABASE
+        ===================================================== */
+
+        const SUPABASE_URL =
+            "https://kjbqmvkwdnhcuwqfopbd.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_DROx4lcBTNV1DaBgttcwOw_CY1-0T6L";
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const loadingScreen =
+            document.getElementById(
+                "loadingScreen"
+            );
+
+        const profileImage =
+            document.getElementById(
+                "profileImage"
+            );
+
+        const avatarInitials =
+            document.getElementById(
+                "avatarInitials"
+            );
+
+        const profileName =
+            document.getElementById(
+                "profileName"
+            );
+
+        const profilePhotoInput =
+            document.getElementById(
+                "profilePhotoInput"
+            );
+
+        const chooseProfilePhoto =
+            document.getElementById(
+                "chooseProfilePhoto"
+            );
+
+        const removeProfilePhoto =
+            document.getElementById(
+                "removeProfilePhoto"
+            );
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        let toastTimer;
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+            toast.textContent =
+                message;
+
+            toast.className =
+                "toast " +
+                type +
+                " show";
+
+            clearTimeout(
+                toastTimer
+            );
+
+            toastTimer =
+                setTimeout(
+                    function () {
+
+                        toast.className =
+                            "toast";
+
+                    },
+                    3500
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIALS
+        ===================================================== */
+
+        function getInitials(
+            name
+        ) {
+
+            if (!name) {
+                return "CU";
+            }
+
+            const parts =
+                String(name)
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            if (parts.length === 1) {
+
+                return parts[0]
+                    .substring(0, 2)
+                    .toUpperCase();
+
+            }
+
+            return (
+                parts[0][0] +
+                parts[parts.length - 1][0]
+            ).toUpperCase();
+
+        }
+
+
+        /* =====================================================
+           FORMAT DATE
+        ===================================================== */
+
+        function formatDate(
+            value
+        ) {
+
+            if (!value) {
+                return "Not provided";
+            }
+
+            const date =
+                new Date(value);
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return value;
+
+            }
+
+            return date.toLocaleDateString(
+                "en-US",
+                {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           LOAD CUSTOMER PROFILE
+        ===================================================== */
+
+        async function loadProfileData() {
+
+            try {
+
+                const {
+                    data: {
+                        session
+                    },
+                    error: sessionError
+                } =
+                    await supabaseClient
+                        .auth
+                        .getSession();
+
+
+                if (sessionError) {
+
+                    console.error(
+                        "Session error:",
+                        sessionError
+                    );
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                if (!session) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+
+                }
+
+
+                const user =
+                    session.user;
+
+                const userId =
+                    user.id;
+
+
+                /* =================================================
+                   LOAD CUSTOMER
+                ================================================= */
+
+                const {
+                    data: customer,
+                    error: customerError
+                } =
+                    await supabaseClient
+                        .from("customers")
+                        .select("*")
+                        .eq(
+                            "user_id",
+                            userId
+                        )
+                        .maybeSingle();
+
+
+                if (customerError) {
+
+                    console.error(
+                        "Customer query error:",
+                        customerError
+                    );
+
+                    showToast(
+                        "Unable to load your profile.",
+                        "error"
+                    );
+
+                    loadingScreen.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                if (!customer) {
+
+                    console.error(
+                        "No customer record found for:",
+                        userId
+                    );
+
+                    showToast(
+                        "Customer profile could not be found.",
+                        "error"
+                    );
+
+                    loadingScreen.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   NAME
+                ================================================= */
+
+                const fullName =
+                    customer.full_name ||
+                    user.user_metadata?.full_name ||
+                    "Customer";
+
+
+                profileName.textContent =
+                    fullName;
+
+
+                document.getElementById(
+                    "profileFullName"
+                ).textContent =
+                    fullName;
+
+
+                avatarInitials.textContent =
+                    getInitials(
+                        fullName
+                    );
+
+
+                /* =================================================
+                   EMAIL
+                ================================================= */
+
+                const email =
+                    customer.email ||
+                    user.email ||
+                    "Not provided";
+
+
+                document.getElementById(
+                    "profileEmail"
+                ).textContent =
+                    email;
+
+
+                document.getElementById(
+                    "securityEmail"
+                ).textContent =
+                    email;
+
+
+                /* =================================================
+                   PHONE
+                ================================================= */
+
+                document.getElementById(
+                    "profilePhone"
+                ).textContent =
+                    customer.phone ||
+                    "Not provided";
+
+
+                /* =================================================
+                   DATE OF BIRTH
+                ================================================= */
+
+                document.getElementById(
+                    "profileDateOfBirth"
+                ).textContent =
+                    formatDate(
+                        customer.date_of_birth
+                    );
+
+
+                /* =================================================
+                   COUNTRY
+                ================================================= */
+
+                document.getElementById(
+                    "profileCountry"
+                ).textContent =
+                    customer.country ||
+                    "Not provided";
+
+
+                /* =================================================
+                   ACCOUNT NUMBER
+                ================================================= */
+
+                const accountNumber =
+                    customer.account_number ||
+                    "Not provided";
+
+
+                document.getElementById(
+                    "profileAccountNumber"
+                ).textContent =
+                    accountNumber;
+
+
+                document.getElementById(
+                    "profileAccountNumberCard"
+                ).textContent =
+                    accountNumber;
+
+
+                /* =================================================
+                   ACCOUNT TYPE
+                ================================================= */
+
+                const accountType =
+                    customer.account_type ||
+                    "Account";
+
+
+                document.getElementById(
+                    "profileAccountType"
+                ).textContent =
+                    accountType;
+
+
+                document.getElementById(
+                    "profileAccountTypeCard"
+                ).textContent =
+                    accountType;
+
+
+                /* =================================================
+                   ACCOUNT STATUS
+                ================================================= */
+
+                const status =
+                    customer.account_status ||
+                    "Active";
+
+
+                document.getElementById(
+                    "profileStatus"
+                ).textContent =
+                    status;
+
+
+                const statusBadge =
+                    document.getElementById(
+                        "statusBadge"
+                    );
+
+
+                statusBadge.textContent =
+                    status;
+
+
+                if (
+                    String(status)
+                        .toLowerCase() ===
+                    "active"
+                ) {
+
+                    statusBadge.style.color =
+                        "var(--success)";
+
+                    statusBadge.style.background =
+                        "var(--success-soft)";
+
+                } else {
+
+                    statusBadge.style.color =
+                        "var(--danger)";
+
+                    statusBadge.style.background =
+                        "var(--danger-soft)";
+
+                }
+
+
+                /* =================================================
+                   PROFILE PHOTO
+                ================================================= */
+
+                displayProfilePhoto(
+                    customer.profile_url
+                );
+
+
+                /* =================================================
+                   HIDE LOADING
+                ================================================= */
+
+                loadingScreen.style.display =
+                    "none";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile loading error:",
+                    error
+                );
+
+                showToast(
+                    "Something went wrong while loading your profile.",
+                    "error"
+                );
+
+                loadingScreen.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DISPLAY PROFILE PHOTO
+        ===================================================== */
+
+        function displayProfilePhoto(
+            profileUrl
+        ) {
+
+            if (!profileUrl) {
+
+                profileImage.src =
+                    "";
+
+                profileImage.style.display =
+                    "none";
+
+                avatarInitials.style.display =
+                    "block";
+
+                removeProfilePhoto.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            let photoUrl =
+                String(
+                    profileUrl
+                ).trim();
+
+
+            console.log(
+                "Customer profile_url:",
+                photoUrl
+            );
+
+
+            /* =================================================
+               SUPPORT STORAGE PATH
+            ================================================= */
+
+            if (
+                !photoUrl.startsWith(
+                    "http://"
+                ) &&
+                !photoUrl.startsWith(
+                    "https://"
+                )
+            ) {
+
+                const {
+                    data: publicUrlData
+                } =
+                    supabaseClient
+                        .storage
+                        .from(
+                            "profile-photos"
+                        )
+                        .getPublicUrl(
+                            photoUrl
+                        );
+
+
+                if (
+                    publicUrlData &&
+                    publicUrlData.publicUrl
+                ) {
+
+                    photoUrl =
+                        publicUrlData.publicUrl;
+
+                }
+
+            }
+
+
+            /* =================================================
+               CACHE BUSTER
+            ================================================= */
+
+            const separator =
+                photoUrl.includes("?")
+                    ? "&"
+                    : "?";
+
+
+            const finalPhotoUrl =
+                photoUrl +
+                separator +
+                "v=" +
+                Date.now();
+
+
+            profileImage.src =
+                finalPhotoUrl;
+
+
+            profileImage.style.display =
+                "block";
+
+
+            avatarInitials.style.display =
+                "none";
+
+
+            removeProfilePhoto.style.display =
+                "inline-block";
+
+
+            profileImage.onerror =
+                function () {
+
+                    console.error(
+                        "Unable to load profile photo:",
+                        photoUrl
+                    );
+
+
+                    profileImage.src =
+                        "";
+
+                    profileImage.style.display =
+                        "none";
+
+                    avatarInitials.style.display =
+                        "block";
+
+                    removeProfilePhoto.style.display =
+                        "none";
+
+                };
+
+        }
+
+
+        /* =====================================================
+           CHOOSE PHOTO BUTTON
+        ===================================================== */
+
+        chooseProfilePhoto.addEventListener(
+            "click",
+            function () {
+
+                profilePhotoInput.click();
+
+            }
+        );
+
+
+        /* =====================================================
+           PHOTO SELECTED
+        ===================================================== */
+
+        profilePhotoInput.addEventListener(
+            "change",
+            async function () {
+
+                const file =
+                    this.files &&
+                    this.files[0];
+
+
+                if (!file) {
+                    return;
+                }
+
+
+                /* =================================================
+                   CHECK IMAGE
+                ================================================= */
+
+                if (
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    showToast(
+                        "Please select a valid image file.",
+                        "error"
+                    );
+
+                    this.value =
+                        "";
+
+                    return;
+
+                }
+
+
+                /* =================================================
+                   CHECK FILE SIZE
+                ================================================= */
+
+                const maxSize =
+                    5 * 1024 * 1024;
+
+
+                if (
+                    file.size >
+                    maxSize
+                ) {
+
+                    showToast(
+                        "Image must be 5 MB or smaller.",
+                        "error"
+                    );
+
+                    this.value =
+                        "";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    chooseProfilePhoto.disabled =
+                        true;
+
+                    removeProfilePhoto.disabled =
+                        true;
+
+                    chooseProfilePhoto.textContent =
+                        "Uploading...";
+
+
+                    /* =================================================
+                       GET SESSION
+                    ================================================= */
+
+                    const {
+                        data: {
+                            session
+                        }
+                    } =
+                        await supabaseClient
+                            .auth
+                            .getSession();
+
+
+                    if (!session) {
+
+                        showToast(
+                            "Your session has expired. Please log in again.",
+                            "error"
+                        );
+
+                        window.location.href =
+                            "login.html";
+
+                        return;
+
+                    }
+
+
+                    const userId =
+                        session.user.id;
+
+
+                    /* =================================================
+                       FILE EXTENSION
+                    ================================================= */
+
+                    let extension =
+                        file.name
+                            .split(".")
+                            .pop()
+                            .toLowerCase();
+
+
+                    if (
+                        !extension ||
+                        extension ===
+                        file.name.toLowerCase()
+                    ) {
+
+                        extension =
+                            "jpg";
+
+                    }
+
+
+                    /* =================================================
+                       CUSTOMER-OWNED PATH
+                    ================================================= */
+
+                    const photoPath =
+                        `${userId}/profile.${extension}`;
+
+
+                    console.log(
+                        "Uploading profile photo:",
+                        photoPath
+                    );
+
+
+                    /* =================================================
+                       UPLOAD PHOTO
+                    ================================================= */
+
+                    const {
+                        error: uploadError
+                    } =
+                        await supabaseClient
+                            .storage
+                            .from(
+                                "profile-photos"
+                            )
+                            .upload(
+                                photoPath,
+                                file,
+                                {
+                                    upsert: true,
+                                    contentType:
+                                        file.type,
+                                    cacheControl:
+                                        "3600"
+                                }
+                            );
+
+
+                    if (uploadError) {
+
+                        console.error(
+                            "Profile photo upload failed:",
+                            uploadError
+                        );
+
+                        showToast(
+                            "Photo upload failed: " +
+                            uploadError.message,
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       GET PUBLIC URL
+                    ================================================= */
+
+                    const {
+                        data: publicUrlData
+                    } =
+                        supabaseClient
+                            .storage
+                            .from(
+                                "profile-photos"
+                            )
+                            .getPublicUrl(
+                                photoPath
+                            );
+
+
+                    if (
+                        !publicUrlData ||
+                        !publicUrlData.publicUrl
+                    ) {
+
+                        showToast(
+                            "Photo uploaded, but its public URL could not be created.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    const photoUrl =
+                        publicUrlData.publicUrl;
+
+
+                    /* =================================================
+                       SAVE URL TO CUSTOMER
+                    ================================================= */
+
+                    const {
+                        error:
+                            photoDatabaseError
+                    } =
+                        await supabaseClient
+                            .from(
+                                "customers"
+                            )
+                            .update({
+                                profile_url:
+                                    photoUrl
+                            })
+                            .eq(
+                                "user_id",
+                                userId
+                            );
+
+
+                    if (
+                        photoDatabaseError
+                    ) {
+
+                        console.error(
+                            "Profile photo database update failed:",
+                            photoDatabaseError
+                        );
+
+                        showToast(
+                            "Photo uploaded, but the profile could not be updated: " +
+                            photoDatabaseError.message,
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       SHOW NEW PHOTO IMMEDIATELY
+                    ================================================= */
+
+                    displayProfilePhoto(
+                        photoUrl
+                    );
+
+
+                    showToast(
+                        "Profile photo updated successfully."
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Photo upload error:",
+                        error
+                    );
+
+                    showToast(
+                        "Unable to upload profile photo.",
+                        "error"
+                    );
+
+                } finally {
+
+                    chooseProfilePhoto.disabled =
+                        false;
+
+                    removeProfilePhoto.disabled =
+                        false;
+
+                    chooseProfilePhoto.textContent =
+                        "Change Photo";
+
+                    profilePhotoInput.value =
+                        "";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           REMOVE PROFILE PHOTO
+        ===================================================== */
+
+        removeProfilePhoto.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    removeProfilePhoto.disabled =
+                        true;
+
+                    chooseProfilePhoto.disabled =
+                        true;
+
+                    removeProfilePhoto.textContent =
+                        "Removing...";
+
+
+                    /* =================================================
+                       GET SESSION
+                    ================================================= */
+
+                    const {
+                        data: {
+                            session
+                        }
+                    } =
+                        await supabaseClient
+                            .auth
+                            .getSession();
+
+
+                    if (!session) {
+
+                        showToast(
+                            "Your session has expired. Please log in again.",
+                            "error"
+                        );
+
+                        window.location.href =
+                            "login.html";
+
+                        return;
+
+                    }
+
+
+                    const userId =
+                        session.user.id;
+
+
+                    /* =================================================
+                       GET CURRENT CUSTOMER PHOTO
+                    ================================================= */
+
+                    const {
+                        data: customer,
+                        error:
+                            customerError
+                    } =
+                        await supabaseClient
+                            .from(
+                                "customers"
+                            )
+                            .select(
+                                "profile_url"
+                            )
+                            .eq(
+                                "user_id",
+                                userId
+                            )
+                            .maybeSingle();
+
+
+                    if (customerError) {
+
+                        console.error(
+                            "Could not read profile photo:",
+                            customerError
+                        );
+
+                        showToast(
+                            "Unable to remove the profile photo.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    let storagePath =
+                        null;
+
+
+                    if (
+                        customer &&
+                        customer.profile_url
+                    ) {
+
+                        const savedUrl =
+                            String(
+                                customer.profile_url
+                            ).trim();
+
+
+                        /* =================================================
+                           FULL SUPABASE PUBLIC URL
+                        ================================================= */
+
+                        const publicMarker =
+                            "/storage/v1/object/public/profile-photos/";
+
+
+                        if (
+                            savedUrl.includes(
+                                publicMarker
+                            )
+                        ) {
+
+                            storagePath =
+                                decodeURIComponent(
+                                    savedUrl.split(
+                                        publicMarker
+                                    )[1]
+                                );
+
+                        } else {
+
+                            /*
+                             * If profile_url is already
+                             * stored as a storage path.
+                             */
+
+                            if (
+                                !savedUrl.startsWith(
+                                    "http://"
+                                ) &&
+                                !savedUrl.startsWith(
+                                    "https://"
+                                )
+                            ) {
+
+                                storagePath =
+                                    savedUrl;
+
+                            }
+
+                        }
+
+                    }
+
+
+                    /* =================================================
+                       DELETE STORAGE FILE
+                    ================================================= */
+
+                    if (storagePath) {
+
+                        const {
+                            error:
+                                storageDeleteError
+                        } =
+                            await supabaseClient
+                                .storage
+                                .from(
+                                    "profile-photos"
+                                )
+                                .remove([
+                                    storagePath
+                                ]);
+
+
+                        if (
+                            storageDeleteError
+                        ) {
+
+                            console.warn(
+                                "Storage photo deletion warning:",
+                                storageDeleteError
+                            );
+
+                        }
+
+                    }
+
+
+                    /* =================================================
+                       CLEAR DATABASE URL
+                    ================================================= */
+
+                    const {
+                        error:
+                            databaseError
+                    } =
+                        await supabaseClient
+                            .from(
+                                "customers"
+                            )
+                            .update({
+                                profile_url:
+                                    null
+                            })
+                            .eq(
+                                "user_id",
+                                userId
+                            );
+
+
+                    if (
+                        databaseError
+                    ) {
+
+                        console.error(
+                            "Profile URL removal failed:",
+                            databaseError
+                        );
+
+                        showToast(
+                            "Unable to remove the profile photo: " +
+                            databaseError.message,
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    /* =================================================
+                       RESET PHOTO UI
+                    ================================================= */
+
+                    profileImage.src =
+                        "";
+
+                    profileImage.style.display =
+                        "none";
+
+                    avatarInitials.style.display =
+                        "block";
+
+                    removeProfilePhoto.style.display =
+                        "none";
+
+                    chooseProfilePhoto.textContent =
+                        "Add Photo";
+
+
+                    showToast(
+                        "Profile photo removed."
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Remove photo error:",
+                        error
+                    );
+
+                    showToast(
+                        "Unable to remove profile photo.",
+                        "error"
+                    );
+
+                } finally {
+
+                    removeProfilePhoto.disabled =
+                        false;
+
+                    chooseProfilePhoto.disabled =
+                        false;
+
+                    removeProfilePhoto.textContent =
+                        "Remove Photo";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        document
+            .getElementById(
+                "logoutButton"
+            )
+            .addEventListener(
+                "click",
+                async function (event) {
+
+                    event.preventDefault();
+
+
+                    try {
+
+                        await supabaseClient
+                            .auth
+                            .signOut();
+
+                    } catch (error) {
+
+                        console.error(
+                            "Logout error:",
+                            error
+                        );
+
+                    }
+
+
+                    window.location.href =
+                        "login.html";
+
+                }
+            );
+
+
+        /* =====================================================
+           START
+        ===================================================== */
+
+        loadProfileData();
+
+    </script>
+
+</body>
+</html>
